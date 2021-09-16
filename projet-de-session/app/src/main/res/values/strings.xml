@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ColorPickr</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_setting">Settings</string>
+    <string name="title_colorslider">Color Slider</string>
+    <string name="setting_language">Langue</string>
+    <string name="setting_tutorial">Tutoriel</string>
+    <string name="setting_information">Information</string>
+    <string name="setting_support">Support</string>
+    <string name="setting_commentary">Commentaire</string>
+    <string name="setting_enableshakedetector">Obtenir une couleur au hasard en secouant</string>
+    <string name="btn_colorslider">Sélctionner</string>
+    <string name="colorhex_colorslider">641932</string>
+    <string name="tutorial_tip">Balayer vers la gauche pour passer à la prochaine étape</string>
+    <string name="tutorial_tip_end"></string>
+    <string name="tutorial_endbtntxt">Quitter le tutoriel</string>
+    <string name="tutorial_hasbeencompleted">0</string>
+    <string name="tutorial_step1">Aller sur la page \'Camera\' afin d\'obtenir une couleur avec la caméra</string>
+    <string name="tutorial_step2">Pointer la caméra vers une couleur qui vous intéresse</string>
+    <string name="tutorial_step3">Toucher glisser du bas de l\'écran vers le haut pour d\'observer les couleurs recommandées</string>
+</resources>
