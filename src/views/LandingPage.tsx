@@ -1,0 +1,75 @@
+import React, { Component } from 'react';
+
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
+
+import {
+  Colors,
+  DebugInstructions,
+  Header,
+  LearnMoreLinks,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
+
+import Section from '~components/Section';
+
+class LandingPage extends Component {
+  isDarkMode: boolean;
+  backgroundStyle: object;
+
+  constructor(props: any) {
+    super(props);
+    this.isDarkMode = false;
+
+    this.backgroundStyle = {
+      backgroundColor: this.isDarkMode ? Colors.darker : Colors.lighter,
+    };
+  }
+
+  render() {
+    return (
+      <SafeAreaView style={this.backgroundStyle}>
+        <StatusBar barStyle={this.isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={this.backgroundStyle}>
+          <Header />
+          <View
+            style={{
+              backgroundColor: this.isDarkMode ? Colors.black : Colors.white,
+            }}>
+            <Section title="Step One">
+              Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+              screen and then come back to see your edits.
+            </Section>
+            <Section title="See Your Changes">
+              <ReloadInstructions />
+            </Section>
+            <Section title="Debug">
+              <DebugInstructions />
+            </Section>
+            <Section title="Learn More">
+              Read the docs to discover what to do next:
+            </Section>
+            <LearnMoreLinks />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+};
+
+const styles = StyleSheet.create({
+  highlight: {
+    fontWeight: '700',
+  },
+});
+
+export default LandingPage;
