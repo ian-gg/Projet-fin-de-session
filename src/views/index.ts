@@ -1,5 +1,7 @@
-import LandingPage from './LandingPage';
+import Accueil from './Accueil';
+import PatientList from './PatientList';
 
 export default {
-  LandingPage,
+  Accueil,
+  PatientList,
 };
