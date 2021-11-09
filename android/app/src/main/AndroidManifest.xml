@@ -2,6 +2,7 @@
   package="com.gestionpatients">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="16" />
 
     <application
       android:name=".MainApplication"
