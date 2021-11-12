@@ -14,7 +14,7 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Accueil">
         <Drawer.Screen name="Accueil" component={AccueilNavigator} />
-        <Drawer.Screen name="Patients" component={PatientNavigator} />
+        <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true}}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -31,7 +31,7 @@ const PatientNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="PatientList">
       <Stack.Screen name="PatientList" component={PatientList} options={{ headerShown: false}} />
-      <Stack.Screen name="PatientDetails" component={PatientDetails} options={{ headerShown: false, title: "Informations du patient" }} />
+      <Stack.Screen name="PatientDetails" component={PatientDetails} options={{ headerShown: true, title: "Informations du patient" }} />
     </Stack.Navigator>
   );
 };
