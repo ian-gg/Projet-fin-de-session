@@ -1,5 +1,11 @@
-import LandingPage from './LandingPage';
+import Accueil from './Accueil';
+import PatientList from './PatientList';
+import PatientDetails from './PatientDetails';
+import GestionSummary from './GestionSummary';
 
-export default {
-  LandingPage,
+export {
+  Accueil,
+  PatientList,
+  PatientDetails,
+  GestionSummary,
 };

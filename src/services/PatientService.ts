@@ -1,23 +1,37 @@
-import { getRepository } from 'typeorm';
+import { DbManager } from '~db';
 import { CentreDeSante, Patient } from '~models';
 
-const repository = getRepository(Patient);
-
 export default {
-  get(id: number): Promise<Patient | undefined> {
-    return repository.findOne(id);
+  async get(id: number): Promise<Patient | undefined> {
+    return (await DbManager.repo(Patient)).findOne(id);
   },
 
-  getAll(): Promise<Patient[]> {
-    return repository.find({
+  async getAll(): Promise<Patient[]> {
+    return (await DbManager.repo(Patient)).find({
       select: ['id', 'num_dossier', 'nom'],
     });
   },
   
-  forCentreDeSante(centre: CentreDeSante): Promise<Patient[]> {
-    return repository.find({
+  async forCentreDeSante(centre: CentreDeSante): Promise<Patient[]> {
+    return (await DbManager.repo(Patient)).find({
       where: { centre_de_sante_id: centre.id },
       select: ['id', 'num_dossier', 'nom'],
     });
+  },
+
+  async create(patient: Object): Promise<Patient> {
+    return (await DbManager.repo(Patient)).create(patient);
+  },
+
+  async save(patient: Patient): Promise<Patient> {
+    return (await DbManager.repo(Patient)).save(patient);
+  },
+
+  async remove(patient: Patient): Promise<Patient> {
+    return (await DbManager.repo(Patient)).remove(patient);
+  },
+
+  async count(): Promise<number> {
+    return (await DbManager.repo(Patient)).count();
   }
 };

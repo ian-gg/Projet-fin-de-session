@@ -1,24 +1,26 @@
-import { getRepository } from 'typeorm';
+import { DbManager } from '~db';
 import { Intervention, InterventionProcedure, Procedure } from '~models';
 
-const repository = getRepository(InterventionProcedure);
-
 export default {
-  get(id: number): Promise<InterventionProcedure | undefined> {
-    return repository.findOne(id);
+  async get(id: number): Promise<InterventionProcedure | undefined> {
+    return (await DbManager.repo(InterventionProcedure)).findOne(id);
   },
 
-  forIntervention(intervention: Intervention): Promise<InterventionProcedure[]> {
-    return repository.find({
+  async forIntervention(intervention: Intervention): Promise<InterventionProcedure[]> {
+    return (await DbManager.repo(InterventionProcedure)).find({
       where: { intervention_id: intervention.id },
       select: ['id', 'date_debut', 'date_fin']
     });
   },
 
-  forProcedure(procedure: Procedure): Promise<InterventionProcedure[]> {
-    return repository.find({
+  async forProcedure(procedure: Procedure): Promise<InterventionProcedure[]> {
+    return (await DbManager.repo(InterventionProcedure)).find({
       where: { procedure_id: procedure.id },
       select: ['id', 'date_debut', 'date_fin']
     });
   },
+
+  async count(): Promise<number> {
+    return (await DbManager.repo(InterventionProcedure)).count();
+  }
 };

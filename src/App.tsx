@@ -1,47 +1,22 @@
-import React, { Component } from 'react';
-import { createConnection } from 'typeorm/browser';
+import React from 'react';
 
-import LandingPage from '~views/LandingPage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {
-  CentreDeSante,
-  Diagnostic,
-  Fichier,
-  Intervention,
-  InterventionProcedure,
-  Patient,
-  Procedure,
-} from '~models';
+import Accueil from '~views/Accueil';
+import PatientList from '~views/PatientList';
 
-export default class App extends Component {
-  constructor(props: any) {
-    super(props);
-    this.init();
-  }
+const Drawer = createDrawerNavigator();
 
-  init() {
-    createConnection({
-      type: 'react-native',
-      database: 'patients.db',
-      location: 'default',
-      logging: ['error', 'query', 'schema'],
-      dropSchema: true,
-      synchronize: true,
-      entities: [
-        CentreDeSante,
-        Diagnostic,
-        Fichier,
-        Intervention,
-        InterventionProcedure,
-        Patient,
-        Procedure,
-      ],
-    });
-  }
-
-  render() {
-    return (
-      <LandingPage />
-    );
-  }
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Accueil">
+        <Drawer.Screen name="Accueil" component={Accueil} />
+        <Drawer.Screen name="Patients" component={PatientList} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
 };
+
+export default App;
