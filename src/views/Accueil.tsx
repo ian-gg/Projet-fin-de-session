@@ -7,11 +7,7 @@ const Stack = createNativeStackNavigator();
 
 const Accueil = () => {
   return (
-    <Stack.Navigator initialRouteName="GestionSummary">
-      <Stack.Screen name="GestionSummary" component={GestionSummary} options={{ headerShown: false }} />
-      <Stack.Screen name="PatientList" component={PatientList} />
-      <Stack.Screen name="PatientDetails" component={PatientDetails} />
-    </Stack.Navigator>
+    <></>
   );
 };
 

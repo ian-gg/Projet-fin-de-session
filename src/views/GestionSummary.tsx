@@ -30,7 +30,7 @@ const GestionSummary = () => {
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={[backgroundStyle, {flex:1}]}>
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,

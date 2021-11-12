@@ -23,8 +23,16 @@ export default {
     return (await DbManager.repo(Patient)).create(patient);
   },
 
+  async createAll(patients: Object[]): Promise<Patient[]> {
+    return (await DbManager.repo(Patient)).create(patients);
+  },
+
   async save(patient: Patient): Promise<Patient> {
     return (await DbManager.repo(Patient)).save(patient);
+  },
+
+  async saveAll(patients: Patient[]): Promise<Patient[]> {
+    return (await DbManager.repo(Patient)).save(patients);
   },
 
   async remove(patient: Patient): Promise<Patient> {

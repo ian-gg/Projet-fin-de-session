@@ -75,20 +75,76 @@ async function seedDatabase() {
 
   console.log(centre);
 
-  let patient = await PatientService.create({
-    centre_de_sante,
-    num_dossier: '1234567',
-    nom: 'Felix Bouchard',
-    assurance_maladie: 'BOUF94011419',
-    assurance_maladie_exp_m: 1,
-    assurance_maladie_exp_a: 2026,
-    date_naissance: new Date(1994, 1, 14),
-    sexe: 'M',
-    cellulaire: '514-123-4567',
-  });
-  patient = await PatientService.save(patient);
-
-  console.log(patient);
+  let patients = await PatientService.createAll([
+    { 
+      centre_de_sante,
+      num_dossier: '1234567',
+      nom: 'Felix Bouchard',
+      assurance_maladie: 'BOUF94011419',
+      assurance_maladie_exp_m: 1,
+      assurance_maladie_exp_a: 2026,
+      date_naissance: new Date(1994, 1, 14),
+      sexe: 'M',
+      cellulaire: '514-123-4567'
+    },
+    { 
+      centre_de_sante,
+      num_dossier: '1111111',
+      nom: 'Alexia Bouchard',
+      assurance_maladie: 'BOUA96061519',
+      assurance_maladie_exp_m: 6,
+      assurance_maladie_exp_a: 2026,
+      date_naissance: new Date(1996, 6, 15),
+      sexe: 'F',
+      cellulaire: '514-321-4567'
+    },
+    { 
+      centre_de_sante,
+      num_dossier: '3445009',
+      nom: 'Arius Hounkpatin',
+      assurance_maladie: 'HOUA50103016',
+      assurance_maladie_exp_m: 10,
+      assurance_maladie_exp_a: 2024,
+      date_naissance: new Date(1950, 10, 30),
+      sexe: 'M',
+      cellulaire: '438-212-0988'
+    },
+    { 
+      centre_de_sante,
+      num_dossier: '0983456',
+      nom: 'Mathieu Rouillard',
+      assurance_maladie: 'ROUM66030917',
+      assurance_maladie_exp_m: 3,
+      assurance_maladie_exp_a: 2025,
+      date_naissance: new Date(1966, 3, 9),
+      sexe: 'M',
+      cellulaire: '514-984-2354'
+    },
+    { 
+      centre_de_sante,
+      num_dossier: '9024311',
+      nom: 'Lucas Raynaud',
+      assurance_maladie: 'RAYL33072119',
+      assurance_maladie_exp_m: 7,
+      assurance_maladie_exp_a: 2025,
+      date_naissance: new Date(1933, 7, 21),
+      sexe: 'M',
+      cellulaire: '423-789-4466'
+    },
+    { 
+      centre_de_sante,
+      num_dossier: '7456213',
+      nom: 'Ian Garcia-Guerrero',
+      assurance_maladie: 'GARI77100816',
+      assurance_maladie_exp_m: 10,
+      assurance_maladie_exp_a: 2026,
+      date_naissance: new Date(1977, 10, 8),
+      sexe: 'M',
+      cellulaire: '514-144-3647'
+    }
+  ]);
+  patients = await PatientService.saveAll(patients);
+  console.log(patients);
 
   let diagnostic = await DiagnosticService.create({
     etiquette: 'AC',

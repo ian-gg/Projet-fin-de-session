@@ -37,7 +37,9 @@ export default class PatientStore {
 
     if (this.filters) {
       if (this.filters.text) {
-        filtered = filtered.filter(e => e.nom.includes(this.filters.text!));
+        filtered = filtered.filter(e => e.nom.toLowerCase().includes(this.filters.text?.toLocaleLowerCase()!) ||  
+                                        e.num_dossier.includes(this.filters.text!)
+                                  );
       }
     }
 
