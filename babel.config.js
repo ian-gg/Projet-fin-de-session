@@ -3,7 +3,6 @@ module.exports = {
   plugins: [
     "babel-plugin-transform-typescript-metadata",
     ["@babel/plugin-proposal-decorators", { legacy: true }],
-    "@babel/plugin-proposal-class-properties",
     ["module-resolver", {
       extensions: [".ts", ".tsx", ".js", ".ios.js", ".android.js", ".json"],
       alias: {
@@ -13,8 +12,10 @@ module.exports = {
         "~services": ["./src/services"],
         "~styles": ["./src/styles"],
         "~views": ["./src/views"],
+        "~db": ["./src/database"],
       }
     }],
+    'react-native-reanimated/plugin',
   ],
   "assumptions": {
     "setPublicClassFields": true,

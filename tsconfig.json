@@ -78,6 +78,9 @@
 
       "~views": ["src/views"],
       "~views/*": ["src/views/*"],
+
+      "~db": ["src/database"],
+      "~db/*": ["src/database/*"],
     }
   },
   "exclude": [

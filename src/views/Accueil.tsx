@@ -1,33 +1,17 @@
 import React from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  useColorScheme,
-  View,
-} from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PatientList, PatientDetails, GestionSummary } from '~views';
+
+const Stack = createNativeStackNavigator();
 
 const Accueil = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Stack.Navigator initialRouteName="GestionSummary">
+      <Stack.Screen name="GestionSummary" component={GestionSummary} options={{ headerShown: false }} />
+      <Stack.Screen name="PatientList" component={PatientList} />
+      <Stack.Screen name="PatientDetails" component={PatientDetails} />
+    </Stack.Navigator>
   );
 };
 

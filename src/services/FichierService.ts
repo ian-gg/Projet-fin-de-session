@@ -1,17 +1,19 @@
-import { getRepository } from 'typeorm';
+import { DbManager } from '~db';
 import { Fichier, Patient } from '~models';
 
-const repository = getRepository(Fichier);
-
 export default {
-  get(id: number): Promise<Fichier | undefined> {
-    return repository.findOne(id);
+  async get(id: number): Promise<Fichier | undefined> {
+    return (await DbManager.repo(Fichier)).findOne(id);
   },
 
-  getAll(patient: Patient): Promise<Fichier[]> {
-    return repository.find({
+  async getAll(patient: Patient): Promise<Fichier[]> {
+    return (await DbManager.repo(Fichier)).find({
       where: { patient_id: patient.id },
       select: ['id', 'lien_ressource']
     });
   },
+
+  async count(): Promise<number> {
+    return (await DbManager.repo(Fichier)).count();
+  }
 };
