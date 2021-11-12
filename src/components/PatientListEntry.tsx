@@ -4,7 +4,7 @@ import { Patient } from '~models';
 
 const PatientListEntry = (item: ListRenderItemInfo<Patient>, navigation: any) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('PatientDetails', {data: item.item.id})}>
+    <TouchableOpacity onPress={() => navigation.navigate('PatientDetails',{patientId: item.item.id} )}>
       <View style={[styles.patientEntry, {backgroundColor: item.index % 2 === 0 ? 'grey' : 'white' }]}>
         <View>
           <Text style={{fontSize:18}}> {item.item.nom} </Text>
