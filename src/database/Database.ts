@@ -68,12 +68,10 @@ import {
   ProcedureService,
 } from '~services';
 async function seedDatabase() {
-  let centre_de_sante = await CentreDeSanteService.create({
+  const centre_de_sante = await CentreDeSanteService.create({
     nom: 'CHU Sainte-Justine',
   });
-  const centre = await CentreDeSanteService.save(centre_de_sante);
-
-  console.log(centre);
+  await CentreDeSanteService.save(centre_de_sante);
 
   let patients = await PatientService.createAll([
     { 
@@ -143,18 +141,20 @@ async function seedDatabase() {
       cellulaire: '514-144-3647'
     }
   ]);
-  patients = await PatientService.saveAll(patients);
-  console.log(patients);
 
-  let diagnostic = await DiagnosticService.create({
+  await PatientService.saveAll(patients);
+
+  const diagnostic = await DiagnosticService.create({
     etiquette: 'AC',
     description: 'Arrêt cardiaque',
   });
-  diagnostic = await DiagnosticService.save(diagnostic);
 
-  let procedure = await ProcedureService.create({
+  await DiagnosticService.save(diagnostic);
+
+  const procedure = await ProcedureService.create({
     code: '001',
     description: 'Procedure 001',
   });
-  procedure = await ProcedureService.save(procedure);
+
+  await ProcedureService.save(procedure);
 }
