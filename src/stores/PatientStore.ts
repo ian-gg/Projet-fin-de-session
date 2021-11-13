@@ -18,17 +18,21 @@ export default class PatientStore {
   constructor() {
     makeAutoObservable(this);
 
-    this.load().then(() => {
-      console.log(`Loaded ${this.patients.length} patients!`);
-    }, (err) => console.error(err));
+    this.load().then(() => {}, (err) => console.error(err));
   }
 
   async load() {
-    this.patients = await PatientService.getAll();
+    this.setPatients(await PatientService.getAll());
+    console.log(`Loaded ${this.patients.length} patients!`);
   }
 
   async loadForCentreDeSante(centre: CentreDeSante) {
-    this.patients = await PatientService.forCentreDeSante(centre);
+    this.setPatients(await PatientService.forCentreDeSante(centre));
+  }
+
+  @action
+  private setPatients(patients: Patient[]) {
+    this.patients = patients;
   }
 
   @computed

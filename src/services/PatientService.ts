@@ -3,7 +3,7 @@ import { CentreDeSante, Patient } from '~models';
 
 export default {
   async get(id: number): Promise<Patient | undefined> {
-    return (await DbManager.repo(Patient)).findOne(id);
+    return (await DbManager.repo(Patient)).findOneOrFail(id);
   },
 
   async getAll(): Promise<Patient[]> {
