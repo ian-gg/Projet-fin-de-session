@@ -8,6 +8,8 @@ import { PatientNavigationProps } from '~models/types';
 import { Patient } from '~models';
 import { PatientService } from '~services';
 
+import HistoryList from './HistoryList';
+
 const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) => {
   const { patientId } = route.params;
 
@@ -38,6 +40,9 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
           
           <Text>{ patient?.id }</Text>
           <Text>{ patient?.assurance_maladie }</Text>
+
+          <HistoryList/>
+
         </View>
       </ScrollView>
     </SafeAreaView>
