@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { PatientList, PatientDetails, GestionSummary } from '~views';
+import { PatientList, PatientDetails, GestionSummary, GestionDossier } from '~views';
 import { DbManager } from '~db';
 import { Text } from 'react-native';
 
@@ -34,6 +34,7 @@ const App = () => {
       <Drawer.Navigator initialRouteName="Accueil">
         <Drawer.Screen name="Accueil" component={AccueilNavigator} />
         <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
+        <Drawer.Screen name="Dossier" component={GestionDossierNavigator}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -60,4 +61,12 @@ const PatientNavigator = () => {
   );
 };
 
+const GestionDossierNavigator = () => {
+  return(
+    <Stack.Navigator initialRouteName="GestionDossier">
+      <Stack.Screen name="GestionDossier" component={GestionDossier} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+ 
 export default App;
