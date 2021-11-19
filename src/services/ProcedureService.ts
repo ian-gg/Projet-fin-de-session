@@ -15,7 +15,10 @@ export default {
   },
 
   async save(procedure: Procedure): Promise<Procedure> {
-    return (await DbManager.repo(Procedure)).save(procedure);
+    const repo = await DbManager.repo(Procedure);
+    const saved = await repo.save(procedure);
+
+    return DbManager.withLastSeqId(Procedure, saved);
   },
 
   async remove(procedure: Procedure): Promise<Procedure> {

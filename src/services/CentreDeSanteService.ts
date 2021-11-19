@@ -15,7 +15,10 @@ export default {
   },
 
   async save(centreDeSante: CentreDeSante): Promise<CentreDeSante> {
-    return (await DbManager.repo(CentreDeSante)).save(centreDeSante);
+    const repo = await DbManager.repo(CentreDeSante);
+    const saved = await repo.save(centreDeSante);
+
+    return DbManager.withLastSeqId(CentreDeSante, saved);
   },
 
   async remove(centreDeSante: CentreDeSante): Promise<CentreDeSante> {

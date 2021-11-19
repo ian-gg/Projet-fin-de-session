@@ -3,7 +3,11 @@ import { CentreDeSante, Patient } from '~models';
 
 export default {
   async get(id: number): Promise<Patient | undefined> {
-    return (await DbManager.repo(Patient)).findOneOrFail(id);
+    return (await DbManager.repo(Patient))
+      .findOneOrFail({
+        where: { id },
+        relations: ['centre_de_sante'],
+      });
   },
 
   async getAll(): Promise<Patient[]> {
@@ -28,7 +32,10 @@ export default {
   },
 
   async save(patient: Patient): Promise<Patient> {
-    return (await DbManager.repo(Patient)).save(patient);
+    const repo = await DbManager.repo(Patient);
+    const saved = await repo.save(patient);
+
+    return DbManager.withLastSeqId(Patient, saved);
   },
 
   async saveAll(patients: Patient[]): Promise<Patient[]> {

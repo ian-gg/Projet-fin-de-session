@@ -36,7 +36,8 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           
-          <Text>{ patient?.id }</Text>
+          <Text>Patient { patient?.id }</Text>
+          <Text>Centre de santé { patient?.centre_de_sante.id } - { patient?.centre_de_sante.nom }</Text>
           <Text>{ patient?.assurance_maladie }</Text>
         </View>
       </ScrollView>
