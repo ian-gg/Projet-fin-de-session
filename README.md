@@ -17,4 +17,9 @@ Android
     - npx react-native run-android  
 
 iOS
-  
+  * Emulator: Xcode  
+
+  * Run app
+    - npx react-native start  
+    - Start emulator  
+    - npx react-native run-ios
