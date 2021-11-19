@@ -68,5 +68,5 @@ const GestionDossierNavigator = () => {
     </Stack.Navigator>
   );
 };
- 
+
 export default App;
