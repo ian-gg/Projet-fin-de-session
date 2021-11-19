@@ -9160,6 +9160,10 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
+"react-native-image-picker@^4.3.0":
+  "integrity" "sha512-YJtpuNHK7PS4ujbsSVAL6rKW4QQEDTf80MxuPmwByYgMi01VbfkXZ/8+pf61ctOED3Z0ZZKbk7/3pJ0dQHVAbg=="
+  "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.3.0.tgz"
+  "version" "4.3.0"
 "react-native-mlkit-ocr@file:react-native-mlkit-ocr":
   "resolved" "file:react-native-mlkit-ocr"
   "version" "0.2.3"
