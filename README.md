@@ -4,9 +4,9 @@ Dependencies
 &nbsp;
 
 Setup:
-git submodule init
-git submodule update
-npm install
+git submodule init  
+git submodule update  
+npm install  
 
 Android  
   * Emulator: genymotion  
