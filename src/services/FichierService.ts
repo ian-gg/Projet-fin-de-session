@@ -13,6 +13,13 @@ export default {
     });
   },
 
+  async save(fichier: Fichier): Promise<Fichier> {
+    const repo = await DbManager.repo(Fichier);
+    const saved = await repo.save(fichier);
+
+    return DbManager.withLastSeqId(Fichier, saved);
+  },
+
   async count(): Promise<number> {
     return (await DbManager.repo(Fichier)).count();
   }

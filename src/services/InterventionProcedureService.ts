@@ -20,6 +20,13 @@ export default {
     });
   },
 
+  async save(interventionProcedure: InterventionProcedure): Promise<InterventionProcedure> {
+    const repo = await DbManager.repo(InterventionProcedure);
+    const saved = await repo.save(interventionProcedure);
+
+    return DbManager.withLastSeqId(InterventionProcedure, saved);
+  },
+
   async count(): Promise<number> {
     return (await DbManager.repo(InterventionProcedure)).count();
   }
