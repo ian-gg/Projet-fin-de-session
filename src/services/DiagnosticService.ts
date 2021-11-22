@@ -15,7 +15,10 @@ export default {
   },
 
   async save(diagnostic: Diagnostic): Promise<Diagnostic> {
-    return (await DbManager.repo(Diagnostic)).save(diagnostic);
+    const repo = await DbManager.repo(Diagnostic);
+    const saved = await repo.save(diagnostic);
+
+    return DbManager.withLastSeqId(Diagnostic, saved);
   },
 
   async remove(diagnostic: Diagnostic): Promise<Diagnostic> {

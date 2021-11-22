@@ -10,19 +10,15 @@ import { observer } from 'mobx-react';
 
 const patientStore = new PatientStore();
 
+const updateStore = async () => {
+  await patientStore.load();
+};
+
 const PatientList = observer(({ route, navigation }: PatientNavigationProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  useEffect(() => {
-    const updateStore = navigation.addListener('focus', async () => {
-      await patientStore.load();
-    });
-
-    return updateStore;
-  }, [navigation]);
 
   return (
     <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
