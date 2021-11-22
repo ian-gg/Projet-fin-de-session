@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Accueil">
+      <Drawer.Navigator initialRouteName="Dossier">
         <Drawer.Screen name="Accueil" component={AccueilNavigator} />
         <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
         <Drawer.Screen name="Dossier" component={GestionDossierNavigator}/>
