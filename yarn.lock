@@ -4773,11 +4773,14 @@
   "version" "4.1.0"
   dependencies:
     "cross-spawn" "^7.0.0"
+    "flow-parser" "^0.121.0"
     "get-stream" "^5.0.0"
     "human-signals" "^1.1.1"
     "is-stream" "^2.0.0"
+    "jscodeshift" "^0.11.0"
     "merge-stream" "^2.0.0"
     "npm-run-path" "^4.0.0"
+    "nullthrows" "^1.1.1"
     "onetime" "^5.1.0"
     "signal-exit" "^3.0.2"
     "strip-final-newline" "^2.0.0"
@@ -6391,9 +6394,19 @@
   "resolved" "https://registry.npmjs.org/jest-cli/-/jest-cli-26.6.3.tgz"
   "version" "26.6.3"
   dependencies:
-    "flow-parser" "^0.121.0"
-    "jscodeshift" "^0.11.0"
-    "nullthrows" "^1.1.1"
+    "@jest/core" "^26.6.3"
+    "@jest/test-result" "^26.6.2"
+    "@jest/types" "^26.6.2"
+    "chalk" "^4.0.0"
+    "exit" "^0.1.2"
+    "graceful-fs" "^4.2.4"
+    "import-local" "^3.0.2"
+    "is-ci" "^2.0.0"
+    "jest-config" "^26.6.3"
+    "jest-util" "^26.6.2"
+    "jest-validate" "^26.6.2"
+    "prompts" "^2.0.1"
+    "yargs" "^15.4.1"
 
 "jest-config@^26.6.3":
   "integrity" "sha512-t5qdIj/bCj2j7NFVHb2nFB4aUdfucDn3JRKgrZnplb8nieAirAzRSHP8uDEd+qV6ygzg9Pz4YG7UTJf94LPSyg=="
@@ -7015,7 +7028,14 @@
   optionalDependencies:
     "graceful-fs" "^4.1.6"
 
-"jsonfile@^6.0.1", "jsonfile@^6.1.0":
+"jsonfile@^6.0.1":
+  "integrity" "sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss="
+  "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz"
+  "version" "4.0.0"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
+
+"jsonfile@^6.1.0":
   "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
   "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
   "version" "6.1.0"
@@ -9023,7 +9043,7 @@
   dependencies:
     "asap" "~2.0.6"
 
-"prompts@^2.4.0":
+"prompts@^2.0.1", "prompts@^2.4.0":
   "integrity" "sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q=="
   "resolved" "https://registry.npmjs.org/prompts/-/prompts-2.4.2.tgz"
   "version" "2.4.2"
