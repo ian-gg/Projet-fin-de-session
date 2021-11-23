@@ -20,10 +20,12 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^4.3.0",
     "react-native-mlkit-ocr": "file:react-native-mlkit-ocr",
+    "react-native-paper": "^4.10.1",
     "react-native-reanimated": "^2.2.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
     "react-native-sqlite-storage": "^6.0.1",
+    "react-native-vector-icons": "^9.0.0",
     "typeorm": "^0.2.40"
   },
   "devDependencies": {

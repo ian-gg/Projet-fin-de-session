@@ -38,7 +38,18 @@ const PatientList = observer(({ route, navigation }: PatientNavigationProps) => 
         <View style={styles.flatListView}>
           <FlatList
             data={patientStore?.filteredPatients}
-            renderItem={(item) => PatientListEntry(item.index, item.item, navigation)}
+            renderItem={(item) => {
+              return (
+                <PatientListEntry
+                  index={item.index}
+                  patient={item.item}
+                  onPress={() => navigation.navigate('Patients', {
+                    screen: 'PatientDetails',
+                    params: { patientId: item.item.id },
+                  })}
+                />
+              );
+            }}
           />
         </View> 
     </SafeAreaView>
