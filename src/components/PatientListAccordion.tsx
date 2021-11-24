@@ -10,7 +10,7 @@ const PatientListAccordion = (props: { patients: Patient[] | undefined, navigati
       { props.patients?.map((patient: Patient, index: number) => {
           return (
             <PatientListEntry
-              key={patient.id}
+            key={`patient-${patient.id}`}
               index={index}
               patient={patient}
               onPress={() => props.navigation.navigate('Centres', {

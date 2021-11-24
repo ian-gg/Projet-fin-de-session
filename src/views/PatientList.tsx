@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, SafeAreaView, TextInput, useColorScheme, View, Button, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { PatientNavigationProps } from '~models/types';
+import { DrawerNavigationProps, PatientNavigationProps } from '~models/types';
 
 import { PatientStore } from '~stores';
 import { PatientListEntry } from '~components';
@@ -14,7 +14,7 @@ const updateStore = async () => {
   await patientStore.load();
 };
 
-const PatientList = observer(({ route, navigation }: PatientNavigationProps) => {
+const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -41,6 +41,7 @@ const PatientList = observer(({ route, navigation }: PatientNavigationProps) => 
             renderItem={(item) => {
               return (
                 <PatientListEntry
+                  key={`patient-${item.item.id}`}
                   index={item.index}
                   patient={item.item}
                   onPress={() => navigation.navigate('Patients', {

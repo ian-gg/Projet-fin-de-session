@@ -19,16 +19,13 @@ const PatientListEntry = (props: {
     <List.Item
       title={patient.nom}
       description={patient.num_dossier}
-      style={[styles.patientEntry, {backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
+      style={[{ backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
       onPress={() => onPress()}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  patientEntry : {
-    padding : 5
-  }
 });
 
 export default PatientListEntry;

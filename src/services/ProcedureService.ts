@@ -7,7 +7,14 @@ export default {
   },
 
   async getAll(): Promise<Procedure[]> {
-    return (await DbManager.repo(Procedure)).find({ select: ['id', 'code', 'description'] });
+    return (await DbManager.repo(Procedure))
+      .createQueryBuilder('procedure')
+      .leftJoinAndSelect('procedure.intervention_procedures', 'intervention_procedures')
+      .select([
+        'procedure.id', 'procedure.code', 'procedure.description',
+        'intervention_procedures.id'
+      ])
+      .getMany();
   },
 
   async create(procedure: Object): Promise<Procedure> {

@@ -64,18 +64,20 @@ export default class Database {
 import {
   CentreDeSanteService,
   DiagnosticService,
+  InterventionProcedureService,
+  InterventionService,
   PatientService,
   ProcedureService,
 } from '~services';
 async function seedDatabase() {
-  const centre_de_sante = await CentreDeSanteService.create({
+  const centreDeSante = await CentreDeSanteService.create({
     nom: 'CHU Sainte-Justine',
   });
-  await CentreDeSanteService.save(centre_de_sante);
+  await CentreDeSanteService.save(centreDeSante);
 
   let patients = await PatientService.createAll([
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '1234567',
       nom: 'Felix Bouchard',
       assurance_maladie: 'BOUF94011419',
@@ -86,7 +88,7 @@ async function seedDatabase() {
       cellulaire: '514-123-4567'
     },
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '1111111',
       nom: 'Alexia Bouchard',
       assurance_maladie: 'BOUA96061519',
@@ -97,7 +99,7 @@ async function seedDatabase() {
       cellulaire: '514-321-4567'
     },
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '3445009',
       nom: 'Arius Hounkpatin',
       assurance_maladie: 'HOUA50103016',
@@ -108,7 +110,7 @@ async function seedDatabase() {
       cellulaire: '438-212-0988'
     },
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '0983456',
       nom: 'Mathieu Rouillard',
       assurance_maladie: 'ROUM66030917',
@@ -119,7 +121,7 @@ async function seedDatabase() {
       cellulaire: '514-984-2354'
     },
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '9024311',
       nom: 'Lucas Raynaud',
       assurance_maladie: 'RAYL33072119',
@@ -130,7 +132,7 @@ async function seedDatabase() {
       cellulaire: '423-789-4466'
     },
     { 
-      centre_de_sante,
+      centreDeSante,
       num_dossier: '7456213',
       nom: 'Ian Garcia-Guerrero',
       assurance_maladie: 'GARI77100816',
@@ -153,8 +155,28 @@ async function seedDatabase() {
 
   const procedure = await ProcedureService.create({
     code: '001',
-    description: 'Procedure 001',
+    description: 'Procédure 001',
   });
 
   await ProcedureService.save(procedure);
+
+  const intDebut = new Date();
+  const intFin = new Date();
+  intFin.setHours(intFin.getHours() + 4);
+
+  const intervention = await InterventionService.create({
+    patient: await PatientService.get(4),
+    diagnostic,
+    date_debut:intDebut,
+    date_fin: intFin,
+  });
+
+  await InterventionService.save(intervention);
+
+  const interventionProcedure = await InterventionProcedureService.create({
+    intervention,
+    procedure,
+  });
+
+  await InterventionProcedureService.save(interventionProcedure);
 }

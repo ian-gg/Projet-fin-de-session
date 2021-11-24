@@ -2,19 +2,19 @@ import React from 'react';
 import { FlatList, SafeAreaView, useColorScheme, StyleSheet, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { CentreDeSanteNavigationProps } from '~models/types';
+import { ProcedureNavigationProps } from '~models/types';
 
-import { CentreDeSanteStore } from '~stores';
-import { CentreDeSanteListEntry } from '~components';
+import { ProcedureStore } from '~stores';
+import { ProcedureListEntry } from '~components';
 import { observer } from 'mobx-react';
 
-const centreStore = new CentreDeSanteStore();
+const procedureStore = new ProcedureStore();
 
 const updateStore = async () => {
-  await centreStore.load();
+  await procedureStore.load();
 };
 
-const CentreDeSanteList = observer(({ route, navigation }: CentreDeSanteNavigationProps) => {
+const ProcedureList = observer(({ route, navigation }: ProcedureNavigationProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -24,13 +24,12 @@ const CentreDeSanteList = observer(({ route, navigation }: CentreDeSanteNavigati
     <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
       <View style={styles.flatListView}>
         <FlatList
-          data={centreStore?.centres}
+          data={procedureStore?.procedures}
           renderItem={(item) => {
             return (
-              <CentreDeSanteListEntry
-                key={`centre-${item.item.id}`}
+              <ProcedureListEntry
                 index={item.index}
-                centre={item.item}
+                procedure={item.item}
                 navigation={navigation}
               />
             );
@@ -57,4 +56,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CentreDeSanteList;
+export default ProcedureList;
