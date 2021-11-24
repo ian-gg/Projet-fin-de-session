@@ -18,6 +18,9 @@ type PatientStackParamList = {
   Patients: undefined;
   PatientList: undefined;
   PatientDetails: PatientDetailsProps;
+
+  CameraHome: undefined;
+  CameraPermissions: undefined;
 };
 
 type CentreDeSanteStackParamList = {

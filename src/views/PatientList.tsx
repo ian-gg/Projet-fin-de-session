@@ -1,8 +1,10 @@
 import React from 'react';
-import { FlatList, SafeAreaView, TextInput, useColorScheme, View, Button, StyleSheet } from 'react-native';
+import { FlatList, SafeAreaView, TextInput, useColorScheme, View, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { DrawerNavigationProps, PatientNavigationProps } from '~models/types';
+import { Button } from 'react-native-paper';
+
+import { DrawerNavigationProps } from '~models/types';
 
 import { PatientStore } from '~stores';
 import { PatientListEntry } from '~components';
@@ -32,7 +34,15 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
             />  
           </View>
           <View style={{ marginRight: 8 }}>
-            <Button title="Par caméra"/>
+            <Button
+              icon="camera"
+              mode="contained"
+              onPress={() => navigation.navigate('Patients', {
+                screen: 'CameraHome',
+              })}
+            >
+              Par caméra
+            </Button>
           </View>     
         </View>
         <View style={styles.flatListView}>

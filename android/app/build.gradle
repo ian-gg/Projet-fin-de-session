@@ -79,6 +79,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    entryFile: "index.ts",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -175,6 +176,9 @@ android {
             }
 
         }
+    }
+    packagingOptions { // see https://github.com/mrousavy/react-native-vision-camera/issues/365
+      pickFirst '**/*.so'
     }
 }
 

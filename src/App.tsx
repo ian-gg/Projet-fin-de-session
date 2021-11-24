@@ -16,6 +16,8 @@ import {
   CentreDeSanteDetails,
   DiagnosticList,
   ProcedureList,
+  CameraHome,
+  CameraPermissions,
 } from '~views';
 import { DbManager } from '~db';
 
@@ -94,6 +96,16 @@ const PatientNavigator = () => {
         name='PatientDetails'
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
+      />
+      <Stack.Screen
+        name='CameraHome'
+        component={CameraHome}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='CameraPermissions'
+        component={CameraPermissions}
+        options={{ headerShown: true, title: 'Permissions de la caméra' }}
       />
     </Stack.Navigator>
   );

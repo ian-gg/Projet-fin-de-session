@@ -6,6 +6,8 @@ import CentreDeSanteList from './CentreDeSanteList';
 import CentreDeSanteDetails from './CentreDeSanteDetails';
 import DiagnosticList from './DiagnosticList';
 import ProcedureList from './ProcedureList';
+import CameraHome from './CameraHome';
+import CameraPermissions from './CameraPermissions';
 
 export {
   PatientList,
@@ -16,4 +18,6 @@ export {
   CentreDeSanteDetails,
   DiagnosticList,
   ProcedureList,
+  CameraHome,
+  CameraPermissions,
 };
