@@ -147,14 +147,6 @@ return (
             return (
               <View
                 key={line.text}
-                style={{
-                  backgroundColor: '#ccccccaf',
-                  position: 'absolute',
-                  top: fitHeight(line.bounding.top, image?.height ?? 0),
-                  height: fitHeight(line.bounding.height, image?.height ?? 0),
-                  left: fitWidth(line.bounding.left, image?.width ?? 0),
-                  width: fitWidth(line.bounding.width, image?.width ?? 0),
-                }}
               >
                 <Text style={{ fontSize: 10 }}>{line.text}</Text>
               </View>
