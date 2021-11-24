@@ -22,7 +22,7 @@ const CentreDeSanteDetails = observer(({ route, navigation }: CentreDeSanteNavig
 
   useEffect(() => {
     const getCentreDeSante = async () => {
-      setCentreDeSante(await CentreDeSanteService.get(centreDeSanteId));
+      setCentreDeSante(await CentreDeSanteService.get(centreDeSanteId))
     };
 
     getCentreDeSante();

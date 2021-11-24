@@ -7,7 +7,14 @@ export default {
   },
 
   async getAll(): Promise<Diagnostic[]> {
-    return (await DbManager.repo(Diagnostic)).find({ select: ['id', 'etiquette', 'description'] });
+    return (await DbManager.repo(Diagnostic))
+      .createQueryBuilder('diagnostic')
+      .leftJoinAndSelect('diagnostic.interventions', 'interventions')
+      .select([
+        'diagnostic.id', 'diagnostic.etiquette', 'diagnostic.description',
+        'interventions.id'
+      ])
+      .getMany();
   },
 
   async create(diagnostic: Object): Promise<Diagnostic> {

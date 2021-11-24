@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Provider as PaperProvider } from 'react-native-paper';
+import { ActivityIndicator, Provider as PaperProvider } from 'react-native-paper';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -12,10 +13,10 @@ import {
   GestionSummary,
   GestionDossier,
   CentreDeSanteList,
-  CentreDeSanteDetails
+  CentreDeSanteDetails,
+  DiagnosticList,
 } from '~views';
 import { DbManager } from '~db';
-import { Text } from 'react-native';
 
 import { DrawerParamList } from '~models/types';
 
@@ -36,7 +37,12 @@ const App = () => {
 
   if (loading) {
     return (
-      <Text>Chargement...</Text>
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator style={{ marginRight: 5 }}/>
+        <Text>
+          Chargement...
+        </Text>
+      </View>
     );
   }
 
@@ -44,15 +50,31 @@ const App = () => {
     <PaperProvider>
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Accueil">
-          <Drawer.Screen name="Accueil" component={AccueilNavigator} />
+          <Drawer.Screen
+            name="Accueil"
+            component={AccueilNavigator}
+            options={{ headerShown: true, title: "Sommaire de la base de données" }}
+          />
           <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
           <Drawer.Screen name="Dossier" component={GestionDossierNavigator}/>
           <Drawer.Screen name="Centres" component={CentreDeSanteNavigator}/>
+          <Drawer.Screen name="Diagnostics" component={DiagnosticNavigator}/>
         </Drawer.Navigator>
       </NavigationContainer>
     </PaperProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  horizontal: {
+    flexDirection: "row",
+  }
+})
 
 const AccueilNavigator = () => {
   return (
@@ -97,6 +119,14 @@ const CentreDeSanteNavigator = () => {
         component={PatientDetails}
         options={{ headerShown: true, title: "Informations du patient" }}
       />
+    </Stack.Navigator>
+  );
+};
+
+const DiagnosticNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="DiagnosticList">
+      <Stack.Screen name="DiagnosticList" component={DiagnosticList} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

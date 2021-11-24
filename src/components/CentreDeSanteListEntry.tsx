@@ -4,7 +4,17 @@ import { CentreDeSante } from '~models';
 
 import { List } from 'react-native-paper';
 
-const CentreDeSanteListEntry = (index: number, centre: CentreDeSante, navigation: any) => {
+const CentreDeSanteListEntry = (props: {
+  index: number,
+  centre: CentreDeSante,
+  navigation: any
+}) => {
+  const {
+    index,
+    centre,
+    navigation,
+  } = props;
+
   return (
     <List.Item
       title={centre.nom}

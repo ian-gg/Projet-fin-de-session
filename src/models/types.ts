@@ -3,9 +3,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type DrawerParamList = {
   Accueil: undefined;
-  Centres: NavigatorScreenParams<CentreDeSanteStackParamList>;
   Patients: NavigatorScreenParams<PatientStackParamList>;
+  Centres: NavigatorScreenParams<CentreDeSanteStackParamList>;
   Dossier: undefined;
+  Diagnostics: NavigatorScreenParams<DiagnosticStackParamList>;
 };
 
 type PatientDetailsProps = {
@@ -25,11 +26,21 @@ type CentreDeSanteStackParamList = {
   PatientDetails: PatientDetailsProps;
 };
 
-type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'Patients'>;
-type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackParamList, 'Centres'>;
+type DiagnosticStackParamList = {
+  Diagnostics: undefined;
+  DiagnosticList: undefined;
+};
+
+type DrawerNavigationProps = NativeStackScreenProps<DrawerParamList>;
+
+type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'PatientDetails'>;
+type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackParamList, 'CentreDeSanteDetails'>;
+type DiagnosticNavigationProps = NativeStackScreenProps<DiagnosticStackParamList, 'Diagnostics'>;
 
 export type {
   DrawerParamList,
+  DrawerNavigationProps,
   PatientNavigationProps,
   CentreDeSanteNavigationProps,
+  DiagnosticNavigationProps,
 };

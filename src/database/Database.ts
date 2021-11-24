@@ -64,6 +64,7 @@ export default class Database {
 import {
   CentreDeSanteService,
   DiagnosticService,
+  InterventionService,
   PatientService,
   ProcedureService,
 } from '~services';
@@ -153,8 +154,21 @@ async function seedDatabase() {
 
   const procedure = await ProcedureService.create({
     code: '001',
-    description: 'Procedure 001',
+    description: 'Procédure 001',
   });
 
   await ProcedureService.save(procedure);
+
+  const intDebut = new Date();
+  const intFin = new Date();
+  intFin.setHours(intFin.getHours() + 4);
+
+  const intervention = await InterventionService.create({
+    patient: await PatientService.get(4),
+    diagnostic,
+    date_debut:intDebut,
+    date_fin: intFin,
+  });
+
+  await InterventionService.save(intervention);
 }

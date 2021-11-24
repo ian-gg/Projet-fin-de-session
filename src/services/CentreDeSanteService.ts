@@ -4,10 +4,15 @@ import { CentreDeSante } from '~models';
 export default {
   async get(id: number): Promise<CentreDeSante | undefined> {
     return (await DbManager.repo(CentreDeSante))
-    .findOneOrFail({
-      where: { id },
-      relations: ['patients'],
-    });
+      .createQueryBuilder('centre_de_sante')
+      .leftJoinAndSelect('centre_de_sante.patients', 'patients')
+      .where({ id })
+      .select([
+        'centre_de_sante.id',
+        'centre_de_sante.nom',
+        'patients.id', 'patients.nom', 'patients.num_dossier'
+      ])
+      .getOneOrFail();
   },
 
   async getAll(): Promise<CentreDeSante[]> {
