@@ -77,7 +77,7 @@ async function seedDatabase() {
 
   let patients = await PatientService.createAll([
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '1234567',
       nom: 'Felix Bouchard',
       assurance_maladie: 'BOUF94011419',
@@ -88,7 +88,7 @@ async function seedDatabase() {
       cellulaire: '514-123-4567'
     },
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '1111111',
       nom: 'Alexia Bouchard',
       assurance_maladie: 'BOUA96061519',
@@ -99,7 +99,7 @@ async function seedDatabase() {
       cellulaire: '514-321-4567'
     },
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '3445009',
       nom: 'Arius Hounkpatin',
       assurance_maladie: 'HOUA50103016',
@@ -110,7 +110,7 @@ async function seedDatabase() {
       cellulaire: '438-212-0988'
     },
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '0983456',
       nom: 'Mathieu Rouillard',
       assurance_maladie: 'ROUM66030917',
@@ -121,7 +121,7 @@ async function seedDatabase() {
       cellulaire: '514-984-2354'
     },
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '9024311',
       nom: 'Lucas Raynaud',
       assurance_maladie: 'RAYL33072119',
@@ -132,7 +132,7 @@ async function seedDatabase() {
       cellulaire: '423-789-4466'
     },
     { 
-      centreDeSante,
+      centre_de_sante: centreDeSante,
       num_dossier: '7456213',
       nom: 'Ian Garcia-Guerrero',
       assurance_maladie: 'GARI77100816',
