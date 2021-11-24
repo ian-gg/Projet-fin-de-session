@@ -5,6 +5,7 @@ import GestionDossier from './GestionDossier';
 import CentreDeSanteList from './CentreDeSanteList';
 import CentreDeSanteDetails from './CentreDeSanteDetails';
 import DiagnosticList from './DiagnosticList';
+import ProcedureList from './ProcedureList';
 
 export {
   PatientList,
@@ -14,4 +15,5 @@ export {
   CentreDeSanteList,
   CentreDeSanteDetails,
   DiagnosticList,
+  ProcedureList,
 };

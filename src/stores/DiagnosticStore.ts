@@ -12,13 +12,13 @@ export default class DiagnosticStore {
     this.load().then(() => {}, (err) => console.error(err));
   }
 
-    async load() {
-      this.setCentres(await DiagnosticService.getAll());
-      console.log(`Loaded ${this.diagnostics.length} diagnostics!`);
-    }
+  async load() {
+    this.setDiagnostics(await DiagnosticService.getAll());
+    console.log(`Loaded ${this.diagnostics.length} diagnostics!`);
+  }
 
-    @action
-    private setCentres(diagnostics: Diagnostic[]) {
-      this.diagnostics = diagnostics;
-    }
+  @action
+  private setDiagnostics(diagnostics: Diagnostic[]) {
+    this.diagnostics = diagnostics;
+  }
 };

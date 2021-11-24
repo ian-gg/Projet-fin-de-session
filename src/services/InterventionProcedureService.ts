@@ -20,6 +20,10 @@ export default {
     });
   },
 
+  async create(interventionProcedure: Object): Promise<InterventionProcedure> {
+    return (await DbManager.repo(InterventionProcedure)).create(interventionProcedure);
+  },
+
   async save(interventionProcedure: InterventionProcedure): Promise<InterventionProcedure> {
     const repo = await DbManager.repo(InterventionProcedure);
     const saved = await repo.save(interventionProcedure);

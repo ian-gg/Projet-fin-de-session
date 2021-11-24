@@ -4,6 +4,7 @@ import FichierStore from './FichierStore';
 import InterventionProcedureStore from './InterventionProcedureStore';
 import InterventionStore from './InterventionStore';
 import PatientStore from './PatientStore';
+import ProcedureStore from './ProcedureStore';
 
 export {
   CentreDeSanteStore,
@@ -12,4 +13,5 @@ export {
   InterventionProcedureStore,
   InterventionStore,
   PatientStore,
+  ProcedureStore,
 };
