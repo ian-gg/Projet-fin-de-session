@@ -39,8 +39,8 @@ type ProcedureStackParamList = {
 
 type DrawerNavigationProps = NativeStackScreenProps<DrawerParamList>;
 
-type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'Patients'>;
-type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackParamList, 'Centres'>;
+type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'PatientDetails'>;
+type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackParamList, 'CentreDeSanteDetails'>;
 type DiagnosticNavigationProps = NativeStackScreenProps<DiagnosticStackParamList, 'Diagnostics'>;
 type ProcedureNavigationProps = NativeStackScreenProps<ProcedureStackParamList, 'Procedures'>;
 
