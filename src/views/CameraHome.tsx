@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Camera, CameraPermissionStatus } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/core";
+import { Camera, CameraPermissionStatus } from "react-native-vision-camera";
+import { Button } from "react-native-paper";
+import { Text, View } from "react-native";
 
-import { DrawerNavigationProps } from "~models/types";
-
+import { CameraNavigationProps } from "~models/types";
 import { CameraView } from "~components";
 
-const CameraHome = ({ route, navigation }: DrawerNavigationProps) => {
+const CameraHome = ({ route, navigation }: CameraNavigationProps) => {
+  const isActive = useIsFocused();
+
   const [cameraPermission, setCameraPermission] = useState<CameraPermissionStatus>();
 
   useEffect(() => {
@@ -18,21 +21,25 @@ const CameraHome = ({ route, navigation }: DrawerNavigationProps) => {
   }
 
   const cameraAuthorized = cameraPermission === 'authorized';
+  console.log(cameraAuthorized);
 
   if (cameraAuthorized) {
-    const isActive = useIsFocused();
-
     return (
       <CameraView
         isActive={isActive}
       />
     );
   } else {
-    navigation.navigate('Patients', {
-      screen: 'CameraPermissions'
-    });
-
-    return null;
+    return (
+      <View>
+        <Text>L'application n'est pas autorisée à utiliser la caméra.</Text>
+        <Button
+          onPress={() => navigation.navigate('CameraPermissions')}
+        >
+          Modifier les permissions
+        </Button>
+      </View>
+    );
   }
 };
 

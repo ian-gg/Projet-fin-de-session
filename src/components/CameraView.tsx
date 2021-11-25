@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
   captureButton: {
     position: 'absolute',
     alignSelf: 'center',
+    borderWidth: 3,
+    borderColor: 'white',
   }
 });
 

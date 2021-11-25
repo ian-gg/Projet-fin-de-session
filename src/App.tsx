@@ -52,18 +52,14 @@ const App = () => {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName='Accueil'>
-          <Drawer.Screen
-            name='Accueil'
-            component={AccueilNavigator}
-            options={{ headerShown: true, title: 'Sommaire de la base de données' }}
-          />
-          <Drawer.Screen name='Patients' component={PatientNavigator} options={{ headerShown: true }}/>
-          <Drawer.Screen name='Dossier' component={GestionDossierNavigator}/>
-          <Drawer.Screen name='Centres' component={CentreDeSanteNavigator}/>
-          <Drawer.Screen name='Diagnostics' component={DiagnosticNavigator}/>
-          <Drawer.Screen name='Procedures' component={ProcedureNavigator}/>
-        </Drawer.Navigator>
+        <Stack.Navigator>
+          <Stack.Group>
+            <Stack.Screen name='Root' component={DrawerNavigator} options={{ headerShown: false }}/>
+          </Stack.Group>
+          <Stack.Group screenOptions={{ presentation: 'modal' }}>
+            <Stack.Screen name='Camera' component={CameraNavigator} options={{ headerShown: false }}/>
+          </Stack.Group>
+        </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
   );
@@ -75,10 +71,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  horizontal: {
-    flexDirection: 'row',
+    horizontal: {
+      flexDirection: 'row',
   }
 })
+
+const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator initialRouteName='Accueil'>
+      <Drawer.Screen
+        name='Accueil'
+        component={AccueilNavigator}
+        options={{ headerShown: true, title: 'Sommaire de la base de données' }}
+      />
+      <Drawer.Screen name='Patients' component={PatientNavigator}/>
+      <Drawer.Screen name='Dossier' component={GestionDossierNavigator}/>
+      <Drawer.Screen name='Centres' component={CentreDeSanteNavigator}/>
+      <Drawer.Screen name='Diagnostics' component={DiagnosticNavigator}/>
+      <Drawer.Screen name='Procedures' component={ProcedureNavigator}/>
+    </Drawer.Navigator>
+  )
+}
 
 const AccueilNavigator = () => {
   return (
@@ -96,16 +109,6 @@ const PatientNavigator = () => {
         name='PatientDetails'
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
-      />
-      <Stack.Screen
-        name='CameraHome'
-        component={CameraHome}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name='CameraPermissions'
-        component={CameraPermissions}
-        options={{ headerShown: true, title: 'Permissions de la caméra' }}
       />
     </Stack.Navigator>
   );
@@ -152,5 +155,22 @@ const ProcedureNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const CameraNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName='CameraHome'>
+      <Stack.Screen
+        name='CameraHome'
+        component={CameraHome}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='CameraPermissions'
+        component={CameraPermissions}
+        options={{ headerShown: true, title: 'Permissions de la caméra' }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default App;

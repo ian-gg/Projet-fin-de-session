@@ -24,45 +24,45 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
 
   return (
     <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
-        <View style={styles.buttonsView}>
-          <View style={{marginLeft:8}}>
-            <TextInput
-              value={patientStore?.filters.text}
-              placeholder="Recherche"
-              onChangeText={(v) => patientStore?.setFilter('text', v)}
-              style={{width:150}}
-            />  
-          </View>
-          <View style={{ marginRight: 8 }}>
-            <Button
-              icon="camera"
-              mode="contained"
-              onPress={() => navigation.navigate('Patients', {
-                screen: 'CameraHome',
-              })}
-            >
-              Par caméra
-            </Button>
-          </View>     
+      <View style={styles.buttonsView}>
+        <View style={{marginLeft:8}}>
+          <TextInput
+            value={patientStore?.filters.text}
+            placeholder="Recherche"
+            onChangeText={(v) => patientStore?.setFilter('text', v)}
+            style={{width:150}}
+          />  
         </View>
-        <View style={styles.flatListView}>
-          <FlatList
-            data={patientStore?.filteredPatients}
-            renderItem={(item) => {
-              return (
-                <PatientListEntry
-                  key={`patient-${item.item.id}`}
-                  index={item.index}
-                  patient={item.item}
-                  onPress={() => navigation.navigate('Patients', {
-                    screen: 'PatientDetails',
-                    params: { patientId: item.item.id },
-                  })}
-                />
-              );
-            }}
-          />
-        </View> 
+        <View style={{ marginRight: 8 }}>
+          <Button
+            icon="camera"
+            mode="contained"
+            onPress={() => navigation.navigate('Camera', {
+              screen: 'CameraHome',
+            })}
+          >
+            Par caméra
+          </Button>
+        </View>     
+      </View>
+      <View style={styles.flatListView}>
+        <FlatList
+          data={patientStore?.filteredPatients}
+          renderItem={(item) => {
+            return (
+              <PatientListEntry
+                key={`patient-${item.item.id}`}
+                index={item.index}
+                patient={item.item}
+                onPress={() => navigation.navigate('Patients', {
+                  screen: 'PatientDetails',
+                  params: { patientId: item.item.id },
+                })}
+              />
+            );
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 });
