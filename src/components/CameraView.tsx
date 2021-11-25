@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import Reanimated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
 Reanimated.addWhitelistedNativeProps({
@@ -32,16 +32,15 @@ const CameraView = (props: {
         />
       )}
 
-      <Button
+      <IconButton
         icon="camera"
-        mode="outlined"
-        children={null}
-        style={[
-          styles.captureButton,
-          {
-            bottom: insets.bottom + 15,
-          }
-        ]}
+        color="white"
+        size={40}
+        animated={true}
+        style={[styles.captureButton, { bottom: insets.bottom + 15 }]}
+        onPress={() => {
+          console.log('take photo');
+        }}
       />
     </View>
   );

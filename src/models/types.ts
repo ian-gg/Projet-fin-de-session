@@ -1,6 +1,12 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+type RootStackParamList = {
+  Root: NavigatorScreenParams<DrawerParamList>;
+  Camera: NavigatorScreenParams<CameraNavigationProps>;
+  PermissionsManager: undefined;
+};
+
 type DrawerParamList = {
   Accueil: undefined;
   Patients: NavigatorScreenParams<PatientStackParamList>;
@@ -42,9 +48,9 @@ type ProcedureStackParamList = {
 type CameraStackParamList = {
   Camera: undefined;
   CameraHome: undefined;
-  CameraPermissions: undefined;
 };
 
+type RootNavigationProps = NativeStackScreenProps<RootStackParamList>;
 type DrawerNavigationProps = NativeStackScreenProps<DrawerParamList>;
 
 type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'PatientDetails'>;
@@ -54,7 +60,9 @@ type ProcedureNavigationProps = NativeStackScreenProps<ProcedureStackParamList, 
 type CameraNavigationProps = NativeStackScreenProps<CameraStackParamList, 'CameraHome'>;
 
 export type {
+  RootNavigationProps,
   DrawerParamList,
+
   DrawerNavigationProps,
   PatientNavigationProps,
   CentreDeSanteNavigationProps,

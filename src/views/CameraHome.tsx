@@ -2,26 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/core";
 import { Camera, CameraPermissionStatus } from "react-native-vision-camera";
 import { Button } from "react-native-paper";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-import { CameraNavigationProps } from "~models/types";
+import { RootNavigationProps } from "~models/types";
 import { CameraView } from "~components";
 
-const CameraHome = ({ route, navigation }: CameraNavigationProps) => {
+const CameraHome = ({ route, navigation }: RootNavigationProps) => {
   const isActive = useIsFocused();
 
   const [cameraPermission, setCameraPermission] = useState<CameraPermissionStatus>();
 
   useEffect(() => {
-    Camera.getCameraPermissionStatus().then(setCameraPermission);
-  }, []);
+    const onFocus = navigation.addListener('focus', async () => {
+      Camera.getCameraPermissionStatus().then(setCameraPermission);
+    });
+
+    return onFocus;
+  }, [navigation]);
 
   if (cameraPermission == null) {
     return null;
   }
 
   const cameraAuthorized = cameraPermission === 'authorized';
-  console.log(cameraAuthorized);
 
   if (cameraAuthorized) {
     return (
@@ -31,10 +34,10 @@ const CameraHome = ({ route, navigation }: CameraNavigationProps) => {
     );
   } else {
     return (
-      <View>
+      <View style={styles.permissionsContainer}>
         <Text>L'application n'est pas autorisée à utiliser la caméra.</Text>
         <Button
-          onPress={() => navigation.navigate('CameraPermissions')}
+          onPress={() => navigation.navigate('PermissionsManager')}
         >
           Modifier les permissions
         </Button>
@@ -42,5 +45,13 @@ const CameraHome = ({ route, navigation }: CameraNavigationProps) => {
     );
   }
 };
+
+const styles = StyleSheet.create({
+  permissionsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+})
 
 export default CameraHome;

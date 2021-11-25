@@ -7,7 +7,7 @@ import CentreDeSanteDetails from './CentreDeSanteDetails';
 import DiagnosticList from './DiagnosticList';
 import ProcedureList from './ProcedureList';
 import CameraHome from './CameraHome';
-import CameraPermissions from './CameraPermissions';
+import PermissionsManager from './PermissionsManager';
 
 export {
   PatientList,
@@ -19,5 +19,5 @@ export {
   DiagnosticList,
   ProcedureList,
   CameraHome,
-  CameraPermissions,
+  PermissionsManager,
 };

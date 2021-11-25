@@ -17,7 +17,7 @@ import {
   DiagnosticList,
   ProcedureList,
   CameraHome,
-  CameraPermissions,
+  PermissionsManager,
 } from '~views';
 import { DbManager } from '~db';
 
@@ -58,6 +58,11 @@ const App = () => {
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal' }}>
             <Stack.Screen name='Camera' component={CameraNavigator} options={{ headerShown: false }}/>
+            <Stack.Screen
+              name='PermissionsManager'
+              component={PermissionsManager}
+              options={{ headerShown: true, title: "Permissions de l'application" }}
+            />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
@@ -163,11 +168,6 @@ const CameraNavigator = () => {
         name='CameraHome'
         component={CameraHome}
         options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name='CameraPermissions'
-        component={CameraPermissions}
-        options={{ headerShown: true, title: 'Permissions de la caméra' }}
       />
     </Stack.Navigator>
   );

@@ -14,6 +14,11 @@ target 'GestionPatients' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+
   target 'GestionPatientsTests' do
     inherit! :complete
     # Pods for testing

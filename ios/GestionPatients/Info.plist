@@ -73,6 +73,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>GestionPatients needs access to your Camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>GestionPatients needs access to your photo library to read photos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>GestionPatients needs access to your photo library to save captured videos and photos.</string>
 </dict>
 </plist>
