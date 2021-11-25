@@ -32,14 +32,25 @@ const CameraView = (props: {
         />
       )}
 
+      <View
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          width: '75%',
+          height: 175,
+          borderWidth: 2,
+          borderColor: 'rgba(255, 255, 255, 0.75)',
+        }}
+      />
+
       <IconButton
         icon="camera"
         color="white"
         size={40}
         animated={true}
         style={[styles.captureButton, { bottom: insets.bottom + 15 }]}
-        onPress={() => {
-          console.log('take photo');
+        onPress={async () => {
+          const photo = await camera.current?.takePhoto();
         }}
       />
     </View>
@@ -50,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
+    justifyContent: 'center',
   },
   captureButton: {
     position: 'absolute',
