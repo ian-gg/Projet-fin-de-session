@@ -9,8 +9,6 @@ import { PatientNavigationProps } from '~models/types';
 import { Patient } from '~models';
 import { PatientService } from '~services';
 
-import HistoryList from './HistoryList';
-
 const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) => {
   const { patientId } = route.params;
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
@@ -93,7 +91,7 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
             </View>
           </View>
           <View style={{flexDirection: "column", flex: 1}}>
-            <Button mode="text" onPress={() => console.log('interventions pressed')} style={[styles.button, {flex: 1}]}>
+            <Button mode="text" onPress={() => navigation.navigate('HistoryList', {patientId: 1})} style={[styles.button, {flex: 1}]}>
               Historique des interventions
             </Button>
             <Button mode="text" onPress={() => console.log('fichiers pressed')} style={[styles.button, {flex: 1}]}>
