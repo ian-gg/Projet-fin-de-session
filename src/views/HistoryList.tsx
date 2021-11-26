@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import React, {ClassAttributes, useEffect, useState} from 'react';
 import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -9,33 +10,72 @@ import { Patient, Intervention, Diagnostic } from '~models';
 import {InterventionService, PatientService, DiagnosticService} from '~services';
 
 
-const HistoryList = (props : Patient) : JSX.Element => {
-
+const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => {
+    const { patientId } = route.params;
+    const [patient, setPatient] = useState<Patient | undefined>(undefined);
+    const [diagnostics, setDiagnostics] = useState<Diagnostic[] | undefined>(undefined);
     const isDarkMode = useColorScheme() === 'dark';
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
 
-    let diagnosticsList :  Diagnostic[];
-    let interventions = props.interventions;
+    //let diagnosticsList :  Diagnostic[];
+    //let interventions = props.interventions;
 
     // get Diagnotic element from Intervention table
     const getDiagnosticFromInterventions = async  () => {
-
-        for(let intervention of props.interventions) {
-            //search diagnotic from table
-            let d = await DiagnosticService.get(intervention.diagnostic.id);
-
-            if(d != undefined){
-                diagnosticsList.push(d);
+        let diagnosticsList = [];
+        if(patient !== undefined){
+            for(let intervention of patient?.interventions) {
+                //search diagnotic from table
+                let d = await DiagnosticService.get(intervention.diagnostic.id);
+                if(d != undefined){
+                    diagnosticsList.push(d);
+                }
             }
         }
+        setDiagnostics(diagnosticsList);
     }
 
     useEffect(() => {
+        const getPatient = async () => {
+            setPatient(await PatientService.get(patientId));
+        };
+        getPatient();
         //diagnosticsList = Diagnostic[];
         getDiagnosticFromInterventions();
-    }, [props]);
+    }, [patientId]);
+
+    function renderDataTable(){
+        /*
+        <DataTable>
+            
+            <DataTable.Header>
+                <DataTable.Title>Nom Intervention</DataTable.Title>
+                <DataTable.Title>Procédures liées</DataTable.Title>
+                <DataTable.Title>Date Debut</DataTable.Title>
+                <DataTable.Title>Date Fin</DataTable.Title>
+                <DataTable.Title>Commentaire</DataTable.Title>
+            </DataTable.Header>
+            
+            {doesn't work}
+            { for(let i = 0; i < interventions.length; i++)} {
+
+            <DataTable.Row>
+            <DataTable.Cell>interventions[i].nom</DataTable.Cell>
+                <DataTable.Cell>diagnostics</DataTable.Cell>
+                <DataTable.Cell>interventions[i].date_debut</DataTable.Cell>
+            <DataTable.Cell>interventions[i].date_fin</DataTable.Cell>
+                <DataTable.Cell>interventions[i].commentaire</DataTable.Cell>
+            </DataTable.Row>
+            }
+
+        </DataTable>
+        */
+       return(
+           <Text>Patient id : {patientId}</Text>
+       )
+    }
 
     return (
         <SafeAreaView style={backgroundStyle}>
@@ -46,34 +86,12 @@ const HistoryList = (props : Patient) : JSX.Element => {
                     style={{
                         backgroundColor: isDarkMode ? Colors.black : Colors.white,
                     }}>
-                    <DataTable>
-                        <DataTable.Header>
-                            <DataTable.Title>Nom Intervention</DataTable.Title>
-                            <DataTable.Title>Procédures liées</DataTable.Title>
-                            <DataTable.Title>Date Debut</DataTable.Title>
-                            <DataTable.Title>Date Fin</DataTable.Title>
-                            <DataTable.Title>Commentaire</DataTable.Title>
-                        </DataTable.Header>
-
-                        {/*doesn't work*/}
-                       { /*for(let i = 0; i < interventions.length; i++)*/} {/*
-
-                        <DataTable.Row>
-                        <DataTable.Cell>interventions[i].nom</DataTable.Cell>
-                            <DataTable.Cell>diagnostics</DataTable.Cell>
-                            <DataTable.Cell>interventions[i].date_debut</DataTable.Cell>
-                        <DataTable.Cell>interventions[i].date_fin</DataTable.Cell>
-                            <DataTable.Cell>interventions[i].commentaire</DataTable.Cell>
-                        </DataTable.Row>*/
-                    }
-
-                    </DataTable>
-
+                    {renderDataTable()}
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
-};
+});
 
 const styles = StyleSheet.create({
     patientEntry : {

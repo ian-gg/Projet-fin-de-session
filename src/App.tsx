@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { PatientList, PatientDetails, GestionSummary } from '~views';
+import { PatientList, PatientDetails, HistoryList, GestionSummary } from '~views';
 import { DbManager } from '~db';
 import { Text } from 'react-native';
 
@@ -55,6 +55,11 @@ const PatientNavigator = () => {
         name="PatientDetails"
         component={PatientDetails}
         options={{ headerShown: true, title: "Informations du patient" }}
+      />
+      <Stack.Screen
+        name="HistoryList"
+        component={HistoryList}
+        options={{ headerShown: true, title: "Historique du patient" }}
       />
     </Stack.Navigator>
   );
