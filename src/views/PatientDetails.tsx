@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet} from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { PatientNavigationProps } from '~models/types';
@@ -12,13 +13,12 @@ import HistoryList from './HistoryList';
 
 const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) => {
   const { patientId } = route.params;
-
+  const [patient, setPatient] = useState<Patient | undefined>(undefined);
+  const [isEditable, setIsEditable] = useState(false);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  
-  const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
   useEffect(() => {
     const getPatient = async () => {
@@ -28,20 +28,62 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
     getPatient();
   }, [patientId]);
 
+  function getPatientAge(birthdate : Date|undefined){
+    if(birthdate !== undefined){
+      return (new Date().getFullYear() - new Date(birthdate).getFullYear()).toString();
+    }
+    else {
+      return "";
+    }
+  }
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          
-          <Text>{ patient?.id }</Text>
-          <Text>{ patient?.assurance_maladie }</Text>
-
-          <HistoryList/>
+        <View style={{backgroundColor: isDarkMode ? Colors.black : Colors.white}}>
+          <View style={{flexDirection: "row"}}>
+            <TextInput
+              label={"No. assurance maladie :"}
+              value={ patient?.assurance_maladie }
+              mode={"outlined"}
+              disabled={!isEditable}
+              style={[styles.textInput, {flex:5}]}
+            />
+            <TextInput
+              label={"Expiration :"}
+              value={ patient?.assurance_maladie_exp_a.toString() + "/" + patient?.assurance_maladie_exp_m.toString() }
+              mode={"outlined"}
+              disabled={!isEditable}
+              style={[styles.textInput, {flex:2}]}
+            />
+          </View>
+          <View style={{flexDirection: "row"}}>
+            <TextInput
+              label={"Âge :"}
+              value={ getPatientAge(patient?.date_naissance)}
+              mode={"outlined"}
+              disabled={!isEditable}
+              style={[styles.textInput, {flex:1}]}
+            />  
+            <TextInput
+              label={"Sexe :"}
+              value={ patient?.sexe}
+              mode={"outlined"}
+              disabled={!isEditable}
+              style={[styles.textInput, {flex:1}]}
+            />  
+          </View>
+          <View style={{flexDirection: "row"}}>
+            <TextInput
+              label={"Date de naissance :"}
+              value={ patient?.date_naissance.toString()}
+              mode={"outlined"}
+              disabled={!isEditable}
+              style={[styles.textInput, {flex: 1}]}
+            />  
+          </View>
 
         </View>
       </ScrollView>
@@ -52,6 +94,13 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
 const styles = StyleSheet.create({
   patientEntry : {
     padding : 15
+  },
+  textInput : {
+    textAlign: "center",
+    marginTop: 6,
+    marginBottom : 6,
+    marginLeft: 2,
+    marginRight: 2
   }
 });
 

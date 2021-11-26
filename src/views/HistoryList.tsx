@@ -33,7 +33,7 @@ const HistoryList = (props : Patient) : JSX.Element => {
     }
 
     useEffect(() => {
-        diagnostics = new Diagnostic[];
+        //diagnosticsList = Diagnostic[];
         getDiagnosticFromInterventions();
     }, [props]);
 
@@ -56,7 +56,7 @@ const HistoryList = (props : Patient) : JSX.Element => {
                         </DataTable.Header>
 
                         {/*doesn't work*/}
-                        for(let i = 0; i < interventions.length; i++) {
+                       { /*for(let i = 0; i < interventions.length; i++)*/} {/*
 
                         <DataTable.Row>
                         <DataTable.Cell>interventions[i].nom</DataTable.Cell>
@@ -64,7 +64,7 @@ const HistoryList = (props : Patient) : JSX.Element => {
                             <DataTable.Cell>interventions[i].date_debut</DataTable.Cell>
                         <DataTable.Cell>interventions[i].date_fin</DataTable.Cell>
                             <DataTable.Cell>interventions[i].commentaire</DataTable.Cell>
-                        </DataTable.Row>
+                        </DataTable.Row>*/
                     }
 
                     </DataTable>
@@ -73,7 +73,7 @@ const HistoryList = (props : Patient) : JSX.Element => {
             </ScrollView>
         </SafeAreaView>
     );
-});
+};
 
 const styles = StyleSheet.create({
     patientEntry : {
