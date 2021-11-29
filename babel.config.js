@@ -15,6 +15,7 @@ module.exports = {
         "~db": ["./src/database"],
       }
     }],
+    ['react-native-paper/babel'],
     'react-native-reanimated/plugin',
   ],
   "assumptions": {

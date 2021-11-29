@@ -12,6 +12,10 @@ export default {
       select: ['id', 'diagnostic', 'date_debut', 'date_fin', 'commentaire'],
     });
   },
+
+  async create(intervention: Object): Promise<Intervention> {
+    return (await DbManager.repo(Intervention)).create(intervention);
+  },
   
   async save(intervention: Intervention): Promise<Intervention> {
     const repo = await DbManager.repo(Intervention);

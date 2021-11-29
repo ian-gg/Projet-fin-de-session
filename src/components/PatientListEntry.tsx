@@ -1,26 +1,31 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, ListRenderItemInfo } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Patient } from '~models';
 
-const PatientListEntry = (index: number, patient: Patient, navigation: any) => {
+import { List } from 'react-native-paper';
+
+const PatientListEntry = (props: {
+  index: number,
+  patient: Patient,
+  onPress: Function,
+}) => {
+  const {
+    index,
+    patient,
+    onPress,
+  } = props;
+
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('PatientDetails', { patientId: patient.id })}
-    >
-      <View style={[styles.patientEntry, {backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}>
-        <View>
-          <Text style={{fontSize:18}}> {patient.nom} </Text>
-          <Text style={{fontSize:12}}> {patient.num_dossier} </Text>
-        </View>     
-      </View>
-    </TouchableOpacity>
+    <List.Item
+      title={patient.nom}
+      description={patient.num_dossier}
+      style={[{ backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
+      onPress={() => onPress()}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  patientEntry : {
-    padding : 15
-  }
 });
 
 export default PatientListEntry;

@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, TextInput, useColorScheme, View, Button, StyleSheet } from 'react-native';
+import React from 'react';
+import { FlatList, SafeAreaView, TextInput, useColorScheme, View, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { PatientNavigationProps } from '~models/types';
+import { Button } from 'react-native-paper';
+
+import { DrawerNavigationProps } from '~models/types';
 
 import { PatientStore } from '~stores';
 import { PatientListEntry } from '~components';
@@ -14,7 +16,7 @@ const updateStore = async () => {
   await patientStore.load();
 };
 
-const PatientList = observer(({ route, navigation }: PatientNavigationProps) => {
+const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -22,25 +24,45 @@ const PatientList = observer(({ route, navigation }: PatientNavigationProps) => 
 
   return (
     <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
-        <View style={styles.buttonsView}>
-          <View style={{marginLeft:8}}>
-            <TextInput
-              value={patientStore?.filters.text}
-              placeholder="Recherche"
-              onChangeText={(v) => patientStore?.setFilter('text', v)}
-              style={{width:150}}
-            />  
-          </View>
-          <View style={{ marginRight: 8 }}>
-            <Button title="Par caméra"/>
-          </View>     
+      <View style={styles.buttonsView}>
+        <View style={{marginLeft:8}}>
+          <TextInput
+            value={patientStore?.filters.text}
+            placeholder="Recherche"
+            onChangeText={(v) => patientStore?.setFilter('text', v)}
+            style={{width:150}}
+          />  
         </View>
-        <View style={styles.flatListView}>
-          <FlatList
-            data={patientStore?.filteredPatients}
-            renderItem={(item) => PatientListEntry(item.index, item.item, navigation)}
-          />
-        </View> 
+        <View style={{ marginRight: 8 }}>
+          <Button
+            icon="camera"
+            mode="contained"
+            onPress={() => navigation.navigate('Camera', {
+              screen: 'CameraHome',
+            })}
+          >
+            Par caméra
+          </Button>
+        </View>     
+      </View>
+      <View style={styles.flatListView}>
+        <FlatList
+          data={patientStore?.filteredPatients}
+          renderItem={(item) => {
+            return (
+              <PatientListEntry
+                key={`patient-${item.item.id}`}
+                index={item.index}
+                patient={item.item}
+                onPress={() => navigation.navigate('Patients', {
+                  screen: 'PatientDetails',
+                  params: { patientId: item.item.id },
+                })}
+              />
+            );
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 });
