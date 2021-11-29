@@ -64,6 +64,8 @@ export default class Database {
 import {
   CentreDeSanteService,
   DiagnosticService,
+  FichierService,
+  InterventionService,
   PatientService,
   ProcedureService,
 } from '~services';
@@ -74,7 +76,7 @@ async function seedDatabase() {
   await CentreDeSanteService.save(centre_de_sante);
 
   let patients = await PatientService.createAll([
-    { 
+    {
       centre_de_sante,
       num_dossier: '1234567',
       nom: 'Felix Bouchard',
@@ -85,7 +87,7 @@ async function seedDatabase() {
       sexe: 'M',
       cellulaire: '514-123-4567'
     },
-    { 
+    {
       centre_de_sante,
       num_dossier: '1111111',
       nom: 'Alexia Bouchard',
@@ -96,7 +98,7 @@ async function seedDatabase() {
       sexe: 'F',
       cellulaire: '514-321-4567'
     },
-    { 
+    {
       centre_de_sante,
       num_dossier: '3445009',
       nom: 'Arius Hounkpatin',
@@ -107,7 +109,7 @@ async function seedDatabase() {
       sexe: 'M',
       cellulaire: '438-212-0988'
     },
-    { 
+    {
       centre_de_sante,
       num_dossier: '0983456',
       nom: 'Mathieu Rouillard',
@@ -118,7 +120,7 @@ async function seedDatabase() {
       sexe: 'M',
       cellulaire: '514-984-2354'
     },
-    { 
+    {
       centre_de_sante,
       num_dossier: '9024311',
       nom: 'Lucas Raynaud',
@@ -129,7 +131,7 @@ async function seedDatabase() {
       sexe: 'M',
       cellulaire: '423-789-4466'
     },
-    { 
+    {
       centre_de_sante,
       num_dossier: '7456213',
       nom: 'Ian Garcia-Guerrero',
@@ -157,4 +159,34 @@ async function seedDatabase() {
   });
 
   await ProcedureService.save(procedure);
+
+  const interventions = await InterventionService.createAll([{
+    patient: patients[0].id,
+    diagnostic: diagnostic.id,
+    date_debut: "2021-06-01 9:00:00",
+    date_fin: "2021-07-02 10:00:00",
+    commentaire: "première intervention",
+  },
+  {
+    patient: patients[2].id,
+    diagnostic: diagnostic.id,
+    date_debut: "2021-10-01 12:00:00",
+    date_fin: "2021-11-02 14:00:00",
+    commentaire: "deuxième intervention",
+  }
+  ]);
+
+  await InterventionService.saveAll(interventions);
+
+  const fichiers = await FichierService.createAll([{
+    patient: patients[0].id,
+    lien_ressource: 'rc\resources\thinking.png'
+  },
+  {
+    patient: patients[2].id,
+    lien_ressource: 'src\resources\hospital.jpg'
+  }
+  ]);
+
+  await FichierService.saveAll(fichiers);
 }

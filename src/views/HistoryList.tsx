@@ -19,7 +19,6 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
-    const {patient} = props;
 
     //let diagnosticsList :  Diagnostic[];
     //let interventions = props.interventions;

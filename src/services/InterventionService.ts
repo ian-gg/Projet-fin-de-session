@@ -13,6 +13,22 @@ export default {
     });
   },
 
+  async create(intervention: Object): Promise<Intervention> {
+    return (await DbManager.repo(Intervention)).create(intervention);
+  },
+
+  async createAll(interventions: Object[]): Promise<Intervention[]> {
+    return (await DbManager.repo(Intervention)).create(interventions);
+  },
+
+  async save(intervention: Intervention): Promise<Intervention> {
+    return (await DbManager.repo(Intervention)).save(intervention);
+  },
+
+  async saveAll(interventions: Intervention[]): Promise<Intervention[]> {
+    return (await DbManager.repo(Intervention)).save(interventions);
+  },
+
   async count(): Promise<number> {
     return (await DbManager.repo(Intervention)).count();
   }

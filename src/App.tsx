@@ -34,7 +34,6 @@ const App = () => {
       <Drawer.Navigator initialRouteName="Accueil">
         <Drawer.Screen name="Accueil" component={AccueilNavigator} />
         <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
-        <Drawer.Screen name="Historique" component={HistoryLsit} options={{ headerShown: true }}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -66,17 +65,5 @@ const PatientNavigator = () => {
   );
 };
 
-const HistoryLsit = () => {
-  return (
-    <Stack.Navigator initialRouteName="HistoryList">
-      <Stack.Screen name="HistoryList" component={HistoryList} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="HistoryDetails"
-        component={HistoryDetails}
-        options={{ headerShown: true, title: "Historique du patient" }}
-      />
-    </Stack.Navigator>
-  );
-};
 
 export default App;
