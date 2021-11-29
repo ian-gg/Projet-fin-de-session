@@ -50,15 +50,6 @@ const App = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Dossier">
-        <Drawer.Screen name="Accueil" component={AccueilNavigator} />
-        <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
-        <Drawer.Screen name="Dossier" component={GestionDossierNavigator}/>
-      </Drawer.Navigator>
-    </NavigationContainer>
-=======
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator>
@@ -76,7 +67,6 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
->>>>>>> main
   );
 };
 

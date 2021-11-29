@@ -21,8 +21,18 @@ export default function GestionDossier(){
   const [result, setResult] = React.useState<MlkitOcrResult | undefined>();
   const [image, setImage] = React.useState<ImagePickerResponse | undefined>();
 
+  const [dataInfo, setDataInfo] = React.useState();
 
-  function takePhoto(){
+  function sendInfo(){
+    //Envoyer les info axu routes
+  }
+
+
+  function takePhoto(
+    setResult: (result: MlkitOcrResult) => void,
+    setImage: (result: ImagePickerResponse) => void,
+    setLoading: (value: boolean) => void
+  ){
     var options = {
       storageOptions: {
         skipBackup: true,
@@ -46,33 +56,8 @@ export default function GestionDossier(){
   function upload(
     setResult: (result: MlkitOcrResult) => void,
     setImage: (result: ImagePickerResponse) => void,
-    setLoading: (value: boolean) => void
+    setLoading: (value: boolean) => void,
   ){
-    /*
-    var options = {
-      title: 'Select Image',
-      customButtons: [
-        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    ImagePicker.launchImageLibrary(options, (response: any) => {
-      if (response.didCancel) {
-      } else if (response.error) {
-      } else if (response.customButton) {
-      } else {
-        let source = response;
-        console.log(source);
-        this.setState({
-          filePath: source,
-        });
-      }
-    });
-    */
 
     launchImageLibrary(
       {
@@ -84,7 +69,24 @@ export default function GestionDossier(){
         }
         try {
           setImage(response);
-          setResult(await MlkitOcr.detectFromUri(response.assets[0].uri));
+          const result = await MlkitOcr.detectFromUri(response.assets[0].uri);
+          setResult(result);
+          
+          const nas_complete = (result[0].lines[6].text).replace(" ", "").trim();
+
+          const json = [
+            {"value": result[0].lines[0].text,"txt": "date"}, 
+            {"value":result[0].lines[1].text, "txt":"name"}, 
+            {"value":result[1].text, "txt": "sexe"},
+            {"value":result[2].text, "txt": "numero patient"},
+            {"value":result[3].text, "txt": "telephone"},
+            {"value":nas_complete.slice(0, 12), "txt": "nas"},
+            {"value":nas_complete.slice(12, nas_complete.length).trim(), "txt": "nas exp"}
+          ];
+          
+          setDataInfo(json);
+
+
         } catch (e) {
           console.error(e);
         } finally {
@@ -105,23 +107,6 @@ export default function GestionDossier(){
     const fullHeight = Dimensions.get('window').height;
     return (value / imageHeight) * fullHeight;
   }
-
-/*
-  return(        
-      <View style={styles.buttonsView}>
-          <Button
-          title="prendre une photo"
-          onPress={takePhoto}
-          ></Button>
-
-        <Button
-          title="gallerie"
-          onPress={upload}
-          >
-          </Button>
-      </View>
-  );
-*/
 
 if (loading) {
   return (
@@ -155,14 +140,58 @@ return (
         })}
       </ScrollView>
     )}
+    {!!result?.length && (
+      <ScrollView
+        contentContainerStyle={{
+          alignItems: 'stretch',
+          padding: 20,
+          height: Dimensions.get('window').height,
+        }}
+        showsVerticalScrollIndicator
+        style={styles.scroll}
+      >
+        {dataInfo.map((item: any) => {
+            
+            return(
+              <View
+                key={item.txt}
+              >
+                <Text style={{ fontSize: 10 }}>{item.txt}</Text>
+                <TextInput
+                  style={styles.input}
+                  value={item.value}
+                />
+              </View>
+            )
 
-    <Button
-      onPress={() => {
-        setLoading(true);
-        upload(setResult, setImage, setLoading);
-      }}
-      title="Start"
-    />
+          })
+        }
+        
+        <Button
+          onPress={() => {
+            sendInfo();
+          }}
+          title="Send"
+        />
+      </ScrollView>
+    )}
+    <View style={styles.buttonsView}>
+      <Button
+        onPress={() => {
+          setLoading(true);
+          upload(setResult, setImage, setLoading);
+        }}
+        title="Upload"
+      />
+      <Button
+        onPress={() => {
+          setLoading(true);
+          takePhoto(setResult, setImage, setLoading);
+        }}
+        title="Take Photo"
+      />
+    </View>
+
   </SafeAreaView>
 );
 
@@ -195,6 +224,13 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: '#ccc',
     borderWidth: 2,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 10,
   },
 });
 
