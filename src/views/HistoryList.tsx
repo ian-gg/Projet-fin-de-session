@@ -8,21 +8,28 @@ import { PatientNavigationProps } from '~models/types';
 import { Patient, Intervention, Diagnostic } from '~models';
 import {InterventionService, PatientService, DiagnosticService} from '~services';
 
+import { PatientStore, InterventionStore,  } from '~stores';
 
-const HistoryList = (props : Patient) : JSX.Element => {
+
+interface Props {
+    patient : Patient
+}
+
+const HistoryList = (props : Props) : JSX.Element => {
 
     const isDarkMode = useColorScheme() === 'dark';
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+    const {patient} = props;
 
     let diagnosticsList :  Diagnostic[];
-    let interventions = props.interventions;
+    let interventions = patient;
 
     // get Diagnotic element from Intervention table
     const getDiagnosticFromInterventions = async  () => {
 
-        for(let intervention of props.interventions) {
+        for(let intervention of patient.interventions) {
             //search diagnotic from table
             let d = await DiagnosticService.get(intervention.diagnostic.id);
 
@@ -33,7 +40,6 @@ const HistoryList = (props : Patient) : JSX.Element => {
     }
 
     useEffect(() => {
-        diagnostics = new Diagnostic[];
         getDiagnosticFromInterventions();
     }, [props]);
 

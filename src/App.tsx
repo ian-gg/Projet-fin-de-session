@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { PatientList, PatientDetails, GestionSummary } from '~views';
+import { PatientList, PatientDetails, GestionSummary, HistoryList, HistoryDetails } from '~views';
 import { DbManager } from '~db';
 import { Text } from 'react-native';
 
@@ -34,6 +34,7 @@ const App = () => {
       <Drawer.Navigator initialRouteName="Accueil">
         <Drawer.Screen name="Accueil" component={AccueilNavigator} />
         <Drawer.Screen name="Patients" component={PatientNavigator} options={{ headerShown: true }}/>
+        <Drawer.Screen name="Historique" component={HistoryLsit} options={{ headerShown: true }}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -55,6 +56,19 @@ const PatientNavigator = () => {
         name="PatientDetails"
         component={PatientDetails}
         options={{ headerShown: true, title: "Informations du patient" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const HistoryLsit = () => {
+  return (
+    <Stack.Navigator initialRouteName="HistoryList">
+      <Stack.Screen name="HistoryList" component={HistoryList} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="HistoryDetails"
+        component={HistoryDetails}
+        options={{ headerShown: true, title: "Historique du patient" }}
       />
     </Stack.Navigator>
   );
