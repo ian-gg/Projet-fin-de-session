@@ -4,10 +4,7 @@ Dependencies
 &nbsp;
 
 Setup:
-git submodule init  
-git submodule update  
 npm install  
-npx patch-package
 
 Android  
   * Emulator: genymotion  
