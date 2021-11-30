@@ -26,6 +26,7 @@ type PatientStackParamList = {
   Patients: undefined;
   PatientList: undefined;
   PatientDetails: PatientDetailsProps;
+  HistoryList: PatientDetailsProps,
 };
 
 type CentreDeSanteStackParamList = {
