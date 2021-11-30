@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, TextInput, useColorScheme, View, Button, StyleSheet, Text, TouchableOpacity, ActivityIndicator, ScrollView, Dimensions } from 'react-native';
+import { FlatList, SafeAreaView, useColorScheme, View, Button, StyleSheet, Text, TouchableOpacity, ActivityIndicator, ScrollView, Dimensions } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { TextInput } from "react-native-paper";
 //import ImagePicker from 'react-native-image-picker';
 var ImagePicker = require('react-native-image-picker');
 
@@ -23,8 +24,12 @@ export default function GestionDossier(){
 
   const [dataInfo, setDataInfo] = React.useState();
 
+  const [text, setText] = React.useState('');
+
   function sendInfo(){
     //Envoyer les info axu routes
+    console.log(dataInfo);
+
   }
 
 
@@ -97,16 +102,6 @@ export default function GestionDossier(){
 
   };
 
-  
-  function fitWidth(value: number, imageWidth: number) {
-    const fullWidth = Dimensions.get('window').width;
-    return (value / imageWidth) * fullWidth;
-  }
-
-  function fitHeight(value: number, imageHeight: number) {
-    const fullHeight = Dimensions.get('window').height;
-    return (value / imageHeight) * fullHeight;
-  }
 
 if (loading) {
   return (
@@ -121,45 +116,35 @@ return (
       <ScrollView
         contentContainerStyle={{
           alignItems: 'stretch',
-          padding: 20,
+          padding: 10,
           height: Dimensions.get('window').height,
         }}
         showsVerticalScrollIndicator
         style={styles.scroll}
       >
-        {result?.map((block) => {
-          return block.lines.map((line) => {
-            return (
-              <View
-                key={line.text}
-              >
-                <Text style={{ fontSize: 10 }}>{line.text}</Text>
-              </View>
-            );
-          });
-        })}
-      </ScrollView>
-    )}
-    {!!result?.length && (
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'stretch',
-          padding: 20,
-          height: Dimensions.get('window').height,
-        }}
-        showsVerticalScrollIndicator
-        style={styles.scroll}
-      >
-        {dataInfo.map((item: any) => {
+
+        <Button
+          onPress={() => {
+            sendInfo();
+          }}
+          title="Send"
+        />
+
+        {dataInfo.map((item: any, index: any) => {
             
             return(
               <View
-                key={item.txt}
+                style={styles.rowContainer}
+                key={index}
               >
-                <Text style={{ fontSize: 10 }}>{item.txt}</Text>
                 <TextInput
-                  style={styles.input}
-                  value={item.value}
+                  label={dataInfo[index].txt}
+                  style={styles.textInput}
+                  value={dataInfo[index].value}
+                  onChangeText = { (value) => {
+                    dataInfo[index].value = value
+                    setDataInfo([...dataInfo], dataInfo);
+                  } }
                 />
               </View>
             )
@@ -167,12 +152,7 @@ return (
           })
         }
         
-        <Button
-          onPress={() => {
-            sendInfo();
-          }}
-          title="Send"
-        />
+        
       </ScrollView>
     )}
     <View style={styles.buttonsView}>
@@ -225,13 +205,22 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 2,
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  rowContainer: {
+    flex: 1, 
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  text: {
+    flex: 1,
     fontSize: 10,
   },
+  textInput: {
+    flex: 1,
+    backgroundColor: 'white', 
+    borderColor: 'black',
+    fontSize: 10,
+  }
 });
 
 
