@@ -4797,11 +4797,14 @@
   "version" "4.1.0"
   dependencies:
     "cross-spawn" "^7.0.0"
+    "flow-parser" "^0.121.0"
     "get-stream" "^5.0.0"
     "human-signals" "^1.1.1"
     "is-stream" "^2.0.0"
+    "jscodeshift" "^0.11.0"
     "merge-stream" "^2.0.0"
     "npm-run-path" "^4.0.0"
+    "nullthrows" "^1.1.1"
     "onetime" "^5.1.0"
     "signal-exit" "^3.0.2"
     "strip-final-newline" "^2.0.0"
@@ -7066,6 +7069,13 @@
     "graceful-fs" "^4.1.6"
 
 "jsonfile@^6.0.1":
+  "integrity" "sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss="
+  "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz"
+  "version" "4.0.0"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
+
+"jsonfile@^6.1.0":
   "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
   "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
   "version" "6.1.0"
