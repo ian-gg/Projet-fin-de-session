@@ -180,6 +180,10 @@ android {
     packagingOptions { // see https://github.com/mrousavy/react-native-vision-camera/issues/365
       pickFirst '**/*.so'
     }
+
+    dexOptions { // see https://stackoverflow.com/a/60026260
+        javaMaxHeapSize "4g"
+    }
 }
 
 dependencies {
