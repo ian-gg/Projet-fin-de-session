@@ -1,4 +1,0 @@
-[submodule "react-native-mlkit-ocr"]
-	path = react-native-mlkit-ocr
-	url = https://github.com/rouillardm/react-native-mlkit-ocr
-	branch = mod
