@@ -5,10 +5,10 @@ import { PatientService } from '~services';
 
 interface PatientFilters {
   [index: string]: string | undefined;
-  text: string | undefined;
+  text: string;
 }
 const defaultFilters: PatientFilters = {
-  text: undefined,
+  text: '',
 };
 
 export default class PatientStore {

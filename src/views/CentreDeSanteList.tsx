@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, SafeAreaView, useColorScheme, StyleSheet, View } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { CentreDeSanteNavigationProps } from '~models/types';
 
@@ -15,13 +14,8 @@ const updateStore = async () => {
 };
 
 const CentreDeSanteList = observer(({ route, navigation }: CentreDeSanteNavigationProps) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
+    <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
       <View style={styles.flatListView}>
         <FlatList
           data={centreStore?.centres}

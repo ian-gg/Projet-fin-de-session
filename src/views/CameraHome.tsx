@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/core";
-import { Button } from "react-native-paper";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import { Button, Text } from 'react-native-paper';
 
 import RNPermissions, {
   Permission,

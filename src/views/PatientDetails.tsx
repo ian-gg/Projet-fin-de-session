@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
 
@@ -10,11 +10,6 @@ import { PatientService } from '~services';
 
 const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) => {
   const { patientId } = route.params;
-
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
   
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
@@ -27,15 +22,9 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
   }, [patientId]);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          
+    <SafeAreaView style={{ padding: 5 }}>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
           <Text>Patient { patient?.id }</Text>
           <Text>Centre de santé { patient?.centre_de_sante.id } - { patient?.centre_de_sante.nom }</Text>
           <Text>{ patient?.assurance_maladie }</Text>
