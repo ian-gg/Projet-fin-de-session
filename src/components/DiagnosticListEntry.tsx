@@ -19,7 +19,7 @@ const DiagnosticListEntry = (props: {
     <List.Item
       title={`${diagnostic.etiquette} - ${diagnostic.description}`}
       description={`Nombre d'interventions: ${diagnostic.interventions?.length}`}
-      style={[styles.diagnosticEntry, { backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
+      style={[styles.diagnosticEntry]}
     />
   );
 };

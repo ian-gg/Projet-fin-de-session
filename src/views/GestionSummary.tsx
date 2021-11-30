@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import {
   SafeAreaView,
-  Text,
-  useColorScheme,
   View,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Text } from 'react-native-paper';
+
 import { PatientNavigationProps } from '~models/types';
 
 import {
@@ -18,12 +17,6 @@ import {
 } from '~services';
 
 const GestionSummary = ({ route, navigation }: PatientNavigationProps) => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const [centresCount, setCentresCount] = useState<number>(0);
   const [patientsCount, setPatientsCount] = useState<number>(0);
   const [diagnosticsCount, setDiagnosticsCount] = useState<number>(0);
@@ -43,12 +36,8 @@ const GestionSummary = ({ route, navigation }: PatientNavigationProps) => {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={[backgroundStyle, {flex:1}]}>
-      <View
-        style={{
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        }}>
-
+    <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
+      <View>
         <Text>Centres de Santé: { centresCount }</Text>
         <Text>Nombre de patients: { patientsCount }</Text>
         <Text>Nombre de diagnostics: { diagnosticsCount }</Text>

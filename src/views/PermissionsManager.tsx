@@ -67,7 +67,7 @@ const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
     <View style={{ flex: 1, flexDirection: 'column', margin: 10 } }>
       <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
         <Text style={{ marginRight: 15 }}>Permission Caméra:</Text>
-        {cameraPermission && cameraPermissionStatus !== 'granted' && (
+        {cameraPermission && cameraPermissionStatus !== 'granted' ? (
           <Button
             icon='check-circle'
             mode='contained'
@@ -76,14 +76,14 @@ const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
           >
             Accorder
           </Button>
-        )}
-        {cameraPermissionStatus === 'granted' && (
+        ) : cameraPermissionStatus === 'granted' && (
           <Text>{ PermissionsString[cameraPermissionStatus] }</Text>
         )}
       </View>
+
       <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
         <Text style={{ marginRight: 15 }}>Permission lecture fichiers:</Text>
-        {readStoragePermission && readPermissionStatus !== 'granted' && (
+        {readStoragePermission && readPermissionStatus !== 'granted' ? (
           <Button
             icon='check-circle'
             mode='contained'
@@ -92,14 +92,14 @@ const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
           >
             Accorder
           </Button>
-        )}
-        {readPermissionStatus === 'granted' && (
+        ) : readPermissionStatus === 'granted' && (
           <Text>{ PermissionsString[readPermissionStatus] }</Text>
         )}
       </View>
+
       <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
         <Text style={{ marginRight: 15 }}>Permission écriture fichiers:</Text>
-        {writeStoragePermission && writePermissionStatus !== 'granted' && (
+        {writeStoragePermission && writePermissionStatus !== 'granted' ? (
           <Button
             icon='check-circle'
             mode='contained'
@@ -108,8 +108,7 @@ const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
           >
             Accorder
           </Button>
-        )}
-        {writePermissionStatus === 'granted' && (
+        ) : writePermissionStatus === 'granted' && (
           <Text>{ PermissionsString[writePermissionStatus] }</Text>
         )}
       </View>

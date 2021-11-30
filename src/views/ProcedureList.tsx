@@ -15,13 +15,9 @@ const updateStore = async () => {
 };
 
 const ProcedureList = observer(({ route, navigation }: ProcedureNavigationProps) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-    <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
+    <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
       <View style={styles.flatListView}>
         <FlatList
           data={procedureStore?.procedures}

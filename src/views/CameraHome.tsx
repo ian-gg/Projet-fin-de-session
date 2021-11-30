@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/core";
-import { Camera, CameraPermissionStatus } from "react-native-vision-camera";
-import { Button } from "react-native-paper";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import { Button, Text } from 'react-native-paper';
+
+import RNPermissions, {
+  Permission,
+  PERMISSIONS,
+  PermissionStatus,
+} from 'react-native-permissions';
 
 import { RootNavigationProps } from "~models/types";
 import { CameraView } from "~components";
 
+const {SIRI, ...PERMISSIONS_IOS} = PERMISSIONS.IOS;
+
+const cameraPermission = Platform.select<Permission>({
+  android: PERMISSIONS.ANDROID.CAMERA,
+  ios: PERMISSIONS_IOS.CAMERA,
+});
+
 const CameraHome = ({ route, navigation }: RootNavigationProps) => {
   const isActive = useIsFocused();
 
-  const [cameraPermission, setCameraPermission] = useState<CameraPermissionStatus>();
+  const [cameraPermissionStatus, setCameraPermissionStatus] = useState<PermissionStatus>('unavailable');
 
   useEffect(() => {
     const onFocus = navigation.addListener('focus', async () => {
-      Camera.getCameraPermissionStatus().then(setCameraPermission);
+      if (cameraPermission) {
+        RNPermissions.check(cameraPermission).then(setCameraPermissionStatus);
+      }
     });
 
     return onFocus;
   }, [navigation]);
 
-  if (cameraPermission == null) {
+  if (cameraPermissionStatus == 'unavailable') {
     return null;
   }
 
-  const cameraAuthorized = cameraPermission === 'authorized';
+  const cameraAuthorized = cameraPermissionStatus === 'granted';
 
   if (cameraAuthorized) {
     return (

@@ -19,7 +19,6 @@ const PatientListEntry = (props: {
     <List.Item
       title={patient.nom}
       description={patient.num_dossier}
-      style={[{ backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
       onPress={() => onPress()}
     />
   );

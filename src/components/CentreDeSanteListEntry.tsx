@@ -18,7 +18,7 @@ const CentreDeSanteListEntry = (props: {
   return (
     <List.Item
       title={centre.nom}
-      style={[styles.centreDeSanteEntry, {backgroundColor: index % 2 === 0 ? 'grey' : 'white' }]}
+      style={[styles.centreDeSanteEntry]}
       onPress={() => navigation.navigate('CentreDeSanteDetails', { centreDeSanteId: centre.id })}
     />
   );

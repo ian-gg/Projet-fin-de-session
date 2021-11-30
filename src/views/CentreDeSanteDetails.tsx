@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import { CentreDeSanteNavigationProps } from '~models/types';
 
@@ -12,11 +12,6 @@ import PatientListAccordion from '~components/PatientListAccordion';
 
 const CentreDeSanteDetails = observer(({ route, navigation }: CentreDeSanteNavigationProps) => {
   const { centreDeSanteId } = route.params;
-
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
   
   const [centreDeSante, setCentreDeSante] = useState<CentreDeSante | undefined>(undefined);
 
@@ -29,15 +24,9 @@ const CentreDeSanteDetails = observer(({ route, navigation }: CentreDeSanteNavig
   }, [centreDeSanteId]);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          
+    <SafeAreaView style={{ padding: 5 }}>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
           <Text>CentreDeSante { centreDeSante?.id }</Text>
           <Text>Nom: { centreDeSante?.nom }</Text>
 
@@ -46,7 +35,7 @@ const CentreDeSanteDetails = observer(({ route, navigation }: CentreDeSanteNavig
               marginTop: 10,
             }}
           >
-            <Text>Nombre de patients: { centreDeSante?.patients.length || 0 }</Text>
+            <Text style={{ marginBottom: 5 }}>Nombre de patients: { centreDeSante?.patients.length || 0 }</Text>
             <PatientListAccordion
               patients={centreDeSante?.patients}
               navigation={navigation}
