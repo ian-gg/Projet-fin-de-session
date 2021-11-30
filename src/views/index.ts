@@ -9,11 +9,13 @@ import DiagnosticList from './DiagnosticList';
 import ProcedureList from './ProcedureList';
 import CameraHome from './CameraHome';
 import PermissionsManager from './PermissionsManager';
+import HistoryDetails from './HistoryDetails';
 
 export {
   PatientList,
   PatientDetails,
   HistoryList,
+  HistoryDetails,
   GestionSummary,
   GestionDossier,
   CentreDeSanteList,

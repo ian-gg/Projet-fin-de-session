@@ -9,16 +9,12 @@ import { PatientNavigationProps } from '~models/types';
 import { Patient, Intervention, Diagnostic } from '~models';
 import {InterventionService, PatientService, DiagnosticService} from '~services';
 
+import { PatientStore, InterventionStore,  } from '~stores';
 
 const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => {
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[] | undefined>(undefined);
-    const isDarkMode = useColorScheme() === 'dark';
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
-
     //let diagnosticsList :  Diagnostic[];
     //let interventions = props.interventions;
 
@@ -42,7 +38,6 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
             setPatient(await PatientService.get(patientId));
         };
         getPatient();
-        //diagnosticsList = Diagnostic[];
         getDiagnosticFromInterventions();
     }, [patientId]);
 
@@ -78,14 +73,9 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
     }
 
     return (
-        <SafeAreaView style={backgroundStyle}>
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}>
-                <View
-                    style={{
-                        backgroundColor: isDarkMode ? Colors.black : Colors.white,
-                    }}>
+        <SafeAreaView style={{ padding: 5 }}>
+            <ScrollView contentInsetAdjustmentBehavior="automatic">
+                <View>
                     {renderDataTable()}
                 </View>
             </ScrollView>

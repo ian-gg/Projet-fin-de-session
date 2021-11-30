@@ -65,6 +65,7 @@ import {
   CentreDeSanteService,
   DiagnosticService,
   InterventionProcedureService,
+  FichierService,
   InterventionService,
   PatientService,
   ProcedureService,
@@ -160,23 +161,45 @@ async function seedDatabase() {
 
   await ProcedureService.save(procedure);
 
-  const intDebut = new Date();
-  const intFin = new Date();
-  intFin.setHours(intFin.getHours() + 4);
+  const patient1 = await PatientService.get(1);
+  const patient2 = await PatientService.get(2);
 
-  const intervention = await InterventionService.create({
-    patient: await PatientService.get(4),
-    diagnostic,
-    date_debut:intDebut,
-    date_fin: intFin,
-  });
+  const interventions = await InterventionService.createAll([
+    {
+      patient: patient1,
+      diagnostic,
+      date_debut: "2021-06-01 9:00:00",
+      date_fin: "2021-07-02 10:00:00",
+      commentaire: "première intervention",
+    },
+    {
+      patient: patient2,
+      diagnostic,
+      date_debut: "2021-10-01 12:00:00",
+      date_fin: "2021-11-02 14:00:00",
+      commentaire: "deuxième intervention",
+    }
+  ]);
 
-  await InterventionService.save(intervention);
+  await InterventionService.saveAll(interventions);
 
   const interventionProcedure = await InterventionProcedureService.create({
-    intervention,
+    intervention: await InterventionService.get(1),
     procedure,
   });
 
   await InterventionProcedureService.save(interventionProcedure);
+
+  const fichiers = await FichierService.createAll([
+    {
+      patient: patient1,
+      lien_ressource: 'src\resources\thinking.png'
+    },
+    {
+      patient: patient2,
+      lien_ressource: 'src\resources\hospital.jpg'
+    }
+  ]);
+
+  await FichierService.saveAll(fichiers);
 }
