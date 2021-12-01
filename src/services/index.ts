@@ -5,6 +5,7 @@ import InterventionProcedureService from './InterventionProcedureService';
 import InterventionService from './InterventionService';
 import PatientService from './PatientService';
 import ProcedureService from './ProcedureService';
+import DossierService from './DossierService';
 
 export {
   CentreDeSanteService,
@@ -14,4 +15,5 @@ export {
   InterventionService,
   PatientService,
   ProcedureService,
+  DossierService,
 };

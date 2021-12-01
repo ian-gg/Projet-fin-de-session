@@ -16,6 +16,9 @@ import { PatientNavigationProps } from '~models/types';
 
 import { observer } from 'mobx-react';
 
+import { DossierNavigationProps } from '~models/types';
+import { DossierService, CentreDeSanteService, PatientService } from '~services';
+
 export default function GestionDossier(){
 
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -26,9 +29,32 @@ export default function GestionDossier(){
 
   const [text, setText] = React.useState('');
 
-  function sendInfo(){
-    //Envoyer les info axu routes
-    console.log(dataInfo);
+  async function sendInfo(){
+    const centreDeSante = await CentreDeSanteService.get(1);
+    
+    //On teste si le patient existe.
+    try{
+      let patientExist = await DossierService.getPatientByName(dataInfo[1].value);
+    }
+    catch(e){
+      
+      let date_naissance_complete = (dataInfo[0].value).split("-");
+
+      //Creation du patient si il n'existe pas
+      let patient = await PatientService.create(
+        {
+          centre_de_sante: centreDeSante,
+          num_dossier: dataInfo[3].value,
+          nom: dataInfo[1].value,
+          assurance_maladie: dataInfo[5].value,
+          assurance_maladie_exp_m: (dataInfo[6].value).slice(2, 4),
+          assurance_maladie_exp_a: (dataInfo[6].value).slice(0, 2),
+          date_naissance: new Date(date_naissance_complete[0], date_naissance_complete[1], date_naissance_complete[2]),
+          sexe: dataInfo[2].value,
+          cellulaire: dataInfo[4].value
+        }
+      )
+    }
 
   }
 

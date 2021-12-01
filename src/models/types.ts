@@ -11,7 +11,7 @@ type DrawerParamList = {
   Accueil: undefined;
   Patients: NavigatorScreenParams<PatientStackParamList>;
   Centres: NavigatorScreenParams<CentreDeSanteStackParamList>;
-  Dossier: undefined;
+  Dossier: DossierStackParamList;
   Diagnostics: NavigatorScreenParams<DiagnosticStackParamList>;
   Procedures: NavigatorScreenParams<ProcedureStackParamList>;
 
@@ -50,6 +50,10 @@ type CameraStackParamList = {
   CameraHome: undefined;
 };
 
+type DossierStackParamList = {
+  PatientDetails: PatientDetailsProps;
+}
+
 type RootNavigationProps = NativeStackScreenProps<RootStackParamList>;
 type DrawerNavigationProps = NativeStackScreenProps<DrawerParamList>;
 
@@ -58,6 +62,8 @@ type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackPar
 type DiagnosticNavigationProps = NativeStackScreenProps<DiagnosticStackParamList, 'Diagnostics'>;
 type ProcedureNavigationProps = NativeStackScreenProps<ProcedureStackParamList, 'Procedures'>;
 type CameraNavigationProps = NativeStackScreenProps<CameraStackParamList, 'CameraHome'>;
+type DossierNavigationProps = NativeStackScreenProps<DossierStackParamList, 'PatientDetails'>;
+
 
 export type {
   RootNavigationProps,
@@ -69,4 +75,5 @@ export type {
   DiagnosticNavigationProps,
   ProcedureNavigationProps,
   CameraNavigationProps,
+  DossierNavigationProps,
 };
