@@ -12,12 +12,24 @@ export default {
       select: ['id', 'lien_ressource']
     });
   },
+  
+  async create(fichier: Object): Promise<Fichier> {
+    return (await DbManager.repo(Fichier)).create(fichier);
+  },
+
+  async createAll(fichiers: Object[]): Promise<Fichier[]> {
+    return (await DbManager.repo(Fichier)).create(fichiers);
+  },
 
   async save(fichier: Fichier): Promise<Fichier> {
     const repo = await DbManager.repo(Fichier);
     const saved = await repo.save(fichier);
 
     return DbManager.withLastSeqId(Fichier, saved);
+  },
+
+  async saveAll(fichiers: Fichier[]): Promise<Fichier[]> {
+    return (await DbManager.repo(Fichier)).save(fichiers);
   },
 
   async count(): Promise<number> {

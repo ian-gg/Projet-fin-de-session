@@ -1,8 +1,6 @@
 import React from 'react';
-import { FlatList, SafeAreaView, TextInput, useColorScheme, View, StyleSheet } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-import { Button } from 'react-native-paper';
+import { FlatList, SafeAreaView, View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { Button, Searchbar } from 'react-native-paper';
 
 import { DrawerNavigationProps } from '~models/types';
 
@@ -17,35 +15,29 @@ const updateStore = async () => {
 };
 
 const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
-      <View style={styles.buttonsView}>
-        <View style={{marginLeft:8}}>
-          <TextInput
-            value={patientStore?.filters.text}
-            placeholder="Recherche"
-            onChangeText={(v) => patientStore?.setFilter('text', v)}
-            style={{width:150}}
-          />  
-        </View>
-        <View style={{ marginRight: 8 }}>
-          <Button
-            icon="camera"
-            mode="contained"
-            onPress={() => navigation.navigate('Camera', {
-              screen: 'CameraHome',
-            })}
-          >
-            Par caméra
-          </Button>
-        </View>     
+    <View style={styles.container}>
+      <View style={{ alignSelf: 'flex-end', marginBottom: 10 }}>
+        <Button
+          icon="camera"
+          mode="contained"
+          onPress={() => navigation.navigate('Camera', {
+            screen: 'CameraHome',
+          })}
+        >
+          Par caméra
+        </Button>
       </View>
-      <View style={styles.flatListView}>
+
+      <Searchbar
+        placeholder="Recherche"
+        value={patientStore?.filters.text}
+        onChangeText={v => patientStore?.setFilter('text', v)}
+        autoComplete={false}
+        style={{ marginBottom: 5 }}
+      />
+
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <FlatList
           data={patientStore?.filteredPatients}
           renderItem={(item) => {
@@ -62,25 +54,17 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
             );
           }}
         />
-      </View>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    </View>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
+    padding: 5
   },
-  buttonsView : {
-    flexDirection:"row", 
-    flex:1, 
-    alignItems:"center", 
-    justifyContent:"space-between"
-  },
-  flatListView : {
-    flexDirection:"row", 
-    flex:4
-  }
 });
 
 export default PatientList;

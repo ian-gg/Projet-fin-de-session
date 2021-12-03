@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 
-import { ActivityIndicator, Provider as PaperProvider } from 'react-native-paper';
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import {
+  ActivityIndicator,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider,
+  Text,
+} from 'react-native-paper';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -18,6 +28,7 @@ import {
   ProcedureList,
   CameraHome,
   PermissionsManager,
+  HistoryList,
 } from '~views';
 import { DbManager } from '~db';
 
@@ -26,7 +37,27 @@ import { DrawerParamList } from '~models/types';
 const Drawer = createDrawerNavigator<DrawerParamList>();
 const Stack = createNativeStackNavigator();
 
+const CombinedDefaultTheme = {
+  ...PaperDefaultTheme,
+  ...NavigationDefaultTheme,
+  colors: {
+    ...PaperDefaultTheme.colors,
+    ...NavigationDefaultTheme.colors,
+  },
+};
+const CombinedDarkTheme = {
+  ...PaperDarkTheme,
+  ...NavigationDarkTheme,
+  colors: {
+    ...PaperDarkTheme.colors,
+    ...NavigationDarkTheme.colors,
+  },
+};
+
 const App = () => {
+  const isDarkMode = false; //useColorScheme() === 'dark';
+  const theme = isDarkMode ? CombinedDarkTheme : CombinedDefaultTheme;
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,9 +71,13 @@ const App = () => {
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.horizontal]}>
+      <View style={[
+        styles.container,
+        styles.horizontal,
+        { backgroundColor: theme.colors.background }
+      ]}>
         <ActivityIndicator style={{ marginRight: 5 }}/>
-        <Text>
+        <Text style={{ color: theme.colors.text }}>
           Chargement...
         </Text>
       </View>
@@ -50,8 +85,8 @@ const App = () => {
   }
 
   return (
-    <PaperProvider>
-      <NavigationContainer>
+    <PaperProvider theme={theme}>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator>
           <Stack.Group>
             <Stack.Screen name='Root' component={DrawerNavigator} options={{ headerShown: false }}/>
@@ -76,8 +111,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-    horizontal: {
-      flexDirection: 'row',
+  horizontal: {
+    flexDirection: 'row',
   }
 })
 
@@ -114,6 +149,11 @@ const PatientNavigator = () => {
         name='PatientDetails'
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
+      />
+      <Stack.Screen
+        name="HistoryList"
+        component={HistoryList}
+        options={{ headerShown: true, title: "Historique du patient" }}
       />
     </Stack.Navigator>
   );

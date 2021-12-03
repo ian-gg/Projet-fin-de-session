@@ -1,7 +1,7 @@
-import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { observer } from 'mobx-react';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Text, TextInput, Button } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
 
@@ -10,13 +10,9 @@ import { PatientService } from '~services';
 
 const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) => {
   const { patientId } = route.params;
-
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
   
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     const getPatient = async () => {
@@ -26,19 +22,91 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
     getPatient();
   }, [patientId]);
 
+  function getPatientAge(birthdate : Date|undefined){
+    if(birthdate !== undefined){
+      return (new Date().getFullYear() - new Date(birthdate).getFullYear()).toString();
+    }
+    else {
+      return "";
+    }
+  }
+
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={{ padding: 5 }}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          
+        contentContainerStyle={{ height: "100%" }}
+      >
+        <View>
           <Text>Patient { patient?.id }</Text>
           <Text>Centre de santé { patient?.centre_de_sante.id } - { patient?.centre_de_sante.nom }</Text>
-          <Text>{ patient?.assurance_maladie }</Text>
+        </View>
+
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 2 }}>
+            <View style={{ flexDirection: "row" }}>
+              <TextInput
+                label={"No. assurance maladie :"}
+                value={ patient?.assurance_maladie }
+                mode={"outlined"}
+                disabled={!isEditable}
+                autoComplete="off"
+                style={[styles.textInput, {flex:5}]}
+              />
+              <TextInput
+                label={"Expiration :"}
+                value={ patient?.assurance_maladie_exp_a.toString() + "/" + patient?.assurance_maladie_exp_m.toString() }
+                mode={"outlined"}
+                disabled={!isEditable}
+                autoComplete="off"
+                style={[styles.textInput, {flex:2}]}
+              />
+            </View>
+            <View style={{flexDirection: "row"}}>
+              <TextInput
+                label={"Âge :"}
+                value={ getPatientAge(patient?.date_naissance)}
+                mode={"outlined"}
+                disabled={!isEditable}
+                autoComplete="off"
+                style={[styles.textInput, {flex:1}]}
+              />  
+              <TextInput
+                label={"Sexe :"}
+                value={ patient?.sexe}
+                mode={"outlined"}
+                disabled={!isEditable}
+                autoComplete="off"
+                style={[styles.textInput, {flex:1}]}
+              />  
+            </View>
+            <View style={{flexDirection: "row"}}>
+              <TextInput
+                label={"Date de naissance :"}
+                value={ patient?.date_naissance.toString()}
+                mode={"outlined"}
+                disabled={!isEditable}
+                autoComplete="off"
+                style={[styles.textInput, {flex: 1}]}
+              />  
+            </View>
+          </View>
+          <View style={{flexDirection: "column", flex: 1}}>
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate('HistoryList', {patientId: 1})}
+              style={[styles.button, { flex: 1 }]}
+            >
+              Historique des interventions
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => console.log('fichiers pressed')}
+              style={[styles.button, {flex: 1}]}
+            >
+              Fichiers
+            </Button>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -48,6 +116,21 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
 const styles = StyleSheet.create({
   patientEntry : {
     padding : 15
+  },
+  textInput : {
+    textAlign: "center",
+    marginTop: 6,
+    marginBottom : 6,
+    marginLeft: 2,
+    marginRight: 2
+  },
+  button : {
+    textAlign: "center",
+    justifyContent: "center",
+    marginTop: 6,
+    marginBottom : 6,
+    marginLeft: 2,
+    marginRight: 2
   }
 });
 
