@@ -54,7 +54,11 @@ export default function GestionDossier(){
           cellulaire: dataInfo[4].value
         }
       )
+
+      await PatientService.save(patient);
+
     }
+
 
   }
 
