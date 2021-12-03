@@ -12,7 +12,6 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
   const { patientId } = route.params;
   
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
-  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     const getPatient = async () => {
@@ -20,6 +19,9 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
     };
 
     getPatient();
+    const focusListener = navigation.addListener('focus', () => {
+      getPatient();
+    });
   }, [patientId]);
 
   function getPatientAge(birthdate : Date|undefined){
@@ -31,33 +33,50 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
     }
   }
 
+  function getExpirationAssuranceMaladie(){
+    if(patient?.assurance_maladie_exp_a === undefined || patient?.assurance_maladie_exp_m === undefined)
+    {
+      return "";
+    }
+    let dateExpiration = new Date(patient?.assurance_maladie_exp_a, patient?.assurance_maladie_exp_m-1);
+    return `${dateExpiration.getFullYear()}/${dateExpiration.getMonth()+1}`;
+  }
+
   return (
     <SafeAreaView style={{ padding: 5 }}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ height: "100%" }}
       >
-        <View>
-          <Text>Patient { patient?.id }</Text>
-          <Text>Centre de santé { patient?.centre_de_sante.id } - { patient?.centre_de_sante.nom }</Text>
-        </View>
-
         <View style={{ flex: 1 }}>
-          <View style={{ flex: 2 }}>
+          <View style={{ flex: 1 }}>
+            <Text>Patient Id : { patient?.id } | Centre de santé Id : { patient?.centre_de_sante.id }</Text>
+          </View>
+          <View style={{ flex: 20 }}>
+            <View style={{ flexDirection: "row" }}>
+              <TextInput
+                label={"Centre de santé :"}
+                value={patient?.centre_de_sante.nom}
+                mode={"outlined"}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, {flex:1}]}
+              />
+            </View>
             <View style={{ flexDirection: "row" }}>
               <TextInput
                 label={"No. assurance maladie :"}
                 value={ patient?.assurance_maladie }
                 mode={"outlined"}
-                disabled={!isEditable}
+                disabled={true}
                 autoComplete="off"
-                style={[styles.textInput, {flex:5}]}
+                style={[styles.textInput, {flex:3}]}
               />
               <TextInput
                 label={"Expiration :"}
-                value={ patient?.assurance_maladie_exp_a.toString() + "/" + patient?.assurance_maladie_exp_m.toString() }
+                value={getExpirationAssuranceMaladie()}
                 mode={"outlined"}
-                disabled={!isEditable}
+                disabled={true}
                 autoComplete="off"
                 style={[styles.textInput, {flex:2}]}
               />
@@ -67,7 +86,7 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
                 label={"Âge :"}
                 value={ getPatientAge(patient?.date_naissance)}
                 mode={"outlined"}
-                disabled={!isEditable}
+                disabled={true}
                 autoComplete="off"
                 style={[styles.textInput, {flex:1}]}
               />  
@@ -75,7 +94,7 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
                 label={"Sexe :"}
                 value={ patient?.sexe}
                 mode={"outlined"}
-                disabled={!isEditable}
+                disabled={true}
                 autoComplete="off"
                 style={[styles.textInput, {flex:1}]}
               />  
@@ -85,26 +104,45 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
                 label={"Date de naissance :"}
                 value={ patient?.date_naissance.toString()}
                 mode={"outlined"}
-                disabled={!isEditable}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, {flex: 1}]}
+              />  
+            </View>
+            <View style={{flexDirection: "row"}}>
+              <TextInput
+                label={"Téléphone :"}
+                value={ patient?.cellulaire}
+                mode={"outlined"}
+                disabled={true}
                 autoComplete="off"
                 style={[styles.textInput, {flex: 1}]}
               />  
             </View>
           </View>
-          <View style={{flexDirection: "column", flex: 1}}>
+          <View style={{flexDirection: "column", flex: 6}}>
+            <Button
+                mode="text"
+                onPress={() => navigation.navigate('PatientEdit', {patientId: patientId})}
+                icon="pencil"
+                style={[styles.button, {flex: 1}]}
+                contentStyle={{flexDirection: 'row-reverse'}}
+              >
+               <Text style={{fontSize: 10}}> Modifier les informations du patient </Text>
+            </Button>
             <Button
               mode="text"
-              onPress={() => navigation.navigate('HistoryList', {patientId: 1})}
+              onPress={() => navigation.navigate('HistoryList', {patientId: patientId})}
               style={[styles.button, { flex: 1 }]}
             >
-              Historique des interventions
+              <Text style={{fontSize: 10}}> Historique des interventions </Text>
             </Button>
             <Button
               mode="text"
               onPress={() => console.log('fichiers pressed')}
               style={[styles.button, {flex: 1}]}
             >
-              Fichiers
+             <Text style={{fontSize: 10}}> Fichiers </Text>
             </Button>
           </View>
         </View>
@@ -118,19 +156,11 @@ const styles = StyleSheet.create({
     padding : 15
   },
   textInput : {
-    textAlign: "center",
-    marginTop: 6,
-    marginBottom : 6,
-    marginLeft: 2,
-    marginRight: 2
+    textAlign: "center"
   },
   button : {
     textAlign: "center",
-    justifyContent: "center",
-    marginTop: 6,
-    marginBottom : 6,
-    marginLeft: 2,
-    marginRight: 2
+    justifyContent: "center"
   }
 });
 
