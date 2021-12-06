@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
-  Button,
   StyleSheet,
   ActivityIndicator,
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 
 const ImagePicker = require('react-native-image-picker');
 
@@ -30,7 +29,7 @@ export default function GestionDossier() {
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<MlkitOcrResult | undefined>();
 
-  const [dataInfo, setDataInfo] = useState<any>(undefined);
+  const [dataInfo, setDataInfo] = useState<any[]>([]);
 
   async function sendInfo() {
     const centreDeSante = await CentreDeSanteService.get(1);
@@ -41,7 +40,7 @@ export default function GestionDossier() {
     } catch (e) {
       let date_naissance_complete = dataInfo[0].value.split('-');
 
-      //Creation du patient si il n'existe pas
+      //Creation du patient si il n"existe pas
       let patient = await PatientService.create({
         centre_de_sante: centreDeSante,
         num_dossier: dataInfo[3].value,
@@ -62,11 +61,7 @@ export default function GestionDossier() {
     }
   }
 
-  function takePhoto(
-    setResult: (result: MlkitOcrResult) => void,
-    setImage: (result: ImagePickerResponse) => void,
-    setLoading: (value: boolean) => void,
-  ) {
+  function takePhoto() {
     var options = {
       storageOptions: {
         skipBackup: true,
@@ -86,11 +81,7 @@ export default function GestionDossier() {
     });
   }
 
-  function upload(
-    setResult: (result: MlkitOcrResult) => void,
-    setImage: (result: ImagePickerResponse) => void,
-    setLoading: (value: boolean) => void,
-  ) {
+  function upload() {
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -98,8 +89,9 @@ export default function GestionDossier() {
       async (response: ImagePickerResponse) => {
         if (response && response.assets && response.assets.length > 0) {
           try {
-            setImage(response);
             setResult(await MlkitOcr.detectFromUri(response.assets[0].uri));
+
+            console.log(result);
 
             if (result) {
               const nas_complete = result[0].lines[6].text
@@ -118,6 +110,8 @@ export default function GestionDossier() {
                   txt: 'nas exp',
                 },
               ];
+
+              console.log(json);
 
               setDataInfo(json);
             }
@@ -152,11 +146,11 @@ export default function GestionDossier() {
           <Button
             onPress={() => {
               sendInfo();
-            }}
-            title="Send"
-          />
+            }}>
+            Send
+          </Button>
 
-          {dataInfo.map((item: any, index: any) => {
+          {dataInfo?.map((item: any, index: any) => {
             return (
               <View style={styles.rowContainer} key={index}>
                 <TextInput
@@ -165,8 +159,9 @@ export default function GestionDossier() {
                   value={dataInfo[index].value}
                   onChangeText={value => {
                     dataInfo[index].value = value;
-                    setDataInfo([...dataInfo], dataInfo);
+                    setDataInfo(dataInfo);
                   }}
+                  autoComplete="off"
                 />
               </View>
             );
@@ -177,17 +172,17 @@ export default function GestionDossier() {
         <Button
           onPress={() => {
             setLoading(true);
-            upload(setResult, setImage, setLoading);
-          }}
-          title="Upload"
-        />
+            upload();
+          }}>
+          Upload
+        </Button>
         <Button
           onPress={() => {
             setLoading(true);
-            takePhoto(setResult, setImage, setLoading);
-          }}
-          title="Take Photo"
-        />
+            takePhoto();
+          }}>
+          Take Photo
+        </Button>
       </View>
     </SafeAreaView>
   );

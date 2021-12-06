@@ -5,15 +5,11 @@ import { Diagnostic } from '~models';
 import { List } from 'react-native-paper';
 
 const DiagnosticListEntry = (props: {
-  index: number,
-  diagnostic: Diagnostic,
-  navigation: any
+  index: number;
+  diagnostic: Diagnostic;
+  navigation: any;
 }) => {
-  const {
-    index,
-    diagnostic,
-    navigation,
-  } = props;
+  const { diagnostic } = props;
 
   return (
     <List.Item
@@ -25,8 +21,7 @@ const DiagnosticListEntry = (props: {
 };
 
 const styles = StyleSheet.create({
-  diagnosticEntry : {
-  }
+  diagnosticEntry: {},
 });
 
 export default DiagnosticListEntry;

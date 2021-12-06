@@ -7,11 +7,12 @@ export default class FichierStore {
   fichiers: Fichier[];
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   loadPatient(patient: Patient) {
-    FichierService.getAll(patient)
-      .then((res: Fichier[]) => this.fichiers = res);
+    FichierService.getAll(patient).then(
+      (res: Fichier[]) => (this.fichiers = res),
+    );
   }
-};
+}

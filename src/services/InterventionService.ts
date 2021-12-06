@@ -34,5 +34,5 @@ export default {
 
   async count(): Promise<number> {
     return (await DbManager.repo(Intervention)).count();
-  }
+  },
 };

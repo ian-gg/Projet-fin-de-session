@@ -1,4 +1,9 @@
-import { Connection, ConnectionManager, ConnectionOptions, getConnectionManager } from 'typeorm';
+import {
+  Connection,
+  ConnectionManager,
+  ConnectionOptions,
+  getConnectionManager,
+} from 'typeorm';
 
 import {
   CentreDeSante,
@@ -26,7 +31,7 @@ const dbOptions: ConnectionOptions = {
     InterventionProcedure,
     Patient,
     Procedure,
-  ]
+  ],
 };
 
 export default class Database {
@@ -81,7 +86,7 @@ async function seedDatabase() {
   await CentreDeSanteService.save(centreDeSante2);
 
   let patients = await PatientService.createAll([
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '1234567',
       nom: 'Felix Bouchard',
@@ -90,9 +95,9 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2026,
       date_naissance: new Date(1994, 1, 14),
       sexe: 'M',
-      cellulaire: '514-123-4567'
+      cellulaire: '514-123-4567',
     },
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '1111111',
       nom: 'Alexia Bouchard',
@@ -101,9 +106,9 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2026,
       date_naissance: new Date(1996, 6, 15),
       sexe: 'F',
-      cellulaire: '514-321-4567'
+      cellulaire: '514-321-4567',
     },
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '3445009',
       nom: 'Arius Hounkpatin',
@@ -112,9 +117,9 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2024,
       date_naissance: new Date(1950, 10, 30),
       sexe: 'M',
-      cellulaire: '438-212-0988'
+      cellulaire: '438-212-0988',
     },
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '0983456',
       nom: 'Mathieu Rouillard',
@@ -123,9 +128,9 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2025,
       date_naissance: new Date(1966, 3, 9),
       sexe: 'M',
-      cellulaire: '514-984-2354'
+      cellulaire: '514-984-2354',
     },
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '9024311',
       nom: 'Lucas Raynaud',
@@ -134,9 +139,9 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2025,
       date_naissance: new Date(1933, 7, 21),
       sexe: 'M',
-      cellulaire: '423-789-4466'
+      cellulaire: '423-789-4466',
     },
-    { 
+    {
       centre_de_sante: centreDeSante,
       num_dossier: '7456213',
       nom: 'Ian Garcia-Guerrero',
@@ -145,8 +150,8 @@ async function seedDatabase() {
       assurance_maladie_exp_a: 2026,
       date_naissance: new Date(1977, 10, 8),
       sexe: 'M',
-      cellulaire: '514-144-3647'
-    }
+      cellulaire: '514-144-3647',
+    },
   ]);
 
   await PatientService.saveAll(patients);
@@ -172,17 +177,17 @@ async function seedDatabase() {
     {
       patient: patient1,
       diagnostic,
-      date_debut: "2021-06-01 9:00:00",
-      date_fin: "2021-07-02 10:00:00",
-      commentaire: "première intervention",
+      date_debut: '2021-06-01 9:00:00',
+      date_fin: '2021-07-02 10:00:00',
+      commentaire: 'première intervention',
     },
     {
       patient: patient2,
       diagnostic,
-      date_debut: "2021-10-01 12:00:00",
-      date_fin: "2021-11-02 14:00:00",
-      commentaire: "deuxième intervention",
-    }
+      date_debut: '2021-10-01 12:00:00',
+      date_fin: '2021-11-02 14:00:00',
+      commentaire: 'deuxième intervention',
+    },
   ]);
 
   await InterventionService.saveAll(interventions);
@@ -197,12 +202,12 @@ async function seedDatabase() {
   const fichiers = await FichierService.createAll([
     {
       patient: patient1,
-      lien_ressource: 'src\resources\thinking.png'
+      lien_ressource: 'src\resources\thinking.png',
     },
     {
       patient: patient2,
-      lien_ressource: 'src\resources\hospital.jpg'
-    }
+      lien_ressource: 'src\resourceshospital.jpg',
+    },
   ]);
 
   await FichierService.saveAll(fichiers);

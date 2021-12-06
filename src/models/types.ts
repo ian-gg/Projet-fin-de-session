@@ -26,8 +26,8 @@ type PatientStackParamList = {
   Patients: undefined;
   PatientList: undefined;
   PatientDetails: PatientDetailsProps;
-  PatientEdit : PatientDetailsProps,
-  HistoryList: PatientDetailsProps,
+  PatientEdit: PatientDetailsProps;
+  HistoryList: PatientDetailsProps;
 };
 
 type CentreDeSanteStackParamList = {
@@ -54,23 +54,39 @@ type CameraStackParamList = {
 
 type DossierStackParamList = {
   PatientDetails: PatientDetailsProps;
-}
+};
 
 type RootNavigationProps = NativeStackScreenProps<RootStackParamList>;
 type DrawerNavigationProps = NativeStackScreenProps<DrawerParamList>;
 
-type PatientNavigationProps = NativeStackScreenProps<PatientStackParamList, 'PatientDetails'>;
-type CentreDeSanteNavigationProps = NativeStackScreenProps<CentreDeSanteStackParamList, 'CentreDeSanteDetails'>;
-type DiagnosticNavigationProps = NativeStackScreenProps<DiagnosticStackParamList, 'Diagnostics'>;
-type ProcedureNavigationProps = NativeStackScreenProps<ProcedureStackParamList, 'Procedures'>;
-type CameraNavigationProps = NativeStackScreenProps<CameraStackParamList, 'CameraHome'>;
-type DossierNavigationProps = NativeStackScreenProps<DossierStackParamList, 'PatientDetails'>;
-
+type PatientNavigationProps = NativeStackScreenProps<
+  PatientStackParamList,
+  'PatientDetails'
+>;
+type CentreDeSanteNavigationProps = NativeStackScreenProps<
+  CentreDeSanteStackParamList,
+  'CentreDeSanteDetails'
+>;
+type DiagnosticNavigationProps = NativeStackScreenProps<
+  DiagnosticStackParamList,
+  'Diagnostics'
+>;
+type ProcedureNavigationProps = NativeStackScreenProps<
+  ProcedureStackParamList,
+  'Procedures'
+>;
+type CameraNavigationProps = NativeStackScreenProps<
+  CameraStackParamList,
+  'CameraHome'
+>;
+type DossierNavigationProps = NativeStackScreenProps<
+  DossierStackParamList,
+  'PatientDetails'
+>;
 
 export type {
   RootNavigationProps,
   DrawerParamList,
-
   DrawerNavigationProps,
   PatientNavigationProps,
   CentreDeSanteNavigationProps,

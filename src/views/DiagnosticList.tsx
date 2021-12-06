@@ -13,41 +13,43 @@ const updateStore = async () => {
   await diagnosticStore.load();
 };
 
-const DiagnosticList = observer(({ route, navigation }: DiagnosticNavigationProps) => {
-  return (
-    <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
-      <View style={styles.flatListView}>
-        <FlatList
-          data={diagnosticStore?.diagnostics}
-          renderItem={(item) => {
-            return (
-              <DiagnosticListEntry
-                index={item.index}
-                diagnostic={item.item}
-                navigation={navigation}
-              />
-            );
-          }}
-        />
-      </View>
-    </SafeAreaView>
-  );
-});
+const DiagnosticList = observer(
+  ({ route, navigation }: DiagnosticNavigationProps) => {
+    return (
+      <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
+        <View style={styles.flatListView}>
+          <FlatList
+            data={diagnosticStore?.diagnostics}
+            renderItem={item => {
+              return (
+                <DiagnosticListEntry
+                  index={item.index}
+                  diagnostic={item.item}
+                  navigation={navigation}
+                />
+              );
+            }}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
-  buttonsView : {
-    flexDirection: "row", 
-    flex: 1, 
-    alignItems: "center", 
-    justifyContent: "space-between"
+  buttonsView: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  flatListView : {
-    flexDirection: "row", 
-    flex: 4
-  }
+  flatListView: {
+    flexDirection: 'row',
+    flex: 4,
+  },
 });
 
 export default DiagnosticList;

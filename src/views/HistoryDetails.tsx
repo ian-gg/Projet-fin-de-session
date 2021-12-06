@@ -8,29 +8,31 @@ import { PatientNavigationProps } from '~models/types';
 import { Patient } from '~models';
 import { PatientService } from '~services';
 
-const HistoryDetails = observer(({ route, navigation }: PatientNavigationProps) => {
-  const { patientId } = route.params;
+const HistoryDetails = observer(
+  ({ route, navigation }: PatientNavigationProps) => {
+    const { patientId } = route.params;
 
-  const [patient, setPatient] = useState<Patient | undefined>(undefined);
+    const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
-  useEffect(() => {
-    const getPatient = async () => {
-      setPatient(await PatientService.get(patientId));
-    };
+    useEffect(() => {
+      const getPatient = async () => {
+        setPatient(await PatientService.get(patientId));
+      };
 
-    getPatient();
-  }, [patientId]);
+      getPatient();
+    }, [patientId]);
 
-  return (
-    <SafeAreaView style={{ padding: 5 }}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View>
-          <Text>{ patient?.id }</Text>
-          <Text>{ patient?.assurance_maladie }</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-});
+    return (
+      <SafeAreaView style={{ padding: 5 }}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <View>
+            <Text>{patient?.id}</Text>
+            <Text>{patient?.assurance_maladie}</Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  },
+);
 
 export default HistoryDetails;

@@ -1,6 +1,6 @@
-import { EntityTarget, getRepository } from "typeorm";
-import { getManager } from "typeorm/browser";
-import Database from "./Database";
+import { EntityTarget, getRepository } from 'typeorm';
+import { getManager } from 'typeorm/browser';
+import Database from './Database';
 
 export default class DbManager {
   static database: Database | undefined = undefined;
@@ -23,7 +23,10 @@ export default class DbManager {
     return getRepository(target);
   }
 
-  static async withLastSeqId<Entity>(target: EntityTarget<Entity>, instance: any): Promise<Entity> {
+  static async withLastSeqId<Entity>(
+    target: EntityTarget<Entity>,
+    instance: any,
+  ): Promise<Entity> {
     await this.db();
 
     const tableName = getRepository(target).metadata.tableName;

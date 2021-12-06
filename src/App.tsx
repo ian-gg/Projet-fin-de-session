@@ -72,15 +72,14 @@ const App = () => {
 
   if (loading) {
     return (
-      <View style={[
-        styles.container,
-        styles.horizontal,
-        { backgroundColor: theme.colors.background }
-      ]}>
-        <ActivityIndicator style={{ marginRight: 5 }}/>
-        <Text style={{ color: theme.colors.text }}>
-          Chargement...
-        </Text>
+      <View
+        style={[
+          styles.container,
+          styles.horizontal,
+          { backgroundColor: theme.colors.background },
+        ]}>
+        <ActivityIndicator style={{ marginRight: 5 }} />
+        <Text style={{ color: theme.colors.text }}>Chargement...</Text>
       </View>
     );
   }
@@ -90,14 +89,25 @@ const App = () => {
       <NavigationContainer theme={theme}>
         <Stack.Navigator>
           <Stack.Group>
-            <Stack.Screen name='Root' component={DrawerNavigator} options={{ headerShown: false }}/>
+            <Stack.Screen
+              name="Root"
+              component={DrawerNavigator}
+              options={{ headerShown: false }}
+            />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal' }}>
-            <Stack.Screen name='Camera' component={CameraNavigator} options={{ headerShown: false }}/>
             <Stack.Screen
-              name='PermissionsManager'
+              name="Camera"
+              component={CameraNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PermissionsManager"
               component={PermissionsManager}
-              options={{ headerShown: true, title: "Permissions de l'application" }}
+              options={{
+                headerShown: true,
+                title: "Permissions de l'application",
+              }}
             />
           </Stack.Group>
         </Stack.Navigator>
@@ -110,44 +120,52 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   horizontal: {
     flexDirection: 'row',
-  }
-})
+  },
+});
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName='Accueil'>
+    <Drawer.Navigator initialRouteName="Accueil">
       <Drawer.Screen
-        name='Accueil'
+        name="Accueil"
         component={AccueilNavigator}
         options={{ headerShown: true, title: 'Sommaire de la base de données' }}
       />
-      <Drawer.Screen name='Patients' component={PatientNavigator}/>
-      <Drawer.Screen name='Dossier' component={GestionDossierNavigator}/>
-      <Drawer.Screen name='Centres' component={CentreDeSanteNavigator}/>
-      <Drawer.Screen name='Diagnostics' component={DiagnosticNavigator}/>
-      <Drawer.Screen name='Procedures' component={ProcedureNavigator}/>
+      <Drawer.Screen name="Patients" component={PatientNavigator} />
+      <Drawer.Screen name="Dossier" component={GestionDossierNavigator} />
+      <Drawer.Screen name="Centres" component={CentreDeSanteNavigator} />
+      <Drawer.Screen name="Diagnostics" component={DiagnosticNavigator} />
+      <Drawer.Screen name="Procedures" component={ProcedureNavigator} />
     </Drawer.Navigator>
-  )
-}
+  );
+};
 
 const AccueilNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='GestionSummary'>
-      <Stack.Screen name='GestionSummary' component={GestionSummary} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="GestionSummary">
+      <Stack.Screen
+        name="GestionSummary"
+        component={GestionSummary}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
 const PatientNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='PatientList'>
-      <Stack.Screen name='PatientList' component={PatientList} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="PatientList">
       <Stack.Screen
-        name='PatientDetails'
+        name="PatientList"
+        component={PatientList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PatientDetails"
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
       />
@@ -159,31 +177,39 @@ const PatientNavigator = () => {
       <Stack.Screen
         name="HistoryList"
         component={HistoryList}
-        options={{ headerShown: true, title: "Historique du patient" }}
+        options={{ headerShown: true, title: 'Historique du patient' }}
       />
     </Stack.Navigator>
   );
 };
 
 const GestionDossierNavigator = () => {
-  return(
-    <Stack.Navigator initialRouteName='GestionDossier'>
-      <Stack.Screen name='GestionDossier' component={GestionDossier} options={{ headerShown: false }} />
+  return (
+    <Stack.Navigator initialRouteName="GestionDossier">
+      <Stack.Screen
+        name="GestionDossier"
+        component={GestionDossier}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
 const CentreDeSanteNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='CentreDeSanteList'>
-      <Stack.Screen name='CentreDeSanteList' component={CentreDeSanteList} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="CentreDeSanteList">
       <Stack.Screen
-        name='CentreDeSanteDetails'
+        name="CentreDeSanteList"
+        component={CentreDeSanteList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CentreDeSanteDetails"
         component={CentreDeSanteDetails}
         options={{ headerShown: true, title: 'Informations du centre' }}
       />
       <Stack.Screen
-        name='PatientDetails'
+        name="PatientDetails"
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
       />
@@ -193,30 +219,38 @@ const CentreDeSanteNavigator = () => {
 
 const DiagnosticNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='DiagnosticList'>
-      <Stack.Screen name='DiagnosticList' component={DiagnosticList} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="DiagnosticList">
+      <Stack.Screen
+        name="DiagnosticList"
+        component={DiagnosticList}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
 const ProcedureNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='ProcedureList'>
-      <Stack.Screen name='ProcedureList' component={ProcedureList} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="ProcedureList">
+      <Stack.Screen
+        name="ProcedureList"
+        component={ProcedureList}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
 const CameraNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='CameraHome'>
+    <Stack.Navigator initialRouteName="CameraHome">
       <Stack.Screen
-        name='CameraHome'
+        name="CameraHome"
         component={CameraHome}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
-}
+};
 
 export default App;

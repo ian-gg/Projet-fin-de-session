@@ -9,7 +9,10 @@ export default class DiagnosticStore {
   constructor() {
     makeAutoObservable(this);
 
-    this.load().then(() => {}, (err) => console.error(err));
+    this.load().then(
+      () => {},
+      err => console.error(err),
+    );
   }
 
   async load() {
@@ -21,4 +24,4 @@ export default class DiagnosticStore {
   private setDiagnostics(diagnostics: Diagnostic[]) {
     this.diagnostics = diagnostics;
   }
-};
+}

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  SafeAreaView,
-  View,
-} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
@@ -38,11 +35,11 @@ const GestionSummary = ({ route, navigation }: PatientNavigationProps) => {
   return (
     <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
       <View>
-        <Text>Centres de Santé: { centresCount }</Text>
-        <Text>Nombre de patients: { patientsCount }</Text>
-        <Text>Nombre de diagnostics: { diagnosticsCount }</Text>
-        <Text>Nombre d'interventions: { interventionsCount }</Text>
-        <Text>Nombre de procédures: { proceduresCount }</Text>
+        <Text>Centres de Santé: {centresCount}</Text>
+        <Text>Nombre de patients: {patientsCount}</Text>
+        <Text>Nombre de diagnostics: {diagnosticsCount}</Text>
+        <Text>Nombre d'interventions: {interventionsCount}</Text>
+        <Text>Nombre de procédures: {proceduresCount}</Text>
       </View>
     </SafeAreaView>
   );

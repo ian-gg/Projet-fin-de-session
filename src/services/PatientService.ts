@@ -3,11 +3,10 @@ import { CentreDeSante, Patient } from '~models';
 
 export default {
   async get(id: number): Promise<Patient | undefined> {
-    return (await DbManager.repo(Patient))
-      .findOneOrFail({
-        where: { id },
-        relations: ['centre_de_sante'],
-      });
+    return (await DbManager.repo(Patient)).findOneOrFail({
+      where: { id },
+      relations: ['centre_de_sante'],
+    });
   },
 
   async getAll(): Promise<Patient[]> {
@@ -15,7 +14,7 @@ export default {
       select: ['id', 'num_dossier', 'nom'],
     });
   },
-  
+
   async forCentreDeSante(centre: CentreDeSante): Promise<Patient[]> {
     return (await DbManager.repo(Patient)).find({
       where: { centre_de_sante_id: centre.id },
@@ -48,5 +47,5 @@ export default {
 
   async count(): Promise<number> {
     return (await DbManager.repo(Patient)).count();
-  }
+  },
 };

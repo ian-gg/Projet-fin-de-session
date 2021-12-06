@@ -7,10 +7,10 @@ export default class InterventionStore {
   interventions: Intervention[];
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   load(patient: Patient) {
-    InterventionService.getAll(patient).then((res) => this.interventions = res);
+    InterventionService.getAll(patient).then(res => (this.interventions = res));
   }
-};
+}

@@ -20,7 +20,7 @@ const CameraView = (props: { isActive: boolean }) => {
   const device = devices.back;
   const insets = useSafeAreaInsets();
 
-  const { height: winH, width: _winW } = useWindowDimensions();
+  const { height: winH, width: winW } = useWindowDimensions();
   return (
     <View style={styles.container}>
       {device != null && (
@@ -37,8 +37,8 @@ const CameraView = (props: { isActive: boolean }) => {
       <View style={styles.cameraOverlay} />
 
       <IconButton
-        icon='camera'
-        color='white'
+        icon="camera"
+        color="white"
         size={40}
         animated={true}
         style={[styles.captureButton, { bottom: insets.bottom + 15 }]}
@@ -68,7 +68,6 @@ const CameraView = (props: { isActive: boolean }) => {
             );
 
             const result = await MlkitOcr.detectFromUri(croppedImagePath);
-            console.log(result);
           }
         }}
       />

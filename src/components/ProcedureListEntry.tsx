@@ -5,15 +5,11 @@ import { Procedure } from '~models';
 import { List } from 'react-native-paper';
 
 const ProcedureListEntry = (props: {
-  index: number,
-  procedure: Procedure,
-  navigation: any
+  index: number;
+  procedure: Procedure;
+  navigation: any;
 }) => {
-  const {
-    index,
-    procedure,
-    navigation,
-  } = props;
+  const { procedure } = props;
 
   return (
     <List.Item
@@ -25,8 +21,7 @@ const ProcedureListEntry = (props: {
 };
 
 const styles = StyleSheet.create({
-  procedureEntry : {
-  }
+  procedureEntry: {},
 });
 
 export default ProcedureListEntry;

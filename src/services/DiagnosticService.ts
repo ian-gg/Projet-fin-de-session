@@ -11,8 +11,10 @@ export default {
       .createQueryBuilder('diagnostic')
       .leftJoinAndSelect('diagnostic.interventions', 'interventions')
       .select([
-        'diagnostic.id', 'diagnostic.etiquette', 'diagnostic.description',
-        'interventions.id'
+        'diagnostic.id',
+        'diagnostic.etiquette',
+        'diagnostic.description',
+        'interventions.id',
       ])
       .getMany();
   },
@@ -34,5 +36,5 @@ export default {
 
   async count(): Promise<number> {
     return (await DbManager.repo(Diagnostic)).count();
-  }
+  },
 };

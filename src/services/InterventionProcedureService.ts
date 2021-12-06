@@ -6,25 +6,31 @@ export default {
     return (await DbManager.repo(InterventionProcedure)).findOne(id);
   },
 
-  async forIntervention(intervention: Intervention): Promise<InterventionProcedure[]> {
+  async forIntervention(
+    intervention: Intervention,
+  ): Promise<InterventionProcedure[]> {
     return (await DbManager.repo(InterventionProcedure)).find({
       where: { intervention_id: intervention.id },
-      select: ['id', 'date_debut', 'date_fin']
+      select: ['id', 'date_debut', 'date_fin'],
     });
   },
 
   async forProcedure(procedure: Procedure): Promise<InterventionProcedure[]> {
     return (await DbManager.repo(InterventionProcedure)).find({
       where: { procedure_id: procedure.id },
-      select: ['id', 'date_debut', 'date_fin']
+      select: ['id', 'date_debut', 'date_fin'],
     });
   },
 
   async create(interventionProcedure: Object): Promise<InterventionProcedure> {
-    return (await DbManager.repo(InterventionProcedure)).create(interventionProcedure);
+    return (await DbManager.repo(InterventionProcedure)).create(
+      interventionProcedure,
+    );
   },
 
-  async save(interventionProcedure: InterventionProcedure): Promise<InterventionProcedure> {
+  async save(
+    interventionProcedure: InterventionProcedure,
+  ): Promise<InterventionProcedure> {
     const repo = await DbManager.repo(InterventionProcedure);
     const saved = await repo.save(interventionProcedure);
 
@@ -33,5 +39,5 @@ export default {
 
   async count(): Promise<number> {
     return (await DbManager.repo(InterventionProcedure)).count();
-  }
+  },
 };

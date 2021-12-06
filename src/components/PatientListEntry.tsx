@@ -1,19 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Patient } from '~models';
 
 import { List } from 'react-native-paper';
 
 const PatientListEntry = (props: {
-  index: number,
-  patient: Patient,
-  onPress: Function,
+  index: number;
+  patient: Patient;
+  onPress: Function;
 }) => {
-  const {
-    index,
-    patient,
-    onPress,
-  } = props;
+  const { patient, onPress } = props;
 
   return (
     <List.Item
@@ -23,8 +18,5 @@ const PatientListEntry = (props: {
     />
   );
 };
-
-const styles = StyleSheet.create({
-});
 
 export default PatientListEntry;

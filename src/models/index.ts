@@ -19,7 +19,7 @@ class CentreDeSante {
 
   @OneToMany(type => Patient, patient => patient.centre_de_sante)
   patients: Patient[];
-};
+}
 
 @Entity()
 class Diagnostic {
@@ -34,7 +34,7 @@ class Diagnostic {
 
   @OneToMany(type => Intervention, intervention => intervention.diagnostic)
   interventions: Intervention[];
-};
+}
 
 @Entity()
 class Fichier {
@@ -47,7 +47,7 @@ class Fichier {
 
   @Column()
   lien_ressource: string;
-};
+}
 
 @Entity()
 class Intervention {
@@ -84,10 +84,10 @@ class Intervention {
     inverseJoinColumn: {
       name: 'fichier_id',
       referencedColumnName: 'id',
-    }
+    },
   })
   fichiers: Fichier[];
-};
+}
 
 @Entity()
 class InterventionProcedure {
@@ -113,7 +113,7 @@ class InterventionProcedure {
     nullable: true,
   })
   date_fin?: Date;
-};
+}
 
 @Entity()
 class Patient {
@@ -153,7 +153,7 @@ class Patient {
 
   @OneToMany(type => Fichier, fichier => fichier.patient)
   fichiers: Fichier[];
-};
+}
 
 @Entity()
 class Procedure {
@@ -166,9 +166,12 @@ class Procedure {
   @Column({ nullable: true })
   description?: string;
 
-  @OneToMany(type => InterventionProcedure, intervention_procedure => intervention_procedure.procedure)
+  @OneToMany(
+    type => InterventionProcedure,
+    intervention_procedure => intervention_procedure.procedure,
+  )
   intervention_procedures: InterventionProcedure[];
-};
+}
 
 export {
   CentreDeSante,

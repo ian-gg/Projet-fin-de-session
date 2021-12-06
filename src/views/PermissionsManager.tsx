@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Platform, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { Platform, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 
 import RNPermissions, {
   Permission,
@@ -8,10 +8,10 @@ import RNPermissions, {
   PermissionStatus,
 } from 'react-native-permissions';
 
-import { PatientNavigationProps } from "~models/types";
+import { PatientNavigationProps } from '~models/types';
 
 /// Source: https://github.com/zoontek/react-native-permissions/blob/master/example/App.tsx
-const {SIRI, ...PERMISSIONS_IOS} = PERMISSIONS.IOS;
+const { SIRI, ...PERMISSIONS_IOS } = PERMISSIONS.IOS;
 
 const cameraPermission = Platform.select<Permission>({
   android: PERMISSIONS.ANDROID.CAMERA,
@@ -33,13 +33,16 @@ const PermissionsString = {
   blocked: 'Bloqué',
   denied: 'Refusé',
   granted: 'Accordé',
-  limited: 'Limité'
-}
+  limited: 'Limité',
+};
 
 const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
-  const [cameraPermissionStatus, setCameraPermissionStatus] = useState<PermissionStatus>('unavailable');
-  const [readPermissionStatus, setReadPermissionStatus] = useState<PermissionStatus>('unavailable');
-  const [writePermissionStatus, setWritePermissionStatus] = useState<PermissionStatus>('unavailable');
+  const [cameraPermissionStatus, setCameraPermissionStatus] =
+    useState<PermissionStatus>('unavailable');
+  const [readPermissionStatus, setReadPermissionStatus] =
+    useState<PermissionStatus>('unavailable');
+  const [writePermissionStatus, setWritePermissionStatus] =
+    useState<PermissionStatus>('unavailable');
 
   useEffect(() => {
     const setCurrentStatuses = async () => {
@@ -48,68 +51,102 @@ const PermissionsManager = ({ route, navigation }: PatientNavigationProps) => {
       }
 
       if (readStoragePermission) {
-        RNPermissions.check(readStoragePermission).then(setReadPermissionStatus);
+        RNPermissions.check(readStoragePermission).then(
+          setReadPermissionStatus,
+        );
       }
 
       if (writeStoragePermission) {
-        RNPermissions.check(writeStoragePermission).then(setWritePermissionStatus);
+        RNPermissions.check(writeStoragePermission).then(
+          setWritePermissionStatus,
+        );
       }
-    }
+    };
 
     const onFocus = navigation.addListener('focus', () => {
       setCurrentStatuses();
     });
-    
+
     return onFocus;
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1, flexDirection: 'column', margin: 10 } }>
-      <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{ flex: 1, flexDirection: 'column', margin: 10 }}>
+      <View
+        style={{
+          marginBottom: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
         <Text style={{ marginRight: 15 }}>Permission Caméra:</Text>
         {cameraPermission && cameraPermissionStatus !== 'granted' ? (
           <Button
-            icon='check-circle'
-            mode='contained'
-            color='green'
-            onPress={() => RNPermissions.request(cameraPermission).then(setCameraPermissionStatus)}
-          >
+            icon="check-circle"
+            mode="contained"
+            color="green"
+            onPress={() =>
+              RNPermissions.request(cameraPermission).then(
+                setCameraPermissionStatus,
+              )
+            }>
             Accorder
           </Button>
-        ) : cameraPermissionStatus === 'granted' && (
-          <Text>{ PermissionsString[cameraPermissionStatus] }</Text>
+        ) : (
+          cameraPermissionStatus === 'granted' && (
+            <Text>{PermissionsString[cameraPermissionStatus]}</Text>
+          )
         )}
       </View>
 
-      <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{
+          marginBottom: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
         <Text style={{ marginRight: 15 }}>Permission lecture fichiers:</Text>
         {readStoragePermission && readPermissionStatus !== 'granted' ? (
           <Button
-            icon='check-circle'
-            mode='contained'
-            color='green'
-            onPress={() => RNPermissions.request(readStoragePermission).then(setReadPermissionStatus)}
-          >
+            icon="check-circle"
+            mode="contained"
+            color="green"
+            onPress={() =>
+              RNPermissions.request(readStoragePermission).then(
+                setReadPermissionStatus,
+              )
+            }>
             Accorder
           </Button>
-        ) : readPermissionStatus === 'granted' && (
-          <Text>{ PermissionsString[readPermissionStatus] }</Text>
+        ) : (
+          readPermissionStatus === 'granted' && (
+            <Text>{PermissionsString[readPermissionStatus]}</Text>
+          )
         )}
       </View>
 
-      <View style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{
+          marginBottom: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
         <Text style={{ marginRight: 15 }}>Permission écriture fichiers:</Text>
         {writeStoragePermission && writePermissionStatus !== 'granted' ? (
           <Button
-            icon='check-circle'
-            mode='contained'
-            color='green'
-            onPress={() => RNPermissions.request(writeStoragePermission).then(setWritePermissionStatus)}
-          >
+            icon="check-circle"
+            mode="contained"
+            color="green"
+            onPress={() =>
+              RNPermissions.request(writeStoragePermission).then(
+                setWritePermissionStatus,
+              )
+            }>
             Accorder
           </Button>
-        ) : writePermissionStatus === 'granted' && (
-          <Text>{ PermissionsString[writePermissionStatus] }</Text>
+        ) : (
+          writePermissionStatus === 'granted' && (
+            <Text>{PermissionsString[writePermissionStatus]}</Text>
+          )
         )}
       </View>
     </View>

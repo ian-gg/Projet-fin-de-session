@@ -1,5 +1,11 @@
 import React from 'react';
-import { FlatList, SafeAreaView, View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { Button, Searchbar } from 'react-native-paper';
 
 import { DrawerNavigationProps } from '~models/types';
@@ -21,10 +27,11 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
         <Button
           icon="camera"
           mode="contained"
-          onPress={() => navigation.navigate('Camera', {
-            screen: 'CameraHome',
-          })}
-        >
+          onPress={() =>
+            navigation.navigate('Camera', {
+              screen: 'CameraHome',
+            })
+          }>
           Par caméra
         </Button>
       </View>
@@ -37,19 +44,22 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
         style={{ marginBottom: 5 }}
       />
 
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <FlatList
           data={patientStore?.filteredPatients}
-          renderItem={(item) => {
+          renderItem={item => {
             return (
               <PatientListEntry
                 key={`patient-${item.item.id}`}
                 index={item.index}
                 patient={item.item}
-                onPress={() => navigation.navigate('Patients', {
-                  screen: 'PatientDetails',
-                  params: { patientId: item.item.id },
-                })}
+                onPress={() =>
+                  navigation.navigate('Patients', {
+                    screen: 'PatientDetails',
+                    params: { patientId: item.item.id },
+                  })
+                }
               />
             );
           }}
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    padding: 5
+    padding: 5,
   },
 });
 

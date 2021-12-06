@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/core";
-import { Platform, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/core';
+import { Platform, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import RNPermissions, {
@@ -9,10 +9,10 @@ import RNPermissions, {
   PermissionStatus,
 } from 'react-native-permissions';
 
-import { RootNavigationProps } from "~models/types";
-import { CameraView } from "~components";
+import { RootNavigationProps } from '~models/types';
+import { CameraView } from '~components';
 
-const {SIRI, ...PERMISSIONS_IOS} = PERMISSIONS.IOS;
+const { SIRI, ...PERMISSIONS_IOS } = PERMISSIONS.IOS;
 
 const cameraPermission = Platform.select<Permission>({
   android: PERMISSIONS.ANDROID.CAMERA,
@@ -22,7 +22,8 @@ const cameraPermission = Platform.select<Permission>({
 const CameraHome = ({ route, navigation }: RootNavigationProps) => {
   const isActive = useIsFocused();
 
-  const [cameraPermissionStatus, setCameraPermissionStatus] = useState<PermissionStatus>('unavailable');
+  const [cameraPermissionStatus, setCameraPermissionStatus] =
+    useState<PermissionStatus>('unavailable');
 
   useEffect(() => {
     const onFocus = navigation.addListener('focus', async () => {
@@ -41,18 +42,12 @@ const CameraHome = ({ route, navigation }: RootNavigationProps) => {
   const cameraAuthorized = cameraPermissionStatus === 'granted';
 
   if (cameraAuthorized) {
-    return (
-      <CameraView
-        isActive={isActive}
-      />
-    );
+    return <CameraView isActive={isActive} />;
   } else {
     return (
       <View style={styles.permissionsContainer}>
         <Text>L'application n'est pas autorisée à utiliser la caméra.</Text>
-        <Button
-          onPress={() => navigation.navigate('PermissionsManager')}
-        >
+        <Button onPress={() => navigation.navigate('PermissionsManager')}>
           Modifier les permissions
         </Button>
       </View>
@@ -65,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  }
-})
+  },
+});
 
 export default CameraHome;

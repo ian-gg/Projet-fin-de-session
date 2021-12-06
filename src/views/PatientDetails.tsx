@@ -13,10 +13,8 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
   
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
-  useEffect(() => {
-    const getPatient = async () => {
-      setPatient(await PatientService.get(patientId));
-    };
+    const [patient, setPatient] = useState<Patient | undefined>(undefined);
+    const [isEditable, setIsEditable] = useState(false);
 
     getPatient();
     const focusListener = navigation.addListener('focus', () => {
@@ -24,14 +22,18 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
     });
   }, [patientId]);
 
-  function getPatientAge(birthdate : Date|undefined){
-    if(birthdate !== undefined){
-      return (new Date().getFullYear() - new Date(birthdate).getFullYear()).toString();
+      getPatient();
+    }, [patientId]);
+
+    function getPatientAge(birthdate: Date | undefined) {
+      if (birthdate !== undefined) {
+        return (
+          new Date().getFullYear() - new Date(birthdate).getFullYear()
+        ).toString();
+      } else {
+        return '';
+      }
     }
-    else {
-      return "";
-    }
-  }
 
   function getExpirationAssuranceMaladie(){
     if(patient?.assurance_maladie_exp_a === undefined || patient?.assurance_maladie_exp_m === undefined)
@@ -152,8 +154,8 @@ const PatientDetails = observer(({ route, navigation }: PatientNavigationProps) 
 });
 
 const styles = StyleSheet.create({
-  patientEntry : {
-    padding : 15
+  patientEntry: {
+    padding: 15,
   },
   textInput : {
     textAlign: "center"

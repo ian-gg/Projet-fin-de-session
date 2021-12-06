@@ -10,4 +10,4 @@ export {
   DiagnosticListEntry,
   ProcedureListEntry,
   CameraView,
-}
+};

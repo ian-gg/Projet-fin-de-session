@@ -18,7 +18,10 @@ export default class PatientStore {
   constructor() {
     makeAutoObservable(this);
 
-    this.load().then(() => {}, (err) => console.error(err));
+    this.load().then(
+      () => {},
+      err => console.error(err),
+    );
   }
 
   async load() {
@@ -41,9 +44,13 @@ export default class PatientStore {
 
     if (this.filters) {
       if (this.filters.text) {
-        filtered = filtered.filter(e => e.nom.toLowerCase().includes(this.filters.text?.toLocaleLowerCase()!) ||  
-                                        e.num_dossier.includes(this.filters.text!)
-                                  );
+        filtered = filtered.filter(
+          e =>
+            e.nom
+              .toLowerCase()
+              .includes(this.filters.text?.toLocaleLowerCase()!) ||
+            e.num_dossier.includes(this.filters.text!),
+        );
       }
     }
 
@@ -54,10 +61,7 @@ export default class PatientStore {
   setFilter(attribute: string, value: any) {
     this.filters[attribute] = value;
   }
-};
+}
 
-export {
-  defaultFilters,
-};
+export { defaultFilters };
 export type { PatientFilters };
-

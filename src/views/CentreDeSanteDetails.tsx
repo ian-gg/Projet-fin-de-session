@@ -10,47 +10,52 @@ import { CentreDeSanteService } from '~services';
 
 import PatientListAccordion from '~components/PatientListAccordion';
 
-const CentreDeSanteDetails = observer(({ route, navigation }: CentreDeSanteNavigationProps) => {
-  const { centreDeSanteId } = route.params;
-  
-  const [centreDeSante, setCentreDeSante] = useState<CentreDeSante | undefined>(undefined);
+const CentreDeSanteDetails = observer(
+  ({ route, navigation }: CentreDeSanteNavigationProps) => {
+    const { centreDeSanteId } = route.params;
 
-  useEffect(() => {
-    const getCentreDeSante = async () => {
-      setCentreDeSante(await CentreDeSanteService.get(centreDeSanteId))
-    };
+    const [centreDeSante, setCentreDeSante] = useState<
+      CentreDeSante | undefined
+    >(undefined);
 
-    getCentreDeSante();
-  }, [centreDeSanteId]);
+    useEffect(() => {
+      const getCentreDeSante = async () => {
+        setCentreDeSante(await CentreDeSanteService.get(centreDeSanteId));
+      };
 
-  return (
-    <SafeAreaView style={{ padding: 5 }}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View>
-          <Text>CentreDeSante { centreDeSante?.id }</Text>
-          <Text>Nom: { centreDeSante?.nom }</Text>
+      getCentreDeSante();
+    }, [centreDeSanteId]);
 
-          <View
-            style={{
-              marginTop: 10,
-            }}
-          >
-            <Text style={{ marginBottom: 5 }}>Nombre de patients: { centreDeSante?.patients.length || 0 }</Text>
-            <PatientListAccordion
-              patients={centreDeSante?.patients}
-              navigation={navigation}
-            />
+    return (
+      <SafeAreaView style={{ padding: 5 }}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <View>
+            <Text>CentreDeSante {centreDeSante?.id}</Text>
+            <Text>Nom: {centreDeSante?.nom}</Text>
+
+            <View
+              style={{
+                marginTop: 10,
+              }}>
+              <Text style={{ marginBottom: 5 }}>
+                Nombre de patients: {centreDeSante?.patients.length || 0}
+              </Text>
+              <PatientListAccordion
+                patients={centreDeSante?.patients}
+                navigation={navigation}
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-});
+        </ScrollView>
+      </SafeAreaView>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
-  centreDeSanteEntry : {
-    padding : 5
-  }
+  centreDeSanteEntry: {
+    padding: 5,
+  },
 });
 
 export default CentreDeSanteDetails;

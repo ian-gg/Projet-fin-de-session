@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, SafeAreaView, useColorScheme, StyleSheet, View } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { ProcedureNavigationProps } from '~models/types';
 
@@ -14,42 +13,43 @@ const updateStore = async () => {
   await procedureStore.load();
 };
 
-const ProcedureList = observer(({ route, navigation }: ProcedureNavigationProps) => {
-
-  return (
-    <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
-      <View style={styles.flatListView}>
-        <FlatList
-          data={procedureStore?.procedures}
-          renderItem={(item) => {
-            return (
-              <ProcedureListEntry
-                index={item.index}
-                procedure={item.item}
-                navigation={navigation}
-              />
-            );
-          }}
-        />
-      </View>
-    </SafeAreaView>
-  );
-});
+const ProcedureList = observer(
+  ({ route, navigation }: ProcedureNavigationProps) => {
+    return (
+      <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
+        <View style={styles.flatListView}>
+          <FlatList
+            data={procedureStore?.procedures}
+            renderItem={item => {
+              return (
+                <ProcedureListEntry
+                  index={item.index}
+                  procedure={item.item}
+                  navigation={navigation}
+                />
+              );
+            }}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
-  buttonsView : {
-    flexDirection: "row", 
-    flex: 1, 
-    alignItems: "center", 
-    justifyContent: "space-between"
+  buttonsView: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  flatListView : {
-    flexDirection: "row", 
-    flex: 4
-  }
+  flatListView: {
+    flexDirection: 'row',
+    flex: 4,
+  },
 });
 
 export default ProcedureList;
