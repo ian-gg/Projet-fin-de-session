@@ -74,7 +74,11 @@ async function seedDatabase() {
   const centreDeSante = await CentreDeSanteService.create({
     nom: 'CHU Sainte-Justine',
   });
+  const centreDeSante2 = await CentreDeSanteService.create({
+    nom: 'Hôpital Pierre-Boucher',
+  });
   await CentreDeSanteService.save(centreDeSante);
+  await CentreDeSanteService.save(centreDeSante2);
 
   let patients = await PatientService.createAll([
     { 

@@ -1,45 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Alert, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, View, Text as TextReactNative} from 'react-native';
 import { Text, TextInput, Button, HelperText } from 'react-native-paper';
+import { Dropdown } from 'react-native-element-dropdown'
 
 import { PatientNavigationProps } from '~models/types';
 
-import { Patient } from '~models';
+import { CentreDeSante, Patient } from '~models';
 import { PatientService } from '~services';
+import { CentreDeSanteStore } from '~stores';
 
 const PatientEdit = observer(({ route, navigation }: PatientNavigationProps) => {
-  const { patientId } = route.params;
-  
-  const [patient, setPatient] = useState<Patient | undefined>(undefined);
-  const [noAssuranceMaladie, setNoAssuranceMaladie] = useState<string | undefined>("");
-  const [expirationAnneeAssuranceMaladie, setExpirationAnneeAssuranceMaladie] = useState<number | undefined>();
-  const [expirationMoisAssuranceMaladie, setExpirationMoisAssuranceMaladie] = useState<number | undefined>();
-  const [dateNaissance, setDateNaissance] = useState<string | undefined>();
-  const [sexe, setSexe] = useState<string | undefined>("");
-  const [cellulaire, setCellulaire] = useState<string | undefined>("");
-  
+    const { patientId } = route.params;
+    const centreStore = new CentreDeSanteStore();
+    const [patient, setPatient] = useState<Patient | undefined>(undefined);
+    const [noAssuranceMaladie, setNoAssuranceMaladie] = useState<string | undefined>("");
+    const [expirationAnneeAssuranceMaladie, setExpirationAnneeAssuranceMaladie] = useState<number | undefined>();
+    const [expirationMoisAssuranceMaladie, setExpirationMoisAssuranceMaladie] = useState<number | undefined>();
+    const [dateNaissance, setDateNaissance] = useState<string | undefined>();
+    const [sexe, setSexe] = useState<string | undefined>("");
+    const [cellulaire, setCellulaire] = useState<string | undefined>("");
+    const [centres, setCentres] = useState<CentreDeSante[] | undefined>();
+    const [dropdownValue, setDropdownValue] = useState<number | undefined>();
+
     useEffect(() => {
-    const getPatient = async () => {
-        let patient = await PatientService.get(patientId);
-        setPatient(patient);
-        setNoAssuranceMaladie(patient?.assurance_maladie);
-        setExpirationAnneeAssuranceMaladie(patient?.assurance_maladie_exp_a);
-        setExpirationMoisAssuranceMaladie(patient?.assurance_maladie_exp_m);
-        setSexe(patient?.sexe);
-        setDateNaissance(patient?.date_naissance.toString());
-        setCellulaire(patient?.cellulaire);
-    };
-    getPatient();    
+        const getPatient = async () => {
+            let patient = await PatientService.get(patientId);
+            setPatient(patient);
+            setNoAssuranceMaladie(patient?.assurance_maladie);
+            setExpirationAnneeAssuranceMaladie(patient?.assurance_maladie_exp_a);
+            setExpirationMoisAssuranceMaladie(patient?.assurance_maladie_exp_m);
+            setSexe(patient?.sexe);
+            setDateNaissance(patient?.date_naissance.toString());
+            setCellulaire(patient?.cellulaire);   
+            setDropdownValue(patient?.centre_de_sante.id);
+        };
+        getPatient();   
+        const updateCentreDeSanteStore = async () => {
+            await centreStore.load();
+            let centres = centreStore.centres;
+            setCentres(centres);
+        };
+        updateCentreDeSanteStore(); 
     }, [patientId]);
 
-    function getPatientAge(birthdate : string|undefined){
+    const getPatientAge = (birthdate : string|undefined) => {
         if(birthdate !== undefined){
             return (new Date().getFullYear() - new Date(birthdate).getFullYear()).toString();
         }
         else {
             return "";
         }
+    }
+
+    const getDropdownData = () => {
+        if(centres === undefined) {
+            return [];
+        }
+        let data = []
+        for(let i = 0 ; i< centres.length; i++){
+            
+            data.push({label: centres[i].nom, value: centres[i].id}); 
+        }
+        return data;
     }
   
     const noAssuranceMaladieHasErrors = () => {
@@ -110,6 +133,15 @@ const PatientEdit = observer(({ route, navigation }: PatientNavigationProps) => 
                         let date = new Date(Date.parse(dateNaissance))
                         patientModifie.date_naissance = date;
                     }
+                    if(centres !== undefined){
+                        let centre = centres.find(c => c.id === dropdownValue);
+                        if(centre !== undefined){
+                            patientModifie.centre_de_sante = centre;
+                        }
+                        else{
+                            throw Error; 
+                        }
+                    }
                     patientModifie.cellulaire = cellulaire ?? patientModifie.cellulaire;
                     console.log(patientModifie)
                     await PatientService.save(patientModifie);
@@ -136,13 +168,23 @@ const PatientEdit = observer(({ route, navigation }: PatientNavigationProps) => 
           </View>
           <View style={{ flex: 11 }}>
             <View style={{ flexDirection: "row" }}>
-                <TextInput
-                    label={"Centre de santé :"}
-                    value={patient?.centre_de_sante.nom}
-                    mode={"outlined"}
-                    disabled={true}
-                    autoComplete="off"
-                    style={[styles.textInput, {flex:1}]}
+                <TextReactNative style={[styles.dropdownLabel]}>
+                    Centre de santé:
+                </TextReactNative>
+                <Dropdown 
+                    data={getDropdownData()}
+                    placeholder="Choisir un centre de santé"
+                    labelField="label"
+                    valueField="value"
+                    maxHeight={50}
+                    value={dropdownValue}
+                    renderItem={(item) => 
+                       <TextReactNative style={{fontSize:16}}> {item.label} </TextReactNative>
+                    }
+                    onChange={(item) => {
+                        setDropdownValue(item.value);
+                    }}
+                    style={[styles.dropdown,{flex:1}]}
                 />
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -251,7 +293,22 @@ const styles = StyleSheet.create({
   button : {
     textAlign: "center",
     justifyContent: "center"
-  }
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  dropdownLabel: {
+    position: 'absolute',
+    backgroundColor: '#f6f6f6',
+    top: -8,
+    zIndex: 999,
+    marginHorizontal: 8,
+    fontSize: 11,
+  },
 });
 
 export default PatientEdit;
