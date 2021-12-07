@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { CentreDeSanteNavigationProps } from '~models/types';
@@ -51,11 +51,5 @@ const CentreDeSanteDetails = observer(
     );
   },
 );
-
-const styles = StyleSheet.create({
-  centreDeSanteEntry: {
-    padding: 5,
-  },
-});
 
 export default CentreDeSanteDetails;

@@ -20,10 +20,12 @@ type DrawerParamList = {
 };
 
 type PatientDetailsProps = {
+  navStack: string;
   patientId: number;
 };
 
 type PatientEditProps = {
+  navStack: string;
   patient: Patient;
 };
 
@@ -40,6 +42,8 @@ type CentreDeSanteStackParamList = {
   CentreDeSanteList: undefined;
   CentreDeSanteDetails: { centreDeSanteId: number };
   PatientDetails: PatientDetailsProps;
+  PatientEdit: PatientEditProps;
+  HistoryList: PatientDetailsProps;
 };
 
 type DiagnosticStackParamList = {
@@ -68,6 +72,12 @@ type PatientNavigationProps = NativeStackScreenProps<
   PatientStackParamList,
   'PatientDetails'
 >;
+
+type PatientEditNavigationProps = NativeStackScreenProps<
+  PatientStackParamList,
+  'PatientEdit'
+>;
+
 type CentreDeSanteNavigationProps = NativeStackScreenProps<
   CentreDeSanteStackParamList,
   'CentreDeSanteDetails'
@@ -99,4 +109,5 @@ export type {
   ProcedureNavigationProps,
   CameraNavigationProps,
   DossierNavigationProps,
+  PatientEditNavigationProps,
 };

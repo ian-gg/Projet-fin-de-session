@@ -12,7 +12,7 @@ import {
 import { Text, TextInput, Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 
-import { PatientNavigationProps } from '~models/types';
+import { PatientEditNavigationProps } from '~models/types';
 
 import { Patient } from '~models';
 import { PatientService } from '~services';
@@ -25,7 +25,7 @@ const updateStore = async () => {
 };
 
 const PatientEdit = observer(
-  ({ route, navigation }: PatientNavigationProps) => {
+  ({ route, navigation }: PatientEditNavigationProps) => {
     const { patient } = route.params;
 
     const [patientCopy, setPatientCopy] = useState<Patient>({

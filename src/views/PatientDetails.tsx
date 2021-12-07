@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
@@ -55,32 +62,37 @@ const PatientDetails = observer(
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           contentContainerStyle={{ height: '100%' }}>
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={{ marginBottom: 10 }}>
               <Text>
                 Patient Id : {patient?.id} | Centre de santé Id :{' '}
                 {patient?.centre_de_sante.id}
               </Text>
             </View>
-            <View style={{ flex: 20 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <TextInput
-                  label={'Centre de santé :'}
-                  value={patient?.centre_de_sante.nom}
-                  mode={'outlined'}
-                  disabled={true}
-                  autoComplete="off"
-                  style={[styles.textInput, { flex: 1 }]}
-                />
-              </View>
-              <View style={{ flexDirection: 'row' }}>
+
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+              }}>
+              <TextInput
+                label={'Centre de santé :'}
+                value={patient?.centre_de_sante.nom}
+                mode={'outlined'}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, { marginBottom: 5 }]}
+              />
+
+              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                 <TextInput
                   label={'No. assurance maladie :'}
                   value={patient?.assurance_maladie}
                   mode={'outlined'}
                   disabled={true}
                   autoComplete="off"
-                  style={[styles.textInput, { flex: 3 }]}
+                  style={[styles.textInput, { flex: 1, marginRight: 10 }]}
                 />
                 <TextInput
                   label={'Expiration :'}
@@ -88,17 +100,18 @@ const PatientDetails = observer(
                   mode={'outlined'}
                   disabled={true}
                   autoComplete="off"
-                  style={[styles.textInput, { flex: 2 }]}
+                  style={[styles.textInput, { flex: 1 }]}
                 />
               </View>
-              <View style={{ flexDirection: 'row' }}>
+
+              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                 <TextInput
                   label={'Âge :'}
                   value={getPatientAge(patient?.date_naissance)}
                   mode={'outlined'}
                   disabled={true}
                   autoComplete="off"
-                  style={[styles.textInput, { flex: 1 }]}
+                  style={[styles.textInput, { flex: 1, marginRight: 10 }]}
                 />
                 <TextInput
                   label={'Sexe :'}
@@ -109,61 +122,65 @@ const PatientDetails = observer(
                   style={[styles.textInput, { flex: 1 }]}
                 />
               </View>
-              <View style={{ flexDirection: 'row' }}>
-                <TextInput
-                  label={'Date de naissance :'}
-                  value={patient?.date_naissance.toString()}
-                  mode={'outlined'}
-                  disabled={true}
-                  autoComplete="off"
-                  style={[styles.textInput, { flex: 1 }]}
-                />
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <TextInput
-                  label={'Téléphone :'}
-                  value={patient?.cellulaire}
-                  mode={'outlined'}
-                  disabled={true}
-                  autoComplete="off"
-                  style={[styles.textInput, { flex: 1 }]}
-                />
-              </View>
-            </View>
-            {patient && (
-              <View style={{ flexDirection: 'column', flex: 6 }}>
-                <Button
-                  mode="text"
-                  onPress={() =>
-                    navigation.navigate('PatientEdit', { patient })
-                  }
-                  icon="pencil"
-                  style={[styles.button, { flex: 1 }]}
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  <Text style={{ fontSize: 10 }}>
-                    {' '}
-                    Modifier les informations du patient{' '}
-                  </Text>
-                </Button>
-                <Button
-                  mode="text"
-                  onPress={() =>
-                    navigation.navigate('HistoryList', { patientId: patientId })
-                  }
-                  style={[styles.button, { flex: 1 }]}>
-                  <Text style={{ fontSize: 10 }}>
-                    {' '}
-                    Historique des interventions{' '}
-                  </Text>
-                </Button>
-                <Button
-                  mode="text"
-                  onPress={() => console.log('fichiers pressed')}
-                  style={[styles.button, { flex: 1 }]}>
-                  <Text style={{ fontSize: 10 }}> Fichiers </Text>
-                </Button>
-              </View>
-            )}
+
+              <TextInput
+                label={'Date de naissance :'}
+                value={patient?.date_naissance.toString()}
+                mode={'outlined'}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, { marginBottom: 5 }]}
+              />
+
+              <TextInput
+                label={'Téléphone :'}
+                value={patient?.cellulaire}
+                mode={'outlined'}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, { marginBottom: 10 }]}
+              />
+
+              {patient && (
+                <View style={{ flexDirection: 'column', marginBottom: 30 }}>
+                  <Button
+                    mode="contained"
+                    onPress={() => {
+                      navigation.navigate(route.params.navStack, {
+                        screen: 'PatientEdit',
+                        params: {
+                          navStack: route.params.navStack,
+                          patient,
+                        },
+                      });
+                    }}
+                    icon="pencil"
+                    style={[styles.button, { marginBottom: 15 }]}>
+                    Modifier les informations du patient
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={() => {
+                      navigation.navigate(route.params.navStack, {
+                        screen: 'HistoryList',
+                        params: {
+                          navStack: route.params.navStack,
+                          patientId,
+                        },
+                      });
+                    }}
+                    style={[styles.button, { marginBottom: 15 }]}>
+                    Historique des interventions
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={() => console.log('fichiers pressed')}
+                    style={[styles.button]}>
+                    Fichiers
+                  </Button>
+                </View>
+              )}
+            </KeyboardAvoidingView>
           </View>
         </ScrollView>
       </SafeAreaView>

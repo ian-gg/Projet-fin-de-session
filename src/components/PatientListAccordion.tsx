@@ -19,7 +19,10 @@ const PatientListAccordion = (props: {
             onPress={() =>
               props.navigation.navigate('Centres', {
                 screen: 'PatientDetails',
-                params: { patientId: patient.id },
+                params: {
+                  navStack: 'Centres',
+                  patientId: patient.id,
+                },
               })
             }
           />

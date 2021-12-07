@@ -172,7 +172,7 @@ const PatientNavigator = () => {
       <Stack.Screen
         name="PatientEdit"
         component={PatientEdit}
-        options={{ headerShown: false, title: 'Modification du patient' }}
+        options={{ headerShown: true, title: 'Modification du patient' }}
       />
       <Stack.Screen
         name="HistoryList"
@@ -212,6 +212,16 @@ const CentreDeSanteNavigator = () => {
         name="PatientDetails"
         component={PatientDetails}
         options={{ headerShown: true, title: 'Informations du patient' }}
+      />
+      <Stack.Screen
+        name="PatientEdit"
+        component={PatientEdit}
+        options={{ headerShown: true, title: 'Modification du patient' }}
+      />
+      <Stack.Screen
+        name="HistoryList"
+        component={HistoryList}
+        options={{ headerShown: true, title: 'Historique du patient' }}
       />
     </Stack.Navigator>
   );

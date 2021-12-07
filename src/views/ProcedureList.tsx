@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { ProcedureNavigationProps } from '~models/types';
@@ -15,6 +15,14 @@ const updateStore = async () => {
 
 const ProcedureList = observer(
   ({ route, navigation }: ProcedureNavigationProps) => {
+    useEffect(() => {
+      const onFocus = navigation.addListener('focus', async () => {
+        await updateStore();
+      });
+
+      return onFocus;
+    }, [navigation]);
+
     return (
       <SafeAreaView style={[{ flex: 1, padding: 5 }]}>
         <View style={styles.flatListView}>

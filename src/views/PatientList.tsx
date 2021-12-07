@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   View,
@@ -21,6 +21,14 @@ const updateStore = async () => {
 };
 
 const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
+  useEffect(() => {
+    const onFocus = navigation.addListener('focus', async () => {
+      await updateStore();
+    });
+
+    return onFocus;
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={{ alignSelf: 'flex-end', marginBottom: 10 }}>
@@ -57,7 +65,10 @@ const PatientList = observer(({ route, navigation }: DrawerNavigationProps) => {
                 onPress={() =>
                   navigation.navigate('Patients', {
                     screen: 'PatientDetails',
-                    params: { patientId: item.item.id },
+                    params: {
+                      navStack: 'Patients',
+                      patientId: item.item.id,
+                    },
                   })
                 }
               />
