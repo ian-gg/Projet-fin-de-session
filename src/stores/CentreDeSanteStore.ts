@@ -26,12 +26,8 @@ export default class CentreDeSanteStore {
   }
 
   @computed
-  get dropDownData(): Object[] {
-    let options: any[] = this.centres || [];
-    options = options.map(c => ({ label: c.nom, value: c.id }));
-
-    console.log(options);
-
-    return options;
+  get dropDownData(): any[] {
+    let options = this.centres || [];
+    return options.map(c => ({ label: c.nom, value: c.id }));
   }
 }

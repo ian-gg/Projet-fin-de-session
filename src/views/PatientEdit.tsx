@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -163,42 +165,47 @@ const PatientEdit = observer(
           contentInsetAdjustmentBehavior="automatic"
           contentContainerStyle={{ height: '100%' }}>
           {patientCopy && (
-            <View style={{ flex: 1 }}>
-              <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <View style={{ marginBottom: 10 }}>
                 <Text>
                   Patient Id : {patientCopy.id} | Centre de santé Id :{' '}
                   {patientCopy.centre_de_sante.id}
                 </Text>
               </View>
-              <View style={{ flex: 11 }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={[styles.dropdownLabel]}>Centre de santé:</Text>
-                  <Dropdown
-                    data={centreStore.centres.map(c => ({
-                      label: c.nom,
-                      value: c.id,
-                    }))}
-                    placeholder="Choisir un centre de santé"
-                    labelField="label"
-                    valueField="value"
-                    maxHeight={50}
-                    value={patientCopy.centre_de_sante.id}
-                    renderItem={item => (
-                      <Text style={{ fontSize: 16 }}> {item.label} </Text>
-                    )}
-                    onChange={item => {
-                      setPatientCopy({
-                        ...patientCopy,
-                        centre_de_sante: {
-                          ...patientCopy.centre_de_sante,
-                          id: item.value,
-                        },
-                      });
-                    }}
-                    style={[styles.dropdown, { flex: 1 }]}
-                  />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
+
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}>
+                <View>
+                  <View style={{ flexDirection: 'column', marginBottom: 5 }}>
+                    <Text>Centre de santé :</Text>
+                    <Dropdown
+                      data={centreStore.dropDownData}
+                      placeholder="Choisir un centre de santé"
+                      labelField="label"
+                      valueField="value"
+                      maxHeight={50}
+                      value={patientCopy.centre_de_sante.id}
+                      renderItem={item => (
+                        <Text style={{ fontSize: 16 }}> {item.label} </Text>
+                      )}
+                      onChange={item => {
+                        setPatientCopy({
+                          ...patientCopy,
+                          centre_de_sante: {
+                            ...patientCopy.centre_de_sante,
+                            id: item.value,
+                          },
+                        });
+                      }}
+                      style={[styles.dropdown]}
+                    />
+                  </View>
+
                   <TextInput
                     label={'No. assurance maladie :'}
                     value={patientCopy.assurance_maladie}
@@ -212,67 +219,68 @@ const PatientEdit = observer(
                     mode={'outlined'}
                     disabled={false}
                     autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
+                    style={[styles.textInput, { marginBottom: 5 }]}
                   />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    label={"Annee d'expiration:"}
-                    value={patientCopy.assurance_maladie_exp_a.toString()}
-                    onChangeText={v => {
-                      setPatientCopy({
-                        ...patientCopy,
-                        assurance_maladie_exp_a: parseInt(v, 10),
-                      });
-                    }}
-                    error={expirationAnneeAssuranceMaladieHasErrors()}
-                    mode={'outlined'}
-                    disabled={false}
-                    autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
-                  />
-                  <TextInput
-                    label={"Mois d'expiration : "}
-                    value={patientCopy.assurance_maladie_exp_m.toString()}
-                    onChangeText={v => {
-                      setPatientCopy({
-                        ...patientCopy,
-                        assurance_maladie_exp_m: parseInt(v, 10),
-                      });
-                    }}
-                    error={expirationMoisAssuranceMaladieHasErrors()}
-                    mode={'outlined'}
-                    disabled={false}
-                    autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
-                  />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    label={'Âge :'}
-                    value={getPatientAge(patientCopy.date_naissance)}
-                    mode={'outlined'}
-                    disabled={true}
-                    autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
-                  />
-                  <TextInput
-                    label={'Sexe :'}
-                    value={patientCopy.sexe}
-                    onChangeText={v => {
-                      setPatientCopy({
-                        ...patientCopy,
-                        sexe: v,
-                      });
-                    }}
-                    error={sexeHasErrors()}
-                    mode={'outlined'}
-                    disabled={false}
-                    autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
-                  />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
+
+                  <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                    <TextInput
+                      label={"Annee d'expiration:"}
+                      value={patientCopy.assurance_maladie_exp_a.toString()}
+                      onChangeText={v => {
+                        setPatientCopy({
+                          ...patientCopy,
+                          assurance_maladie_exp_a: parseInt(v, 10),
+                        });
+                      }}
+                      error={expirationAnneeAssuranceMaladieHasErrors()}
+                      mode={'outlined'}
+                      disabled={false}
+                      autoComplete="off"
+                      style={[styles.textInput, { flex: 1, marginRight: 10 }]}
+                    />
+                    <TextInput
+                      label={"Mois d'expiration : "}
+                      value={patientCopy.assurance_maladie_exp_m.toString()}
+                      onChangeText={v => {
+                        setPatientCopy({
+                          ...patientCopy,
+                          assurance_maladie_exp_m: parseInt(v, 10),
+                        });
+                      }}
+                      error={expirationMoisAssuranceMaladieHasErrors()}
+                      mode={'outlined'}
+                      disabled={false}
+                      autoComplete="off"
+                      style={[styles.textInput, { flex: 1 }]}
+                    />
+                  </View>
+
+                  <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                    <TextInput
+                      label={'Âge :'}
+                      value={getPatientAge(patientCopy.date_naissance)}
+                      mode={'outlined'}
+                      disabled={true}
+                      autoComplete="off"
+                      style={[styles.textInput, { flex: 1, marginRight: 10 }]}
+                    />
+                    <TextInput
+                      label={'Sexe :'}
+                      value={patientCopy.sexe}
+                      onChangeText={v => {
+                        setPatientCopy({
+                          ...patientCopy,
+                          sexe: v,
+                        });
+                      }}
+                      error={sexeHasErrors()}
+                      mode={'outlined'}
+                      disabled={false}
+                      autoComplete="off"
+                      style={[styles.textInput, { flex: 1 }]}
+                    />
+                  </View>
+
                   <TextInput
                     label={'Date de naissance (aaaa-mm-jj) :'}
                     value={patientCopy.date_naissance
@@ -288,10 +296,9 @@ const PatientEdit = observer(
                     mode={'outlined'}
                     disabled={false}
                     autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
+                    style={[styles.textInput, { marginBottom: 5 }]}
                   />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
+
                   <TextInput
                     label={'Téléphone (###-###-####) :'}
                     value={patientCopy.cellulaire}
@@ -305,23 +312,18 @@ const PatientEdit = observer(
                     mode={'outlined'}
                     disabled={false}
                     autoComplete="off"
-                    style={[styles.textInput, { flex: 1 }]}
+                    style={[styles.textInput, { marginBottom: 30 }]}
                   />
+
+                  <Button
+                    mode="contained"
+                    icon="content-save"
+                    onPress={() => saveModifications()}
+                    style={[styles.button]}>
+                    Sauvegarder les modifications
+                  </Button>
                 </View>
-              </View>
-              <View style={{ flexDirection: 'column', flex: 2 }}>
-                <Button
-                  mode="text"
-                  icon="content-save"
-                  onPress={() => saveModifications()}
-                  style={[styles.button, { flex: 1 }]}
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  <Text style={{ fontSize: 10 }}>
-                    {' '}
-                    Sauvegarder les modifications{' '}
-                  </Text>
-                </Button>
-              </View>
+              </KeyboardAvoidingView>
             </View>
           )}
         </ScrollView>
@@ -338,23 +340,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
+    fontSize: 15,
     textAlign: 'center',
     justifyContent: 'center',
   },
   dropdown: {
-    height: 50,
+    minHeight: 50,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
-  },
-  dropdownLabel: {
-    position: 'absolute',
-    backgroundColor: '#f6f6f6',
-    top: -8,
-    zIndex: 999,
-    marginHorizontal: 8,
-    fontSize: 11,
   },
 });
 
