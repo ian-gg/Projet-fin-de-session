@@ -170,7 +170,7 @@ const PatientNavigator = () => {
         options={{ headerShown: true, title: 'Informations du patient' }}
       />
       <Stack.Screen
-        name='PatientEdit'
+        name="PatientEdit"
         component={PatientEdit}
         options={{ headerShown: false, title: 'Modification du patient' }}
       />
