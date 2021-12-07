@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, computed, makeAutoObservable } from 'mobx';
 
 import { CentreDeSante } from '~models';
 import { CentreDeSanteService } from '~services';
@@ -23,5 +23,15 @@ export default class CentreDeSanteStore {
   @action
   private setCentres(centres: CentreDeSante[]) {
     this.centres = centres;
+  }
+
+  @computed
+  get dropDownData(): Object[] {
+    let options: any[] = this.centres || [];
+    options = options.map(c => ({ label: c.nom, value: c.id }));
+
+    console.log(options);
+
+    return options;
   }
 }

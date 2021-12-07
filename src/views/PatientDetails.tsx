@@ -19,11 +19,11 @@ const PatientDetails = observer(
         setPatient(await PatientService.get(patientId));
       };
 
-      const focusListener = navigation.addListener('focus', () => {
-        getPatient();
+      const onFocus = navigation.addListener('focus', async () => {
+        await getPatient();
       });
 
-      return focusListener();
+      return onFocus;
     }, [navigation, patientId]);
 
     function getPatientAge(birthdate: Date | undefined) {
@@ -130,38 +130,40 @@ const PatientDetails = observer(
                 />
               </View>
             </View>
-            <View style={{ flexDirection: 'column', flex: 6 }}>
-              <Button
-                mode="text"
-                onPress={() =>
-                  navigation.navigate('PatientEdit', { patientId: patientId })
-                }
-                icon="pencil"
-                style={[styles.button, { flex: 1 }]}
-                contentStyle={{ flexDirection: 'row-reverse' }}>
-                <Text style={{ fontSize: 10 }}>
-                  {' '}
-                  Modifier les informations du patient{' '}
-                </Text>
-              </Button>
-              <Button
-                mode="text"
-                onPress={() =>
-                  navigation.navigate('HistoryList', { patientId: patientId })
-                }
-                style={[styles.button, { flex: 1 }]}>
-                <Text style={{ fontSize: 10 }}>
-                  {' '}
-                  Historique des interventions{' '}
-                </Text>
-              </Button>
-              <Button
-                mode="text"
-                onPress={() => console.log('fichiers pressed')}
-                style={[styles.button, { flex: 1 }]}>
-                <Text style={{ fontSize: 10 }}> Fichiers </Text>
-              </Button>
-            </View>
+            {patient && (
+              <View style={{ flexDirection: 'column', flex: 6 }}>
+                <Button
+                  mode="text"
+                  onPress={() =>
+                    navigation.navigate('PatientEdit', { patient })
+                  }
+                  icon="pencil"
+                  style={[styles.button, { flex: 1 }]}
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  <Text style={{ fontSize: 10 }}>
+                    {' '}
+                    Modifier les informations du patient{' '}
+                  </Text>
+                </Button>
+                <Button
+                  mode="text"
+                  onPress={() =>
+                    navigation.navigate('HistoryList', { patientId: patientId })
+                  }
+                  style={[styles.button, { flex: 1 }]}>
+                  <Text style={{ fontSize: 10 }}>
+                    {' '}
+                    Historique des interventions{' '}
+                  </Text>
+                </Button>
+                <Button
+                  mode="text"
+                  onPress={() => console.log('fichiers pressed')}
+                  style={[styles.button, { flex: 1 }]}>
+                  <Text style={{ fontSize: 10 }}> Fichiers </Text>
+                </Button>
+              </View>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

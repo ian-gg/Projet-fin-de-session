@@ -1,5 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Patient } from '~models';
 
 type RootStackParamList = {
   Root: NavigatorScreenParams<DrawerParamList>;
@@ -22,11 +23,15 @@ type PatientDetailsProps = {
   patientId: number;
 };
 
+type PatientEditProps = {
+  patient: Patient;
+};
+
 type PatientStackParamList = {
   Patients: undefined;
   PatientList: undefined;
   PatientDetails: PatientDetailsProps;
-  PatientEdit: PatientDetailsProps;
+  PatientEdit: PatientEditProps;
   HistoryList: PatientDetailsProps;
 };
 
