@@ -195,6 +195,8 @@ async function seedDatabase() {
   const interventionProcedure = await InterventionProcedureService.create({
     intervention: await InterventionService.get(1),
     procedure,
+    date_debut: '2021-12-10 9:00:00',
+    date_fin: '2021-12-10 11:30:00'
   });
 
   await InterventionProcedureService.save(interventionProcedure);
@@ -202,12 +204,12 @@ async function seedDatabase() {
   const fichiers = await FichierService.createAll([
     {
       patient: patient1,
-      lien_ressource: 'src\resources\thinking.png',
+      lien_ressource: ''
     },
     {
       patient: patient2,
-      lien_ressource: 'src\resourceshospital.jpg',
-    },
+      lien_ressource: ''
+    }
   ]);
 
   await FichierService.saveAll(fichiers);
