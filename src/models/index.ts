@@ -42,7 +42,7 @@ class Fichier {
   id: number;
 
   @ManyToOne(() => Patient, { nullable: false })
-  @JoinColumn({ name: 'id' })
+  @JoinColumn({ name: 'patient_id' })
   patient: Patient;
 
   @Column()

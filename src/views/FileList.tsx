@@ -55,23 +55,28 @@ const FileList = observer(
           async (response: ImagePickerResponse) => {
             if (response && response.assets && response.assets.length > 0) {
                 const url = response.assets[0].uri;
-                console.log(url);
+                
                 let fichier = await FichierService.create({
                   patient: patient,
                   lien_ressource: url,
+                  patient_id: patientId
                 });
 
                 await FichierService.save(fichier);
+
+                console.log(await FichierService.get(patientId));
+                console.log(patient);
 
             }
           },
         );
     }
-
+/*
     function renderImage(){
       
-      const imageView = [0, 1].map(data => (
+      const imageView = [0].map(data => (
         <Image
+          key={0}
           style={styles.images}
           source={{uri: "file:///storage/emulated/0/Download/img8.jpg"}}
         />
@@ -79,7 +84,7 @@ const FileList = observer(
       return imageView;
 
     }
-    
+*/
     return (
       <SafeAreaView style={{ padding: 5, margin: 5 }}>
         <Button
@@ -90,7 +95,7 @@ const FileList = observer(
           style={styles.button}>
         </Button>
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          <View>{renderImage()}</View>
+          <View key="image">{}</View>
         </ScrollView>
       </SafeAreaView>
     );
