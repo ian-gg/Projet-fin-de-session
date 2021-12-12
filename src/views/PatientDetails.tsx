@@ -159,7 +159,7 @@ const PatientDetails = observer(
                 <Button
                   mode="text"
                   onPress={() => 
-                    navigation.navigate('FileList', { patientId: patientId })
+                    navigation.navigate('FileList', { patientId: patientId, patient: patient })
                   }
                   style={[styles.button, { flex: 1 }]}>
                   <Text style={{ fontSize: 10 }}> Fichiers </Text>

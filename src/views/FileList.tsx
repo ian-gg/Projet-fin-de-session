@@ -9,20 +9,20 @@ import {
   Text,
   Button,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DataTable } from 'react-native-paper';
 
 import { FileNavigationProps, PatientNavigationProps } from '~models/types';
 
-import { Patient, Intervention, Diagnostic } from '~models';
+import { Patient, Fichier } from '~models';
 import {
-  InterventionService,
   PatientService,
-  DiagnosticService,
+  FichierService,
 } from '~services';
 
-import { PatientStore, InterventionStore } from '~stores';
+import { PatientStore, FichierStore } from '~stores';
 
 import {
     ImagePickerResponse,
@@ -33,12 +33,6 @@ const FileList = observer(
   ({ route, navigation }: PatientNavigationProps) => {
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
-
-    const urlFake = [
-        "file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_04a1c0c2-d378-4d48-8af2-854a1a3e6197.jpg",
-        "file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_b8b0c398-7dad-407b-8279-340520a288eb.jpg",
-        "file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_69649a6f-efc6-447f-a2b9-aa5ac05793f2.jpg",
-    ]
 
     useEffect(() => {
       const getPatient = async () => {
@@ -51,23 +45,37 @@ const FileList = observer(
         launchImageLibrary(
           {
             mediaType: 'photo',
-            includeBase64: true,
           },
           async (response: ImagePickerResponse) => {
             if (response && response.assets && response.assets.length > 0) {
                 const url = response.assets[0].uri;
-                console.log(url);
-                console.log(response.assets[0].fileName);
+
+                let fichier = await FichierService.create({
+                  patient: patient,
+                  lien_ressource: url,
+                });
+
+                await FichierService.save(fichier);
+
             }
           },
         );
+    }
+
+    function openImage(url: string){
+      
     }
     
     function renderImageList() {
         
       return (
         <View>
-          <Text>Yo</Text>
+          <TouchableOpacity onPress={()=>openImage("../resources/hospital.jpg")}>
+            <Image
+              style={styles.images}
+              source={require("../resources/hospital.jpg")}
+            />
+          </TouchableOpacity>
         </View>
       );
     }
@@ -92,9 +100,9 @@ const styles = StyleSheet.create({
   patientEntry: {
     padding: 15,
   },
-  logo: {
-    width: 300,
-    height: 300,
+  images: {
+    width: 100,
+    height: 100,
   },
 });
 
