@@ -30,6 +30,7 @@ import {
   CameraHome,
   PermissionsManager,
   HistoryList,
+  FileList,
 } from '~views';
 import { DbManager } from '~db';
 
@@ -178,6 +179,11 @@ const PatientNavigator = () => {
         name="HistoryList"
         component={HistoryList}
         options={{ headerShown: true, title: 'Historique du patient' }}
+      />
+      <Stack.Screen
+        name="FileList"
+        component={FileList}
+        options={{ headerShown: true, title: 'Fichier du patient' }}
       />
     </Stack.Navigator>
   );

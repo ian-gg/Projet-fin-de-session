@@ -33,6 +33,7 @@ type PatientStackParamList = {
   PatientDetails: PatientDetailsProps;
   PatientEdit: PatientEditProps;
   HistoryList: PatientDetailsProps;
+  FileList: PatientDetailsProps;
 };
 
 type CentreDeSanteStackParamList = {
@@ -89,6 +90,11 @@ type DossierNavigationProps = NativeStackScreenProps<
   'PatientDetails'
 >;
 
+type FileNavigationProps = NativeStackScreenProps<
+  PatientStackParamList,
+  'PatientDetails'
+>;
+
 export type {
   RootNavigationProps,
   DrawerParamList,
@@ -99,4 +105,5 @@ export type {
   ProcedureNavigationProps,
   CameraNavigationProps,
   DossierNavigationProps,
+  FileNavigationProps,
 };

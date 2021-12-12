@@ -67,12 +67,7 @@ const FileList = observer(
         
       return (
         <View>
-            <Image
-                style={styles.logo}
-                source={'data:image/jpeg,' + "file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_69649a6f-efc6-447f-a2b9-aa5ac05793f2.jpg"}
-                onclick={()=> console.log("clique")}
-            />
-            <Text>Yo</Text>
+          <Text>Yo</Text>
         </View>
       );
     }

@@ -11,6 +11,7 @@ import ProcedureList from './ProcedureList';
 import CameraHome from './CameraHome';
 import PermissionsManager from './PermissionsManager';
 import HistoryDetails from './HistoryDetails';
+import FileList from './FileList';
 
 export {
   PatientList,
@@ -26,4 +27,5 @@ export {
   ProcedureList,
   CameraHome,
   PermissionsManager,
+  FileList,
 };
