@@ -6,36 +6,83 @@ import { DataTable } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
 
-import { Patient, Intervention, Diagnostic } from '~models';
-import { InterventionService, PatientService, DiagnosticService } from '~services';
+import { Patient, Intervention, Diagnostic, Fichier, Procedure } from '~models';
+import { InterventionProcedureService, PatientService, ProcedureService } from '~services';
 
 import { PatientStore, InterventionStore, } from '~stores';
+import HistoryDetails from './HistoryDetails';
+
+class History {
+    name: string;
+    commentaire: string;
+    diagnostic: Diagnostic;
+    dateDebut: Date;
+    dateFin: Date;
+    procedures: string;
+    nomsFichier: string
+}
 
 const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => {
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
     const [diagnostics, setDiagnostics] = useState<Diagnostic[] | undefined>(undefined);
+    const [procedures, setProcedures] = useState([]);
+    const [interventions, setInterventions] = useState<Intervention[] | undefined>(undefined);
+    //const [fichierIntervention, setFichierIntervention] = useState<>
 
-    const getDiagnosticFromInterventions = async () => {
-        let diagnosticsList = [];
+    let data = new Array<History>();
+
+    const getPatient = async () => {
+        setPatient(await PatientService.get(patientId));
+    };
+
+    const initVariables = async () => {
+        let folders = [];
+
         if (patient !== undefined) {
-            for (let intervention of patient?.interventions) {
-                //search diagnotic from table
-                let d = await DiagnosticService.get(intervention.diagnostic.id);
-                if (d != undefined) {
-                    diagnosticsList.push(d);
-                }
+            setInterventions(patient.interventions);
+        }
+    };
+
+    const setData = async () => {
+
+        if (interventions !== undefined) {
+            for (let intervention of interventions) {
+                let fichiers = '';
+
+                intervention.fichiers.map(d => {
+                    if (!fichiers.includes(d.id.toString()))
+                        fichiers += d.id + '\n';
+                })
+
+                let interventionsProcedures = await InterventionProcedureService.forIntervention(intervention);
+
+                let procedures = '';
+                interventionsProcedures.map(p => {
+                    procedures += p.procedure.id + ' - ' + p.procedure.description ? p.procedure.description : '' + '\n';
+                })
+
+                data.push({
+                    name: 'intervention ' + intervention.id,
+                    commentaire: intervention.commentaire ? intervention.commentaire : '',
+                    diagnostic: intervention.diagnostic,
+                    dateDebut: intervention.date_debut,
+                    dateFin: intervention.date_fin,
+                    procedures: procedures,
+                    nomsFichier: fichiers
+
+                })
             }
         }
-        setDiagnostics(diagnosticsList);
+
     }
 
+    // first we take all the ressources of the patient's folders and we also get the ids of these folders
     useEffect(() => {
-        const getPatient = async () => {
-            setPatient(await PatientService.get(patientId));
-        };
-        getPatient();
-        getDiagnosticFromInterventions();
+        getPatient;
+        initVariables;
+        setData;
+
     }, [patientId]);
 
     function renderDataTable() {
@@ -43,7 +90,8 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
         <DataTable>
 
             <DataTable.Header>
-                <DataTable.Title>Nom Intervention</DataTable.Title>
+                <DataTable.Title>Numero Intervention</DataTable.Title>
+                <DataTable.Title>Diagnotics</DataTable.Title>
                 <DataTable.Title>Procédures liées</DataTable.Title>
                 <DataTable.Title>Date Debut</DataTable.Title>
                 <DataTable.Title>Date Fin</DataTable.Title>
@@ -51,13 +99,14 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
             </DataTable.Header>
 
 
-            {diagnostics?.map(data => (
+            {data?.map(d => (
                 <DataTable.Row>
-                    <DataTable.Cell>{data.interventions}</DataTable.Cell>
-                    <DataTable.Cell>{data.etiquette}</DataTable.Cell>
-                    <DataTable.Cell>{}</DataTable.Cell>
-                    <DataTable.Cell>{}interventions[i].date_fin</DataTable.Cell>
-                    <DataTable.Cell>{}interventions[i].commentaire</DataTable.Cell>
+                    <DataTable.Cell>{d.name}</DataTable.Cell>
+                    <DataTable.Cell>{d.diagnostic}</DataTable.Cell>
+                    <DataTable.Cell>{d.procedures}</DataTable.Cell>
+                    <DataTable.Cell>{d.dateDebut}</DataTable.Cell>
+                    <DataTable.Cell>{d.dateFin}</DataTable.Cell>
+                    <DataTable.Cell>{d.commentaire}</DataTable.Cell>
                 </DataTable.Row>
             ))}
 
