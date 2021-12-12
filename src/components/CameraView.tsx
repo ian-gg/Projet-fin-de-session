@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
@@ -14,13 +14,18 @@ Reanimated.addWhitelistedNativeProps({
   zoom: true,
 });
 
-const CameraView = (props: { isActive: boolean }) => {
+const CameraView = (props: { isActive: boolean; resultCallback: Function }) => {
   const camera = useRef<Camera>(null);
   const devices = useCameraDevices();
   const device = devices.back;
   const insets = useSafeAreaInsets();
 
   const { height: winH, width: winW } = useWindowDimensions();
+
+  const [processing, setProcessing] = useState<boolean>(false);
+
+  const { resultCallback } = props;
+
   return (
     <View style={styles.container}>
       {device != null && (
@@ -42,7 +47,10 @@ const CameraView = (props: { isActive: boolean }) => {
         size={40}
         animated={true}
         style={[styles.captureButton, { bottom: insets.bottom + 15 }]}
+        disabled={processing}
         onPress={async () => {
+          setProcessing(true);
+
           const photo = await camera.current?.takePhoto();
 
           if (photo && photo.path) {
@@ -67,8 +75,13 @@ const CameraView = (props: { isActive: boolean }) => {
               cropRegion,
             );
 
-            const result = await MlkitOcr.detectFromUri(croppedImagePath);
+            resultCallback({
+              image: croppedImagePath,
+              result: await MlkitOcr.detectFromUri(croppedImagePath),
+            });
           }
+
+          setProcessing(false);
         }}
       />
     </View>

@@ -6,7 +6,9 @@ export default {
     return (await DbManager.repo(InterventionProcedure)).findOne(id);
   },
 
-  async forIntervention(intervention: Intervention): Promise<InterventionProcedure[]> {
+  async forIntervention(
+    intervention: Intervention,
+  ): Promise<InterventionProcedure[]> {
     return (await DbManager.repo(InterventionProcedure)).find({
       where: { intervention_id: intervention.id },
       select: ['id', 'date_debut', 'date_fin'],
