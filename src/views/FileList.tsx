@@ -10,9 +10,11 @@ import {
   Button,
   Image,
   TouchableOpacity,
+  useWindowDimensions
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DataTable } from 'react-native-paper';
+import RNPhotoManipulator from 'react-native-photo-manipulator';
 
 import { FileNavigationProps, PatientNavigationProps } from '~models/types';
 
@@ -33,6 +35,8 @@ const FileList = observer(
   ({ route, navigation }: PatientNavigationProps) => {
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
+
+    const { height: winH, width: winW } = useWindowDimensions();
 
     useEffect(() => {
       const getPatient = async () => {
@@ -62,7 +66,7 @@ const FileList = observer(
         );
     }
 
-    function openImage(url: string){
+    function openImage(photo: string){
       
     }
     
@@ -70,25 +74,27 @@ const FileList = observer(
         
       return (
         <View>
-          <TouchableOpacity onPress={()=>openImage("../resources/hospital.jpg")}>
+          <TouchableOpacity onPress={()=>openImage("file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg")}>
             <Image
               style={styles.images}
-              source={require("../resources/hospital.jpg")}
+              source={{uri:"file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg"}}
             />
           </TouchableOpacity>
+          
         </View>
       );
     }
 
     return (
-      <SafeAreaView style={{ padding: 5 }}>
+      <SafeAreaView style={{ padding: 5, margin: 5 }}>
         <Button
           onPress={() => {
             upload();
           }}
-          title="Ajout d'un fichier">
+          title="Ajout d'un fichier"
+          style={styles.button}>
         </Button>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
           <View>{renderImageList()}</View>
         </ScrollView>
       </SafeAreaView>
@@ -101,9 +107,13 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   images: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
+    resizeMode: "contain"
   },
+  scrollView: {
+    margin: 10,
+  }
 });
 
 export default FileList;

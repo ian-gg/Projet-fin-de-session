@@ -204,13 +204,23 @@ async function seedDatabase() {
   const fichiers = await FichierService.createAll([
     {
       patient: patient1,
-      lien_ressource: '',
+      lien_ressource: 'file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg',
     },
     {
       patient: patient2,
-      lien_ressource: '',
+      lien_ressource: 'file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg',
     },
   ]);
 
   await FichierService.saveAll(fichiers);
+
+  const fichier = await(FichierService.create(
+    {
+      patient: patient1,
+      lien_ressource: "file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg",
+    },
+  ));
+
+  await FichierService.save(fichier);
+
 }
