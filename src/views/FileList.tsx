@@ -45,6 +45,8 @@ const FileList = observer(
       getPatient();
     }, [patientId]);
 
+       
+  
     function upload() {
         launchImageLibrary(
           {
@@ -53,7 +55,7 @@ const FileList = observer(
           async (response: ImagePickerResponse) => {
             if (response && response.assets && response.assets.length > 0) {
                 const url = response.assets[0].uri;
-
+                console.log(url);
                 let fichier = await FichierService.create({
                   patient: patient,
                   lien_ressource: url,
@@ -66,25 +68,18 @@ const FileList = observer(
         );
     }
 
-    function openImage(photo: string){
+    function renderImage(){
       
+      const imageView = [0, 1].map(data => (
+        <Image
+          style={styles.images}
+          source={{uri: "file:///storage/emulated/0/Download/img8.jpg"}}
+        />
+      )); 
+      return imageView;
+
     }
     
-    function renderImageList() {
-        
-      return (
-        <View>
-          <TouchableOpacity onPress={()=>openImage("file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg")}>
-            <Image
-              style={styles.images}
-              source={{uri:"file:///data/data/com.gestionpatients/cache/rn_image_picker_lib_temp_c7ab6434-8821-4bc8-927b-e3522e976b5d.jpg"}}
-            />
-          </TouchableOpacity>
-          
-        </View>
-      );
-    }
-
     return (
       <SafeAreaView style={{ padding: 5, margin: 5 }}>
         <Button
@@ -95,7 +90,7 @@ const FileList = observer(
           style={styles.button}>
         </Button>
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          <View>{renderImageList()}</View>
+          <View>{renderImage()}</View>
         </ScrollView>
       </SafeAreaView>
     );
