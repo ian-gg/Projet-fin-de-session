@@ -5,7 +5,7 @@ Dependencies
 &nbsp;
 
 Setup:
-npm install --legacy-peer-deps
+npm install
 
 Android
 

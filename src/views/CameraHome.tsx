@@ -54,7 +54,7 @@ const CameraHome = ({ route, navigation }: RootNavigationProps) => {
   const cameraAuthorized = cameraPermissionStatus === 'granted';
 
   if (cameraAuthorized) {
-    if (result && result.length > 0) {
+    if (result) {
       return <PatientOcrResultPreview image={image} result={result} />;
     } else {
       return (

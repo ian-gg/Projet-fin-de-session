@@ -7,6 +7,8 @@ import {
   OneToMany,
   ManyToOne,
   ManyToMany,
+  Unique,
+  BeforeInsert,
 } from 'typeorm/browser';
 
 @Entity()
@@ -116,6 +118,7 @@ class InterventionProcedure {
 }
 
 @Entity()
+@Unique(['num_dossier', 'assurance_maladie'])
 class Patient {
   @PrimaryGeneratedColumn()
   id: number;
@@ -130,7 +133,7 @@ class Patient {
   @Column({ length: 30 })
   nom: string;
 
-  @Column({ length: 12, unique: true })
+  @Column({ length: 12 })
   assurance_maladie: string;
 
   @Column({ type: 'int' })
@@ -153,6 +156,13 @@ class Patient {
 
   @OneToMany(type => Fichier, fichier => fichier.patient)
   fichiers: Fichier[];
+
+  @BeforeInsert()
+  updateDateNaissance?() {
+    if (isNaN(this.date_naissance.getTime())) {
+      this.date_naissance = new Date();
+    }
+  }
 }
 
 @Entity()

@@ -23,7 +23,13 @@ const PatientDetails = observer(
 
     useEffect(() => {
       const getPatient = async () => {
-        setPatient(await PatientService.get(patientId));
+        const fetched = await PatientService.get(patientId);
+
+        if (fetched?.date_naissance) {
+          console.log(fetched);
+        }
+
+        setPatient(fetched);
       };
 
       const onFocus = navigation.addListener('focus', async () => {
@@ -34,7 +40,7 @@ const PatientDetails = observer(
     }, [navigation, patientId]);
 
     function getPatientAge(birthdate: Date | undefined) {
-      if (birthdate !== undefined) {
+      if (birthdate) {
         return (
           new Date().getFullYear() - new Date(birthdate).getFullYear()
         ).toString();
@@ -45,11 +51,12 @@ const PatientDetails = observer(
 
     function getExpirationAssuranceMaladie() {
       if (
-        patient?.assurance_maladie_exp_a === undefined ||
-        patient?.assurance_maladie_exp_m === undefined
+        !patient?.assurance_maladie_exp_a ||
+        !patient?.assurance_maladie_exp_m
       ) {
         return '';
       }
+
       let dateExpiration = new Date(
         patient?.assurance_maladie_exp_a,
         patient?.assurance_maladie_exp_m - 1,
@@ -70,8 +77,7 @@ const PatientDetails = observer(
               </Text>
             </View>
 
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            <ScrollView
               style={{
                 flex: 1,
                 flexDirection: 'column',
@@ -79,6 +85,15 @@ const PatientDetails = observer(
               <TextInput
                 label={'Centre de santé :'}
                 value={patient?.centre_de_sante.nom}
+                mode={'outlined'}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, { marginBottom: 5 }]}
+              />
+
+              <TextInput
+                label={'Numéro de dossier :'}
+                value={patient?.num_dossier}
                 mode={'outlined'}
                 disabled={true}
                 autoComplete="off"
@@ -103,6 +118,15 @@ const PatientDetails = observer(
                   style={[styles.textInput, { flex: 1 }]}
                 />
               </View>
+
+              <TextInput
+                label={'Nom :'}
+                value={patient?.nom}
+                mode={'outlined'}
+                disabled={true}
+                autoComplete="off"
+                style={[styles.textInput, { marginBottom: 5 }]}
+              />
 
               <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                 <TextInput
@@ -180,7 +204,7 @@ const PatientDetails = observer(
                   </Button>
                 </View>
               )}
-            </KeyboardAvoidingView>
+            </ScrollView>
           </View>
         </ScrollView>
       </SafeAreaView>

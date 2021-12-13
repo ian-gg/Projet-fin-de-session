@@ -30,7 +30,9 @@ const PatientEdit = observer(
 
     const [patientCopy, setPatientCopy] = useState<Patient>({
       ...patient,
-      date_naissance: new Date(patient.date_naissance),
+      date_naissance: patient.date_naissance
+        ? new Date(patient.date_naissance)
+        : new Date(),
     });
 
     useEffect(() => {
@@ -165,7 +167,7 @@ const PatientEdit = observer(
           contentInsetAdjustmentBehavior="automatic"
           contentContainerStyle={{ height: '100%' }}>
           {patientCopy && (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
               <View style={{ marginBottom: 10 }}>
                 <Text>
                   Patient Id : {patientCopy.id} | Centre de santé Id :{' '}
@@ -173,8 +175,7 @@ const PatientEdit = observer(
                 </Text>
               </View>
 
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              <View
                 style={{
                   flex: 1,
                   flexDirection: 'column',
@@ -188,7 +189,6 @@ const PatientEdit = observer(
                       placeholder="Choisir un centre de santé"
                       labelField="label"
                       valueField="value"
-                      maxHeight={50}
                       value={patientCopy.centre_de_sante.id}
                       renderItem={item => (
                         <Text style={{ fontSize: 16 }}> {item.label} </Text>
@@ -205,6 +205,21 @@ const PatientEdit = observer(
                       style={[styles.dropdown]}
                     />
                   </View>
+
+                  <TextInput
+                    label={'Numéro de dossier :'}
+                    value={patientCopy.num_dossier}
+                    onChangeText={v => {
+                      setPatientCopy({
+                        ...patientCopy,
+                        num_dossier: v,
+                      });
+                    }}
+                    mode={'outlined'}
+                    disabled={false}
+                    autoComplete="off"
+                    style={[styles.textInput, { marginBottom: 5 }]}
+                  />
 
                   <TextInput
                     label={'No. assurance maladie :'}
@@ -224,7 +239,7 @@ const PatientEdit = observer(
 
                   <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <TextInput
-                      label={"Annee d'expiration:"}
+                      label={"Annee d'expiration :"}
                       value={patientCopy.assurance_maladie_exp_a.toString()}
                       onChangeText={v => {
                         setPatientCopy({
@@ -239,7 +254,7 @@ const PatientEdit = observer(
                       style={[styles.textInput, { flex: 1, marginRight: 10 }]}
                     />
                     <TextInput
-                      label={"Mois d'expiration : "}
+                      label={"Mois d'expiration :"}
                       value={patientCopy.assurance_maladie_exp_m.toString()}
                       onChangeText={v => {
                         setPatientCopy({
@@ -254,6 +269,21 @@ const PatientEdit = observer(
                       style={[styles.textInput, { flex: 1 }]}
                     />
                   </View>
+
+                  <TextInput
+                    label={'Nom :'}
+                    value={patientCopy.nom}
+                    onChangeText={v => {
+                      setPatientCopy({
+                        ...patientCopy,
+                        nom: v,
+                      });
+                    }}
+                    mode={'outlined'}
+                    disabled={false}
+                    autoComplete="off"
+                    style={[styles.textInput, { marginBottom: 5 }]}
+                  />
 
                   <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <TextInput
@@ -287,10 +317,13 @@ const PatientEdit = observer(
                       .toISOString()
                       .substring(0, 10)}
                     onChangeText={v => {
-                      setPatientCopy({
-                        ...patientCopy,
-                        date_naissance: new Date(v),
-                      });
+                      const newDate = isNaN(Date.parse(v)) ? v : new Date(v);
+                      if (newDate && !isNaN(newDate)) {
+                        setPatientCopy({
+                          ...patientCopy,
+                          date_naissance: newDate,
+                        });
+                      }
                     }}
                     error={dateNaissanceHasErrors()}
                     mode={'outlined'}
@@ -323,8 +356,8 @@ const PatientEdit = observer(
                     Sauvegarder les modifications
                   </Button>
                 </View>
-              </KeyboardAvoidingView>
-            </View>
+              </View>
+            </ScrollView>
           )}
         </ScrollView>
       </SafeAreaView>

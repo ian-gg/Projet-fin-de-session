@@ -1,24 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
-import {
-  MKLBlock,
-  MlkitOcrResult,
-  MLKTextLine,
-} from 'react-native-mlkit-ocr/src';
+import { MlkitOcrResult } from 'react-native-mlkit-ocr/src';
 import { Button, Text, TextInput } from 'react-native-paper';
-import {
-  CentreDeSanteService,
-  DossierService,
-  PatientService,
-} from '~services';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { PatientService } from '~services';
+
+import { CentreDeSanteStore } from '~stores';
+
+const centreStore = new CentreDeSanteStore();
+
+const updateStore = async () => {
+  await centreStore.load();
+};
+
+const enum PatientField {
+  NumDossier = 'num_dossier',
+  Nom = 'nom',
+  AssuranceMaladie = 'assurance_maladie',
+  AssuranceMaladieExpA = 'assurance_maladie_exp_a',
+  AssuranceMaladieExpM = 'assurance_maladie_exp_m',
+  DateNaissance = 'date_naissance',
+  Sexe = 'sexe',
+  Cellulaire = 'cellulaire',
+}
+
+type PatientForm = {
+  [key in PatientField]: string;
+};
+
+const defaultForm = {
+  centre_de_sante: {
+    id: '',
+  },
+  num_dossier: '',
+  assurance_maladie: '',
+  assurance_maladie_exp_a: '',
+  assurance_maladie_exp_m: '',
+  nom: '',
+  date_naissance: '',
+  sexe: '',
+  cellulaire: '',
+};
+
+const formLabels = {
+  num_dossier: 'Numéro de dossier',
+  assurance_maladie: 'Assurance maladie',
+  assurance_maladie_exp_a: "Année d'expiration",
+  assurance_maladie_exp_m: "Mois d'expiration",
+  nom: 'Nom',
+  date_naissance: 'Date de naissance',
+  sexe: 'Sexe',
+  cellulaire: 'Cellulaire',
+};
 
 const PatientOcrResultPreview = (props: {
   image: string | undefined;
@@ -26,74 +69,149 @@ const PatientOcrResultPreview = (props: {
 }) => {
   const { image, result } = props;
 
-  const [dataInfo, setDataInfo] = useState<any[]>([]);
+  const [resultLines, setResultLines] = useState<any[]>([]);
+  const [form, setForm] = useState<any>(defaultForm);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
-    if (result) {
-      const nas_complete = result[0].lines[6].text.replace(' ', '').trim();
+    updateStore();
+    setForm(defaultForm);
+  }, []);
 
-      const json = [
-        { value: result[0].lines[0].text, txt: 'date' },
-        { value: result[0].lines[1].text, txt: 'name' },
-        { value: result[1].text, txt: 'sexe' },
-        { value: result[2].text, txt: 'numero patient' },
-        { value: result[3].text, txt: 'telephone' },
-        { value: nas_complete.slice(0, 12), txt: 'nas' },
-        {
-          value: nas_complete.slice(12, nas_complete.length).trim(),
-          txt: 'nas exp',
-        },
-      ];
+  useEffect(() => {
+    if (result && result.length > 0) {
+      const newInfo = result.reduce((acc, block) => {
+        const lineTexts: string[] = block.lines.map(line => line.text);
 
-      console.log(json);
+        return acc.concat(lineTexts);
+      }, [] as string[]);
 
-      setDataInfo(json);
+      newInfo.reverse();
+
+      setResultLines(newInfo);
     }
   }, [image, result]);
 
-  if (result) {
-    console.log(image, result);
+  const canSave = () => {
+    return (
+      !!form.centre_de_sante.id &&
+      !!form.num_dossier &&
+      !!form.assurance_maladie
+    );
+  };
 
+  if (result && result.length > 0) {
     return (
       <SafeAreaView style={styles.containerSuccess}>
-        <Image
-          source={{ uri: `file://${image}` }}
-          style={styles.imageStyle}
-          resizeMode="contain"
-          onLoadEnd={() => console.log('loaded image')}
-        />
-
         <ScrollView
           contentContainerStyle={{
-            alignItems: 'stretch',
+            flex: 1,
             padding: 10,
-            height: Dimensions.get('window').height,
           }}
           showsVerticalScrollIndicator
           style={styles.scroll}>
+          <Image
+            source={{ uri: `file://${image}` }}
+            style={styles.imageStyle}
+            resizeMode="contain"
+            onLoadEnd={() => console.log('loaded image')}
+          />
+
           <Button
+            mode="contained"
             onPress={async () => {
-              await sendInfo(dataInfo);
-            }}>
+              await submitPatientForm(form, navigation);
+            }}
+            disabled={
+              !form.centre_de_sante.id ||
+              !form.num_dossier ||
+              !form.assurance_maladie ||
+              !form.date_naissance
+            }
+            style={{ marginBottom: 10 }}>
             Soumettre
           </Button>
 
-          {dataInfo?.map((item: any, index: any) => {
-            return (
-              <View style={styles.rowContainer} key={index}>
-                <TextInput
-                  label={dataInfo[index].txt}
-                  style={styles.textInput}
-                  value={dataInfo[index].value}
-                  onChangeText={value => {
-                    dataInfo[index].value = value;
-                    setDataInfo(dataInfo);
-                  }}
-                  autoComplete="off"
-                />
-              </View>
-            );
-          })}
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'column', marginBottom: 5 }}>
+              <Text>Centre de santé</Text>
+              <Dropdown
+                data={centreStore.dropDownData}
+                placeholder="Choisir un centre de santé"
+                labelField="label"
+                valueField="value"
+                value={form.centre_de_sante.id}
+                renderItem={item => (
+                  <Text style={{ fontSize: 16 }}>{item.label}</Text>
+                )}
+                onChange={item => {
+                  setForm({
+                    ...form,
+                    centre_de_sante: {
+                      ...form.centre_de_sante,
+                      id: item.value,
+                    },
+                  });
+                }}
+                style={[styles.dropdownCentres]}
+              />
+            </View>
+
+            {Object.keys(formLabels)?.map((key: string) => {
+              return (
+                <View
+                  key={key}
+                  style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    minHeight: 66,
+                    marginBottom: 5,
+                  }}>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <TextInput
+                      label={formLabels[key as PatientField]}
+                      value={form[key]}
+                      onChangeText={v => {
+                        setForm({
+                          ...form,
+                          [key]: v,
+                        });
+                      }}
+                      mode={'outlined'}
+                      disabled={false}
+                      autoComplete="off"
+                      style={[styles.textInput, { marginRight: 5 }]}
+                    />
+
+                    <View
+                      style={{
+                        flex: 2,
+                        flexDirection: 'column',
+                        paddingTop: 6,
+                        paddingBottom: 1,
+                      }}>
+                      <Dropdown
+                        data={resultLines.map(e => ({ label: e, value: e }))}
+                        placeholder="Lignes reconnues"
+                        labelField="label"
+                        valueField="value"
+                        value={form[key]}
+                        renderItem={item => <Text> {item.label} </Text>}
+                        onChange={item => {
+                          setForm({
+                            ...form,
+                            [key]: item.value,
+                          });
+                        }}
+                        style={styles.dropdown}
+                      />
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
         </ScrollView>
       </SafeAreaView>
     );
@@ -155,39 +273,53 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   textInput: {
-    flex: 1,
+    flex: 3,
     backgroundColor: 'white',
     borderColor: 'black',
     fontSize: 10,
   },
+  dropdown: {
+    flex: 1,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  dropdownCentres: {
+    flex: 1,
+    borderColor: 'gray',
+    minHeight: 50,
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
 });
 
-const sendInfo = async (dataInfo: any[]) => {
-  const centreDeSante = await CentreDeSanteService.get(1);
-
+const submitPatientForm = async (form: PatientForm, navigation: any) => {
   //On teste si le patient existe.
-  try {
-    await DossierService.getPatientByName(dataInfo[1].value);
-  } catch (e) {
-    let date_naissance_complete = dataInfo[0].value.split('-');
+  console.log(form);
 
-    //Creation du patient si il n"existe pas
-    let patient = await PatientService.create({
-      centre_de_sante: centreDeSante,
-      num_dossier: dataInfo[3].value,
-      nom: dataInfo[1].value,
-      assurance_maladie: dataInfo[5].value,
-      assurance_maladie_exp_m: dataInfo[6].value.slice(2, 4),
-      assurance_maladie_exp_a: dataInfo[6].value.slice(0, 2),
-      date_naissance: new Date(
-        date_naissance_complete[0],
-        date_naissance_complete[1],
-        date_naissance_complete[2],
-      ),
-      sexe: dataInfo[2].value,
-      cellulaire: dataInfo[4].value,
-    });
+  let date_naissance_complete: number[] = form.date_naissance
+    .split('-')
+    .map(e => parseInt(e, 10));
 
-    await PatientService.save(patient);
-  }
+  // Creation du patient si il n"existe pas
+  let patient = await PatientService.create({
+    ...form,
+    date_naissance: new Date(
+      date_naissance_complete[0],
+      date_naissance_complete[1],
+      date_naissance_complete[2],
+    ),
+  });
+
+  const saved = await PatientService.save(patient);
+
+  navigation.navigate('Patients', {
+    screen: 'PatientDetails',
+    params: {
+      navStack: 'Patients',
+      patientId: saved.id,
+    },
+  });
 };

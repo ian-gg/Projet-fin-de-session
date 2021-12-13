@@ -4,7 +4,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import Reanimated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { IconButton } from 'react-native-paper';
+import { ActivityIndicator, IconButton, Text } from 'react-native-paper';
 
 import MlkitOcr from 'react-native-mlkit-ocr';
 import RNPhotoManipulator from 'react-native-photo-manipulator';
@@ -25,6 +25,15 @@ const CameraView = (props: { isActive: boolean; resultCallback: Function }) => {
   const [processing, setProcessing] = useState<boolean>(false);
 
   const { resultCallback } = props;
+
+  if (processing) {
+    return (
+      <View style={styles.processingContainer}>
+        <ActivityIndicator style={{ marginRight: 5 }} />
+        <Text>Traitement de la photo...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -107,6 +116,12 @@ const styles = StyleSheet.create({
     height: 175,
     borderWidth: 2,
     borderColor: 'rgba(255, 255, 255, 0.75)',
+  },
+  processingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 });
 
