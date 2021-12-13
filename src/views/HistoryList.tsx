@@ -3,10 +3,8 @@ import React, { ClassAttributes, useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  useColorScheme,
   View,
   StyleSheet,
-  Text,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DataTable } from 'react-native-paper';
@@ -16,9 +14,6 @@ import { PatientNavigationProps } from '~models/types';
 
 import { Patient, Intervention, Diagnostic, Fichier, Procedure } from '~models';
 import { InterventionProcedureService, PatientService, ProcedureService } from '~services';
-
-import { PatientStore, InterventionStore, } from '~stores';
-import HistoryDetails from './HistoryDetails';
 
 class History {
     name: string;
