@@ -11,14 +11,14 @@ export default {
   ): Promise<InterventionProcedure[]> {
     return (await DbManager.repo(InterventionProcedure)).find({
       where: { intervention_id: intervention.id },
-      select: ['id', 'date_debut', 'date_fin'],
+      select: ['id', 'date_debut', 'date_fin', 'procedure'],
     });
   },
 
   async forProcedure(procedure: Procedure): Promise<InterventionProcedure[]> {
     return (await DbManager.repo(InterventionProcedure)).find({
       where: { procedure_id: procedure.id },
-      select: ['id', 'date_debut', 'date_fin'],
+      select: ['id', 'date_debut', 'date_fin', 'intervention'],
     });
   },
 
