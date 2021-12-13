@@ -1,10 +1,18 @@
 import { observer } from 'mobx-react';
 import React, { ClassAttributes, useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, useColorScheme, View, StyleSheet, Text } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  useColorScheme,
+  View,
+  StyleSheet,
+  Text,
+} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DataTable } from 'react-native-paper';
 
 import { PatientNavigationProps } from '~models/types';
+
 
 import { Patient, Intervention, Diagnostic, Fichier, Procedure } from '~models';
 import { InterventionProcedureService, PatientService, ProcedureService } from '~services';
@@ -22,13 +30,11 @@ class History {
     nomsFichier: string
 }
 
-const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => {
+const HistoryList = observer(
+  ({ route, navigation }: PatientNavigationProps) => {
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
-    const [diagnostics, setDiagnostics] = useState<Diagnostic[] | undefined>(undefined);
-    const [procedures, setProcedures] = useState([]);
     const [interventions, setInterventions] = useState<Intervention[] | undefined>(undefined);
-    //const [fichierIntervention, setFichierIntervention] = useState<>
 
     let data = new Array<History>();
 
@@ -79,6 +85,7 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
 
     // first we take all the ressources of the patient's folders and we also get the ids of these folders
     useEffect(() => {
+
         getPatient;
         initVariables;
         setData;
@@ -116,20 +123,19 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
     }
 
     return (
-        <SafeAreaView style={{ padding: 5 }}>
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
-                <View>
-                    {renderDataTable()}
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+      <SafeAreaView style={{ padding: 5 }}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <View>{renderDataTable()}</View>
+        </ScrollView>
+      </SafeAreaView>
     );
-});
+  },
+);
 
 const styles = StyleSheet.create({
-    patientEntry: {
-        padding: 15
-    }
+  patientEntry: {
+    padding: 15,
+  },
 });
 
 export default HistoryList;
