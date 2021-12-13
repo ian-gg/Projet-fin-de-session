@@ -12,8 +12,8 @@ import { DataTable } from 'react-native-paper';
 import { PatientNavigationProps } from '~models/types';
 
 
-import { Patient, Intervention, Diagnostic, Fichier, Procedure } from '~models';
-import { InterventionProcedureService, PatientService, ProcedureService } from '~services';
+import { Patient, Intervention, Diagnostic } from '~models';
+import { InterventionProcedureService, PatientService } from '~services';
 
 class History {
     name: string;
