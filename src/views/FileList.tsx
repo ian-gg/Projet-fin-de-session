@@ -36,8 +36,6 @@ const FileList = observer(
     const { patientId } = route.params;
     const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
-    const { height: winH, width: winW } = useWindowDimensions();
-
     useEffect(() => {
       const getPatient = async () => {
         setPatient(await PatientService.get(patientId));
@@ -65,7 +63,7 @@ const FileList = observer(
                 await FichierService.save(fichier);
 
                 console.log(await FichierService.get(patientId));
-                console.log(patient);
+                console.log(await FichierService.getAll(patient));
 
             }
           },

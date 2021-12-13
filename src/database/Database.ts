@@ -205,10 +205,12 @@ async function seedDatabase() {
     {
       patient: patient1,
       lien_ressource: '',
+      patient_id: patient1?.id,
     },
     {
       patient: patient2,
       lien_ressource: '',
+      patient_id: patient2?.id,
     },
   ]);
 

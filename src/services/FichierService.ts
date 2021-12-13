@@ -8,7 +8,7 @@ export default {
 
   async getAll(patient: Patient): Promise<Fichier[]> {
     return (await DbManager.repo(Fichier)).find({
-      where: { patient_id: patient.id },
+      where: { id: patient.id },
       select: ['id', 'lien_ressource'],
     });
   },
