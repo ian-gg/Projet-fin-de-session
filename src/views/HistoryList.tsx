@@ -86,8 +86,8 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
     }, [patientId]);
 
     function renderDataTable() {
-
-        <DataTable>
+        return (
+            <DataTable>
 
             <DataTable.Header>
                 <DataTable.Title>Numero Intervention</DataTable.Title>
@@ -102,7 +102,7 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
             {data?.map(d => (
                 <DataTable.Row>
                     <DataTable.Cell>{d.name}</DataTable.Cell>
-                    <DataTable.Cell>{d.diagnostic}</DataTable.Cell>
+                    <DataTable.Cell>{d.diagnostic.id + ' - ' + d.diagnostic.description}</DataTable.Cell>
                     <DataTable.Cell>{d.procedures}</DataTable.Cell>
                     <DataTable.Cell>{d.dateDebut}</DataTable.Cell>
                     <DataTable.Cell>{d.dateFin}</DataTable.Cell>
@@ -112,9 +112,6 @@ const HistoryList = observer(({ route, navigation }: PatientNavigationProps) => 
 
 
         </DataTable>
-
-        return (
-            <Text>Patient id : {patientId}</Text>
         )
     }
 
